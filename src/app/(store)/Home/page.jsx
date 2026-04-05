@@ -1,6 +1,7 @@
 import FeaturedCategories from "@/components/FeaturedCategories";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
+import TopSellingProducts from "@/components/TopSellingProducts";
 
 export default function Home() {
     return (
@@ -9,6 +10,7 @@ export default function Home() {
             <Navbar />
             <HeroSection />
             <FeaturedCategories />
+            <TopSellingProducts />
         </div>
     );
 }
