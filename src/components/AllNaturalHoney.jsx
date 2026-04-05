@@ -142,11 +142,11 @@ const AllNaturalHoney = () => {
                 <div className="flex justify-between items-end border-b-2 border-gray-100 mb-8 pb-2 relative">
                     <div className="relative">
                         <h2 className="text-[#1a2b3c] text-xl md:text-2xl font-bold">
-                            All Natural Honey
+                            All Natural section
                         </h2>
                         <div className="absolute bottom-[-10px] left-0 w-full h-[3px] bg-[#f39200]"></div>
                     </div>
-                    <button className="flex items-center gap-1 text-[#f39200] font-bold text-xs md:text-sm hover:underline uppercase tracking-wider transition-all">
+                    <button className="flex items-center gap-1 text-[#f39200] font-bold text-xs md:text-sm underline uppercase tracking-wider transition-all">
                         View All Items <ArrowRight size={16} />
                     </button>
                 </div>

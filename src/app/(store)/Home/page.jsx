@@ -1,7 +1,10 @@
 import AllNaturalHoney from "@/components/AllNaturalHoney";
+import AllProducts from "@/components/AllProducts";
+import DualPosters from "@/components/DualPosters";
 import FeaturedCategories from "@/components/FeaturedCategories";
 import HeroSection from "@/components/HeroSection";
 import Navbar from "@/components/Navbar";
+import Testimonials from "@/components/Testimonials";
 import TopSellingProducts from "@/components/TopSellingProducts";
 
 export default function Home() {
@@ -13,6 +16,9 @@ export default function Home() {
             <FeaturedCategories />
             <TopSellingProducts />
             <AllNaturalHoney />
+            <DualPosters />
+            <AllProducts />
+            <Testimonials />
         </div>
     );
 }
