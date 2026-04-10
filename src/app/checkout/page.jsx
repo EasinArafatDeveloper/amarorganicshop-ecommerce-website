@@ -20,7 +20,7 @@ const CheckoutPage = () => {
     });
     const [deliveryZone, setDeliveryZone] = useState('dhaka');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [orderSuccess, setOrderSuccess] = useState(false);
+    const [orderSuccess, setOrderSuccess] = useState(null); // stores orderId instead of boolean
 
     // Delivery charges
     const deliveryCharges = {
@@ -73,7 +73,7 @@ const CheckoutPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 toast.success('Order placed successfully!');
-                setOrderSuccess(true);
+                setOrderSuccess(data.orderId); // Setup the actual Tracking ID!
                 clearCart();
             } else {
                 toast.error('Failed to place order. Please try again or contact support.');
@@ -83,6 +83,13 @@ const CheckoutPage = () => {
             toast.error('An error occurred. Check your network.');
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const copyToClipboard = () => {
+        if (orderSuccess) {
+            navigator.clipboard.writeText(orderSuccess);
+            toast.success("Tracking ID copied to clipboard!");
         }
     };
 
@@ -110,9 +117,28 @@ const CheckoutPage = () => {
                 <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm text-center max-w-lg w-full animate-in zoom-in duration-500">
                     <CheckCircle2 size={80} className="text-green-500 mx-auto mb-6" />
                     <h1 className="text-3xl font-black text-gray-800 mb-2">Order Confirmed!</h1>
-                    <p className="text-gray-500 mb-8 leading-relaxed">
+                    <p className="text-gray-500 mb-6 leading-relaxed">
                         Thank you for your order, <strong>{formData.name}</strong>. We'll contact you soon at <strong>{formData.mobile}</strong> to confirm your delivery details.
                     </p>
+
+                    {/* NEW: Tracking ID Highlight Block */}
+                    <div className="mb-8 p-6 bg-blue-50/50 border-2 border-dashed border-blue-200 rounded-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+                        <p className="text-sm font-bold text-blue-800 mb-2 uppercase tracking-widest">Your Tracking ID</p>
+                        <div className="flex items-center justify-center gap-3">
+                            <span className="text-2xl md:text-3xl font-black text-[#1a2b3c] tracking-tight bg-white px-4 py-2 rounded-lg shadow-sm">
+                                {orderSuccess}
+                            </span>
+                            <button 
+                                onClick={copyToClipboard}
+                                className="w-12 h-12 bg-white rounded-lg shadow-sm flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors active:scale-95"
+                                title="Copy ID"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                            </button>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-4">Save this ID to track your parcel's live status later.</p>
+                    </div>
                     
                     <div className="bg-secondary/10 p-4 rounded-xl text-left mb-8 flex items-start gap-3 border border-orange-100">
                         <ShieldCheck className="text-secondary shrink-0 mt-0.5" size={20} />
@@ -123,9 +149,14 @@ const CheckoutPage = () => {
                         </div>
                     </div>
 
-                    <Link href="/" className="inline-block w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-secondary hover:brightness-95 transition-colors shadow-lg shadow-orange-200">
-                        Continue Shopping
-                    </Link>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <Link href={`/track-order?id=${orderSuccess}`} className="w-full bg-white border-2 border-secondary text-secondary py-4 rounded-xl font-bold hover:bg-secondary/10 transition-colors shadow-sm">
+                            Track Order Now
+                        </Link>
+                        <Link href="/" className="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-secondary hover:brightness-95 transition-colors shadow-lg shadow-orange-200">
+                            Continue Shopping
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
