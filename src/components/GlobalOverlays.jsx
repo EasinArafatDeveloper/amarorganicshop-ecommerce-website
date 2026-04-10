@@ -44,7 +44,7 @@ export default function GlobalOverlays() {
         <>
             {/* Top Announcement Bar */}
             {settings.topAnnouncementIsActive && settings.topAnnouncementText && (
-                <div className="bg-green-600 text-white text-xs md:text-sm font-semibold py-2 px-4 text-center z-50 relative shadow-sm break-words">
+                <div className="bg-[#f39200] text-white text-xs md:text-sm font-semibold py-2.5 px-4 text-center z-50 relative shadow-sm break-words tracking-wide">
                     {settings.topAnnouncementText}
                 </div>
             )}
