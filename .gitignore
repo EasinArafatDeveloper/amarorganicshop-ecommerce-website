@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+update-product-codes.mjs
+update-product-codes.js
+update-product-codes.json
+update-product-codes.txt
+update-product-codes.md
+update-product-codes.log

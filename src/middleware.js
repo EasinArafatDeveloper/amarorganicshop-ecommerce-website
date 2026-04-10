@@ -4,8 +4,8 @@ import { decrypt } from '@/lib/auth';
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   
-  // Protect all routes strictly under /admin/dashboard or /api/admin
-  if (path.startsWith('/admin/dashboard') || path.startsWith('/api/admin')) {
+  // Protect admin routes except the login endpoint itself
+  if (path.startsWith('/admin/dashboard') || (path.startsWith('/api/admin') && path !== '/api/admin/login')) {
     const sessionCookie = request.cookies.get('admin_session')?.value;
     
     if (!sessionCookie) {
