@@ -15,6 +15,7 @@ export default async function HeroSection() {
 
     return (
         <section className="w-full bg-white py-4 px-4 md:px-8">
+            <h1 className="sr-only">Amar Organic Shop - Best Authentic Organic Foods in Bangladesh</h1>
             <div className="max-w-[1400px] mx-auto">
 
                 {/* Clickable Dynamic Image */}

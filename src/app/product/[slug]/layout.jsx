@@ -4,10 +4,12 @@ import Product from '@/lib/models/Product';
 export async function generateMetadata({ params }) {
     try {
         await connectMongo();
-        // Await the params before using them as per Next.js 15+ best practices
+        
+        // Await the dynamics params in Next 14+
         const { slug } = await params;
-
-        const product = await Product.findOne({ slug: slug }).lean();
+        
+        // Use lean() for performance
+        const product = await Product.findOne({ slug }).lean();
 
         if (!product) {
             return {
@@ -16,33 +18,49 @@ export async function generateMetadata({ params }) {
         }
 
         const title = `${product.name} | Amar Organic Shop`;
-        const description = product.description 
-                            ? product.description.substring(0, 150) + '...' 
-                            : `Buy 100% pure and organic ${product.name} from Amar Organic Shop.`;
+        
+        // Fallback description utilizing unit & category logic
+        const descBase = product.description 
+                         ? product.description.substring(0, 150) + "..." 
+                         : `Buy authentic ${product.name} at Amar Organic Shop. 100% natural, premium quality category: ${product.category}. Fast delivery in Bangladesh.`;
+
+        const finalDesc = descBase.replace(/<[^>]*>?/gm, ''); // strip HTML if existing
 
         return {
             title,
-            description,
+            description: finalDesc,
             openGraph: {
                 title,
-                description,
-                images: product.image ? [{ url: product.image }] : [],
+                description: finalDesc,
+                url: `https://amarorganicshop.com/product/${slug}`,
+                siteName: 'Amar Organic Shop',
+                images: [
+                    {
+                        url: product.image, // Product thumbnail
+                        width: 800,
+                        height: 800,
+                        alt: product.name,
+                    },
+                ],
+                locale: 'en_US',
                 type: 'website',
             },
             twitter: {
                 card: 'summary_large_image',
                 title,
-                description,
-                images: product.image ? [product.image] : [],
-            }
+                description: finalDesc,
+                images: [product.image],
+            },
         };
     } catch (error) {
+        console.error("Error generating metadata for product", error);
         return {
-            title: 'Amar Organic Shop',
+            title: 'Product | Amar Organic Shop',
         };
     }
 }
 
-export default function ProductLayout({ children }) {
+export default function ProductDetailLayout({ children }) {
+    // Simply pass the children components through (the 'use client' page executes below this Server wrapper)
     return <>{children}</>;
 }
