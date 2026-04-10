@@ -3,6 +3,9 @@ import connectMongo from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
     try {
         const adminSession = cookies().get('admin_session');

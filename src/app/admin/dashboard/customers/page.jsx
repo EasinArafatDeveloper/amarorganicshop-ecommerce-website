@@ -12,7 +12,7 @@ export default function CustomersPage() {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const res = await fetch('/api/admin/customers');
+                const res = await fetch('/api/admin/customers', { cache: 'no-store' });
                 if (res.ok) {
                     const data = await res.json();
                     setCustomers(data);
