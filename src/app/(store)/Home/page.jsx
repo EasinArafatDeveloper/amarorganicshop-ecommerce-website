@@ -40,7 +40,7 @@ export default async function Home() {
             {toggles.showCategories && <FeaturedCategories />}
             {toggles.showTopSelling && <TopSellingProducts customTitle={titles.topSelling} />}
             {toggles.showHoney && <AllNaturalHoney customTitle={titles.honey} />}
-            {toggles.showPromo && <DualPosters />}
+            {toggles.showPromo && <DualPosters settings={settings} />}
             {toggles.showAllProducts && <AllProducts customTitle={titles.allProducts} />}
             {toggles.showTestimonials && <Testimonials />}
         </div>

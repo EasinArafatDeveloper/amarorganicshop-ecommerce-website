@@ -1,9 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart } from 'lucide-react';
-import Link from 'next/link';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
+import ProductCard from './ProductCard'; // Implemented the unified ProductCard redesign
 
 const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     const [products, setProducts] = useState([]);
@@ -16,8 +15,13 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
             try {
                 const res = await fetch('/api/products');
                 const data = await res.json();
+                // Find products badged as Best Seller, fallback to first 4 if none.
                 const topProducts = data.filter(p => p.badge === 'Best Seller').slice(0, 4);
-                setProducts(topProducts);
+                if (topProducts.length > 0) {
+                    setProducts(topProducts);
+                } else {
+                    setProducts(data.slice(0, 4));
+                }
             } catch (err) {
                 console.error("Failed to load top products", err);
             } finally {
@@ -31,32 +35,23 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
         addToCart(product, 1);
     };
 
-    const handleBuyNow = (product) => {
-        addToCart(product, 1, false);
-        router.push('/checkout');
-    };
-
     if (loading) {
         return (
-            <section className="w-full bg-[#fcfcfc] py-10 px-4 md:px-6">
-                <div className="max-w-[1200px] mx-auto">
-                    <div className="text-center mb-8">
-                        <h2 className="text-[#1a2b3c] text-2xl md:text-3xl font-medium tracking-tight">
-                            Top Selling Products
-                        </h2>
+            <section className="w-full bg-[#fcfcfc] py-14 px-4 md:px-6 relative">
+                <div className="max-w-[1400px] mx-auto">
+                    <div className="text-center mb-10">
+                        <div className="h-8 md:h-10 w-64 bg-gray-200 animate-pulse mx-auto rounded-lg mb-4"></div>
+                        <div className="h-4 w-48 bg-gray-200 animate-pulse mx-auto rounded"></div>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6">
                         {[1, 2, 3, 4].map((i) => (
-                            <div
-                                key={i}
-                                className="bg-white border border-gray-100 rounded-xl p-3 flex items-center gap-4 animate-pulse"
-                            >
-                                <div className="w-24 h-24 bg-gray-200 rounded-md shrink-0"></div>
-                                <div className="flex-1 space-y-2">
-                                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                                    <div className="h-8 bg-gray-200 rounded w-full"></div>
+                            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-4 h-[380px] animate-pulse">
+                                <div className="w-full h-[180px] bg-gray-100 rounded-xl mb-4"></div>
+                                <div className="space-y-3">
+                                    <div className="h-4 bg-gray-100 rounded w-1/4"></div>
+                                    <div className="h-5 bg-gray-100 rounded w-3/4"></div>
+                                    <div className="h-4 bg-gray-100 rounded w-1/2"></div>
+                                    <div className="h-10 bg-gray-100 rounded w-full mt-6"></div>
                                 </div>
                             </div>
                         ))}
@@ -69,165 +64,35 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     if (products.length === 0) return null;
 
     return (
-        <section className="w-full bg-[#fcfcfc] py-10 px-4 md:px-6">
-            <div className="max-w-[1200px] mx-auto">
-                {/* Section Title */}
-                <div className="text-center mb-8">
-                    <h2 className="text-xl md:text-3xl font-black text-center text-[#1a2b3c] mb-8 md:mb-10 uppercase tracking-tight font-sans">
-                        {customTitle}
-                    </h2>
-                    <p className="text-gray-500 text-sm mt-2">
-                        Most popular items among our customers
-                    </p>
+        <section className="w-full bg-[#fcfcfc] py-14 px-4 md:px-8 relative overflow-hidden">
+            {/* Background Decor */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-1/2 -left-32 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="max-w-[1400px] mx-auto relative z-10">
+                {/* Section header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="w-8 h-1 bg-secondary rounded-full"></span>
+                            <span className="text-text-secondary text-sm font-bold uppercase tracking-wider text-secondary">Most Popular</span>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-black text-[#1a2b3c] tracking-tight">
+                            {customTitle}
+                        </h2>
+                    </div>
                 </div>
 
-                {/* Product Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Vertical Premium Grid using ProductCard */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 xl:gap-6">
                     {products.map((product) => (
-                        <div
-                            key={product.id}
-                            className="bg-white border border-gray-100 rounded-xl p-3 flex items-center gap-3 relative shadow-sm hover:shadow-md transition-all group"
-                        >
-                            {/* Badge */}
-                            <div
-                                className={`absolute top-0 right-0 ${product.badge === 'Best Selling'
-                                        ? 'bg-red-500'
-                                        : 'bg-secondary'
-                                    } text-white text-[10px] font-bold px-2.5 py-1 rounded-bl-lg rounded-tr-xl z-10 flex items-center gap-1`}
-                            >
-                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
-                                {product.badge || 'Top Selling'}
-                            </div>
-
-                            {/* Product Image */}
-                            <Link
-                                href={`/product/${product.slug}`}
-                                className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 flex items-center justify-center overflow-hidden rounded-md bg-[#fafafa]"
-                            >
-                                <img
-                                    src={product.image || "https://via.placeholder.com/300x300?text=No+Image"}
-                                    alt={product.name}
-                                    className="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
-                                    onError={(e) => {
-                                        e.target.src = "https://via.placeholder.com/300x300?text=No+Image";
-                                    }}
-                                />
-                            </Link>
-
-                            {/* Product Info */}
-                            <div className="flex-1 min-w-0 flex flex-col">
-                                {/* Category */}
-                                <Link
-                                    href={`/${product.category}`}
-                                    className="text-[10px] text-gray-400 hover:text-secondary uppercase mb-1"
-                                >
-                                    {product.category}
-                                </Link>
-
-                                {/* Product Name */}
-                                <Link href={`/product/${product.slug}`}>
-                                    <h3 className="text-[#1a2b3c] text-sm sm:text-base font-bold leading-snug line-clamp-2 hover:text-secondary transition-colors mb-1">
-                                        {product.name}
-                                    </h3>
-                                </Link>
-
-                                {/* Description */}
-                                {product.description && (
-                                    <p className="text-gray-500 text-xs line-clamp-1 mb-2">
-                                        {product.description}
-                                    </p>
-                                )}
-
-                                {/* Rating + Price */}
-                                <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
-                                    {product.rating ? (
-                                        <div className="flex items-center gap-1 shrink-0">
-                                            <div className="flex items-center gap-0.5">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <svg
-                                                        key={i}
-                                                        className={`w-3.5 h-3.5 ${i < Math.floor(product.rating)
-                                                                ? 'text-yellow-400 fill-yellow-400'
-                                                                : 'text-gray-300'
-                                                            }`}
-                                                        fill="currentColor"
-                                                        viewBox="0 0 20 20"
-                                                    >
-                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                    </svg>
-                                                ))}
-                                            </div>
-                                            <span className="text-[11px] text-gray-400">
-                                                ({product.reviewCount || 0})
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        <div></div>
-                                    )}
-
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                        <span className="text-secondary text-base sm:text-lg font-black">
-                                            ৳{product.price.toLocaleString()}
-                                        </span>
-                                        {product.originalPrice && (
-                                            <span className="text-gray-400 line-through text-xs">
-                                                ৳{product.originalPrice.toLocaleString()}
-                                            </span>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Unit + Stock */}
-                                <div className="flex items-center justify-between gap-2 mb-2 text-xs">
-                                    <div className="text-gray-400">
-                                        {product.unit ? product.unit : ''}
-                                    </div>
-
-                                    {product.inStock !== undefined && (
-                                        product.inStock ? (
-                                            <span className="text-green-500 font-medium">
-                                                ✓ In Stock
-                                            </span>
-                                        ) : (
-                                            <span className="text-red-500 font-medium">
-                                                ✗ Out of Stock
-                                            </span>
-                                        )
-                                    )}
-                                </div>
-
-                                {/* Savings */}
-                                {product.originalPrice && product.price && (
-                                    <div className="mb-2">
-                                        <span className="bg-[#8ec63f] text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                                            Save ৳{(product.originalPrice - product.price).toLocaleString()}
-                                        </span>
-                                    </div>
-                                )}
-
-                                {/* Action Buttons */}
-                                <div className="flex items-center gap-2 mt-auto">
-                                    <button
-                                        onClick={() => handleAddToCart(product)}
-                                        disabled={product.inStock === false}
-                                        className={`flex-1 flex items-center justify-center gap-1.5 border border-secondary text-secondary py-2 rounded-md font-semibold text-xs transition-colors ${product.inStock === false
-                                                ? 'opacity-50 cursor-not-allowed'
-                                                : 'hover:bg-secondary/10'
-                                            }`}
-                                    >
-                                        <ShoppingCart size={14} />
-                                        Add
-                                    </button>
-
-                                    <button
-                                        onClick={() => handleBuyNow(product)}
-                                        disabled={product.inStock === false}
-                                        className={`flex-1 bg-secondary text-white py-2 rounded-md font-semibold text-xs hover:bg-secondary hover:brightness-95 transition-colors shadow-sm text-center ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    >
-                                        Buy Now
-                                    </button>
-                                </div>
-                            </div>
+                        <div key={product.id} className="h-full transform transition-all duration-300">
+                            <ProductCard 
+                                product={product} 
+                                onAddToCart={handleAddToCart} 
+                            />
                         </div>
                     ))}
                 </div>

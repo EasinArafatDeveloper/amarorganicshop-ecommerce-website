@@ -17,6 +17,10 @@ export async function GET() {
             promoPopupIsActive: settings?.promoPopupIsActive ?? false,
             primaryColor: settings?.primaryColor || '#16a34a',
             secondaryColor: settings?.secondaryColor || '#f39200',
+            dualPosterOneImage: settings?.dualPosterOneImage || 'https://backoffice.ghorerbazar.com/banner/Tyz131763632384.png',
+            dualPosterOneLink: settings?.dualPosterOneLink || '/',
+            dualPosterTwoImage: settings?.dualPosterTwoImage || 'https://admin.ghorerbazarbd.com/storage/banners/1709121683.jpg',
+            dualPosterTwoLink: settings?.dualPosterTwoLink || '/',
         }, { status: 200 });
 
     } catch (error) {

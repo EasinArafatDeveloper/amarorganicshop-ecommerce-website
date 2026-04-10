@@ -17,6 +17,10 @@ export default function UISettingsPage() {
         promoPopupIsActive: false,
         primaryColor: '#16a34a',
         secondaryColor: '#f39200',
+        dualPosterOneImage: 'https://backoffice.ghorerbazar.com/banner/Tyz131763632384.png',
+        dualPosterOneLink: '/',
+        dualPosterTwoImage: 'https://admin.ghorerbazarbd.com/storage/banners/1709121683.jpg',
+        dualPosterTwoLink: '/',
         sectionToggles: {
             showHero: true,
             showCategories: true,
@@ -292,6 +296,77 @@ export default function UISettingsPage() {
                                         placeholder="Target Link (e.g., /products/honey)..." 
                                         className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                     />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Dual Poster Configurations */}
+                        <div className="border-t border-gray-100 pt-6">
+                            <label className="block text-sm font-bold text-gray-700 mb-4">
+                                Dual Promotional Posters (Middle Section)
+                            </label>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Poster One */}
+                                <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4">
+                                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Poster One (Left)</h4>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                            <ImageIcon size={16} />
+                                        </div>
+                                        <input 
+                                            type="url" 
+                                            name="dualPosterOneImage"
+                                            value={settings.dualPosterOneImage}
+                                            onChange={handleChange}
+                                            placeholder="Poster Image URL..." 
+                                            className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                            <Globe size={16} />
+                                        </div>
+                                        <input 
+                                            type="url" 
+                                            name="dualPosterOneLink"
+                                            value={settings.dualPosterOneLink}
+                                            onChange={handleChange}
+                                            placeholder="Poster Link (e.g., /honey)..." 
+                                            className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Poster Two */}
+                                <div className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4">
+                                    <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Poster Two (Right)</h4>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                            <ImageIcon size={16} />
+                                        </div>
+                                        <input 
+                                            type="url" 
+                                            name="dualPosterTwoImage"
+                                            value={settings.dualPosterTwoImage}
+                                            onChange={handleChange}
+                                            placeholder="Poster Image URL..." 
+                                            className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                            <Globe size={16} />
+                                        </div>
+                                        <input 
+                                            type="url" 
+                                            name="dualPosterTwoLink"
+                                            value={settings.dualPosterTwoLink}
+                                            onChange={handleChange}
+                                            placeholder="Poster Link (e.g., /ghee)..." 
+                                            className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

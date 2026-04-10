@@ -23,6 +23,11 @@ const StoreSettingsSchema = new mongoose.Schema({
     primaryColor: { type: String, default: '#16a34a' },
     secondaryColor: { type: String, default: '#f39200' },
 
+    dualPosterOneImage: { type: String, default: 'https://backoffice.ghorerbazar.com/banner/Tyz131763632384.png' },
+    dualPosterOneLink: { type: String, default: '/' },
+    dualPosterTwoImage: { type: String, default: 'https://admin.ghorerbazarbd.com/storage/banners/1709121683.jpg' },
+    dualPosterTwoLink: { type: String, default: '/' },
+
     sectionToggles: {
         showHero: { type: Boolean, default: true },
         showCategories: { type: Boolean, default: true },
