@@ -1,19 +1,25 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import connectMongo from '@/lib/mongodb';
+import StoreSettings from '@/lib/models/StoreSettings';
 
-const HeroSection = () => {
-    const image =
-        "https://i.postimg.cc/mDhYGZ1r/amar-organic-shop-cover-image.png";
+export default async function HeroSection() {
+    await connectMongo();
+    
+    // Attempt to fetch custom settings
+    const settings = await StoreSettings.findOne({ singletonId: 'global' }).lean();
+    
+    // Fallback if settings don't exist yet
+    const image = settings?.heroBannerUrl || "https://i.postimg.cc/mDhYGZ1r/amar-organic-shop-cover-image.png";
 
     return (
         <section className="w-full bg-white py-4 px-4 md:px-8">
             <div className="max-w-[1400px] mx-auto">
 
-                {/* Clickable Image */}
+                {/* Clickable Dynamic Image */}
                 <Link href="/shop">
-                    <div className="relative w-full aspect-[1600/749] rounded-2xl overflow-hidden bg-white cursor-pointer">
+                    <div className="relative w-full aspect-[1600/749] rounded-2xl overflow-hidden bg-white cursor-pointer shadow-[0_4px_30px_rgba(0,0,0,0.05)] border border-gray-100 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] transition-all duration-500 group">
 
                         <Image
                             src={image}
@@ -21,7 +27,7 @@ const HeroSection = () => {
                             fill
                             priority
                             sizes="(max-width: 768px) 100vw, 1400px"
-                            className="object-contain"
+                            className="object-contain transform group-hover:scale-[1.01] transition-transform duration-700 ease-out"
                         />
 
                     </div>
@@ -30,6 +36,4 @@ const HeroSection = () => {
             </div>
         </section>
     );
-};
-
-export default HeroSection;
+}

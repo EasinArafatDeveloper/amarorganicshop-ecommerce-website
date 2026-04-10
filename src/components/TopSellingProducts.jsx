@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
-const TopSellingProducts = () => {
+const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
@@ -73,8 +73,8 @@ const TopSellingProducts = () => {
             <div className="max-w-[1200px] mx-auto">
                 {/* Section Title */}
                 <div className="text-center mb-8">
-                    <h2 className="text-[#1a2b3c] text-2xl md:text-3xl font-medium tracking-tight">
-                        Top Selling Products
+                    <h2 className="text-xl md:text-3xl font-black text-center text-[#1a2b3c] mb-8 md:mb-10 uppercase tracking-tight font-sans">
+                        {customTitle}
                     </h2>
                     <p className="text-gray-500 text-sm mt-2">
                         Most popular items among our customers

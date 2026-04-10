@@ -1,13 +1,16 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Truck, Edit, Trash2, CheckCircle2, ChevronDown, Phone, MapPin, Eye, Package } from 'lucide-react';
+import { Truck, Edit, Trash2, CheckCircle2, ChevronDown, Phone, MapPin, Eye, Package, FileText, Search } from 'lucide-react';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [expandedOrder, setExpandedOrder] = useState(null);
+    const [activeTab, setActiveTab] = useState('All');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchOrders();
@@ -84,6 +87,16 @@ export default function AdminOrdersPage() {
         }
     };
 
+    const filteredOrders = orders.filter(order => {
+        const matchesTab = activeTab === 'All' || order.status === activeTab;
+        const matchesSearch = order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              order.customerName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              order.mobile.includes(searchQuery);
+        return matchesTab && matchesSearch;
+    });
+
+    const tabs = ['All', 'Pending', 'Processing', 'Delivered', 'Cancelled'];
+
     return (
         <div className="space-y-6 pb-20">
             <div className="flex justify-between items-center">
@@ -93,7 +106,35 @@ export default function AdminOrdersPage() {
                 </div>
                 <div className="bg-white shadow-sm border border-gray-100 px-4 py-2 rounded-xl flex items-center gap-3">
                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    <span className="text-sm font-bold text-gray-700">Live Sync Active</span>
+                    <span className="text-sm font-bold text-gray-700 hidden sm:block">Live Sync Active</span>
+                </div>
+            </div>
+
+            {/* Filter & Search Bar */}
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-2 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex w-full md:w-auto overflow-x-auto scrollbar-hide px-2">
+                    {tabs.map(tab => (
+                        <button 
+                            key={tab} 
+                            onClick={() => setActiveTab(tab)} 
+                            className={`px-5 py-2.5 font-bold text-sm whitespace-nowrap rounded-xl transition-all ${activeTab === tab ? 'bg-green-600 text-white shadow-md shadow-green-600/20' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-800'}`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+                
+                <div className="relative w-full md:w-72 px-2 md:px-0 pr-2">
+                    <div className="absolute inset-y-0 left-5 md:left-3 flex items-center pointer-events-none text-gray-400">
+                        <Search size={18} />
+                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="Search by Order ID, Name, Phone..." 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f39200]/20 focus:border-[#f39200] outline-none transition-all text-sm font-medium"
+                    />
                 </div>
             </div>
 
@@ -115,11 +156,11 @@ export default function AdminOrdersPage() {
                                 <tr>
                                     <td colSpan="6" className="text-center py-12 text-gray-400 font-medium">Fetching orders...</td>
                                 </tr>
-                            ) : orders.length === 0 ? (
+                            ) : filteredOrders.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="text-center py-12 text-gray-400 font-medium">No orders found. Wait for a customer to checkout.</td>
+                                    <td colSpan="6" className="text-center py-12 text-gray-400 font-medium">No orders found matching your criteria.</td>
                                 </tr>
-                            ) : orders.map(order => (
+                            ) : filteredOrders.map(order => (
                                 <React.Fragment key={order._id}>
                                     <tr className={`border-b transition-colors group ${expandedOrder === order.orderId ? 'bg-green-50/50 border-green-100' : 'border-gray-50 hover:bg-gray-50'}`}>
                                         <td className="py-4 px-6">
@@ -148,16 +189,25 @@ export default function AdminOrdersPage() {
                                                 <option value="Cancelled">Cancelled</option>
                                             </select>
                                         </td>
-                                        <td className="py-4 px-6 text-right space-x-2">
+                                        <td className="py-4 px-6 text-right space-x-2 whitespace-nowrap">
+                                            <Link 
+                                                href={`/admin/dashboard/orders/${order.orderId}/invoice`}
+                                                className="inline-block p-2 text-blue-500 hover:bg-blue-100 rounded-lg transition-colors"
+                                                title="View Invoice"
+                                            >
+                                                <FileText className="w-4 h-4" />
+                                            </Link>
                                             <button 
                                                 onClick={() => setExpandedOrder(expandedOrder === order.orderId ? null : order.orderId)} 
                                                 className="inline-block p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-800 rounded-lg transition-colors"
+                                                title="Toggle Details"
                                             >
                                                 {expandedOrder === order.orderId ? <ChevronDown className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                             </button>
                                             <button 
                                                 onClick={() => handleDelete(order.orderId)} 
                                                 className="inline-block p-2 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                                title="Delete Order"
                                             >
                                                 <Trash2 className="w-4 h-4" />
                                             </button>

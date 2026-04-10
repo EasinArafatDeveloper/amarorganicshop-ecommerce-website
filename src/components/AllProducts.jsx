@@ -4,7 +4,7 @@ import { ShoppingCart, ArrowRight, Star, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
-const AllProducts = () => {
+const AllProducts = ({ customTitle = 'All Products' }) => {
     const { addToCart } = useCart();
     const router = useRouter();
     const [products, setProducts] = useState([]);
@@ -37,7 +37,7 @@ const AllProducts = () => {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b-2 border-gray-100 pb-4">
                     <div className="relative">
-                        <h2 className="text-[#1a2b3c] text-2xl md:text-3xl font-black">All Products</h2>
+                        <h2 className="text-[#1a2b3c] text-2xl md:text-3xl font-black">{customTitle}</h2>
                         <div className="absolute bottom-[-18px] left-0 w-full h-[3px] bg-[#f39200]"></div>
                     </div>
 

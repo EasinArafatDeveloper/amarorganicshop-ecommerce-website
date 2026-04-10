@@ -23,10 +23,10 @@ export default function DashboardLayout({ children }) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900">
-      <Toaster position="top-right" />
+    <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900 print:h-auto print:overflow-visible">
+      <Toaster position="top-right" className="print:hidden" />
       {/* Sidebar */}
-      <div className="w-64 bg-gray-900 text-white flex flex-col hidden md:flex">
+      <div className="w-64 bg-gray-900 text-white flex flex-col hidden md:flex print:hidden">
         <div className="h-16 flex items-center px-6 font-bold text-xl tracking-tight border-b border-gray-800">
           Amar <span className="text-green-500 ml-1">Admin</span>
         </div>
@@ -66,9 +66,9 @@ export default function DashboardLayout({ children }) {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden print:h-auto print:overflow-visible">
         {/* Header */}
-        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 shadow-sm z-10 shrink-0">
+        <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 shadow-sm z-10 shrink-0 print:hidden">
           <h1 className="text-xl font-semibold text-gray-800">
             {navigation.find(n => n.href === pathname)?.name || 'Dashboard'}
           </h1>
@@ -80,7 +80,7 @@ export default function DashboardLayout({ children }) {
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-6 print:p-0 print:m-0 print:overflow-visible">
           {children}
         </main>
       </div>

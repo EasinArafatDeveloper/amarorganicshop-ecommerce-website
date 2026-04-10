@@ -4,7 +4,7 @@ import { ShoppingCart, ArrowRight } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
-const AllNaturalHoney = () => {
+const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
     const scrollRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const { addToCart } = useCart();
@@ -118,8 +118,8 @@ const AllNaturalHoney = () => {
                 {/* Header Section */}
                 <div className="flex justify-between items-end border-b-2 border-gray-100 mb-8 pb-2 relative">
                     <div className="relative">
-                        <h2 className="text-[#1a2b3c] text-xl md:text-2xl font-bold">
-                            All Natural section
+                        <h2 className="text-xl md:text-3xl font-black text-center text-[#1a2b3c] mb-8 md:mb-10 uppercase tracking-tight font-sans">
+                            {customTitle}
                         </h2>
                         <div className="absolute bottom-[-10px] left-0 w-full h-[3px] bg-[#f39200]"></div>
                     </div>

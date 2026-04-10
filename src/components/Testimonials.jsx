@@ -11,36 +11,31 @@ const Testimonials = () => {
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
 
-    const reviews = [
-        {
-            id: 1,
-            name: "Fariha Akter Tumpa",
-            role: "Entrepreneur",
-            image: "https://randomuser.me/api/portraits/women/32.jpg",
-            comment: "এই অবিশ্বাসের জগতে আস্থাশীল একটি প্রতিষ্ঠান ঘরের বাজার।",
-        },
-        {
-            id: 2,
-            name: "Shahriar Khan Abir",
-            role: "Service Holder",
-            image: "https://randomuser.me/api/portraits/men/44.jpg",
-            comment: "I don't like ghee, but my father really loves it. So I bought some ghee for him. He said this ghee is the best he has ever had",
-        },
-        {
-            id: 3,
-            name: "Ahmod Al Kamran",
-            role: "Student",
-            image: "https://randomuser.me/api/portraits/men/45.jpg",
-            comment: "আমি একজন ঘরের বাজারের নিয়মিত কাস্টমার। আমি শুধু ঘরের বাজার থেকে এই যে প্রোডাক্ট আনি এমন নয়। আমি অনেক জায়গা থেকে এই প্রোডাক্ট এনেছি। তবে আমার মতে এসব পেজ থেকে ঘরের বাজার সেরা।",
-        },
-        {
-            id: 4,
-            name: "Sultana Razia",
-            role: "Housewife",
-            image: "https://randomuser.me/api/portraits/women/65.jpg",
-            comment: "Sundarban-er modhu ta khub-i bhalo chilo. Delivery-o khub druto peyechi. Packaging quality chilo proshongshoniyo.",
-        }
-    ];
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch dynamic testimonials from database
+    useEffect(() => {
+        const loadTestimonials = async () => {
+            try {
+                const res = await fetch('/api/testimonials');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length > 0) {
+                        setReviews(data);
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch testimonials", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadTestimonials();
+    }, []);
+
+    if (loading) return null;
+    if (reviews.length === 0) return null;
 
     // Logic for Mouse Drag (Swipe)
     const handleMouseDown = (e) => {

@@ -38,122 +38,7 @@ const StickyNavWrapper = ({ children }) => {
     );
 };
 
-// Category data with slugs for routing
-const categories = [
-    {
-        name: "Honey",
-        label: "মধু (Honey)",
-        slug: "honey",
-        hasSub: true,
-        subItems: [
-            { name: "Sundarban Honey (সুন্দরবনের মধু)", slug: "sundarban-honey" },
-            { name: "Litchi Flower Honey (লিচু ফুলের মধু)", slug: "litchi-flower-honey" },
-            { name: "Black Seed Honey (কালোজিরা মধু)", slug: "black-seed-honey" },
-            { name: "Mixed Flower Honey (মিশ্র ফুলের মধু)", slug: "mixed-flower-honey" },
-            { name: "Hill Flower Honey (পাহাড়ি মধু)", slug: "hill-flower-honey" },
-            { name: "Cream Honey (ক্রিমহানি)", slug: "cream-honey" }
-        ]
-    },
-    {
-        name: "Honey Nut",
-        label: "হানিনাট (Honey Nut)",
-        slug: "honey-nut",
-        hasSub: false
-    },
-    {
-        name: "Oil & Ghee",
-        label: "তেল ও ঘি (Oil & Ghee)",
-        slug: "oil-ghee",
-        hasSub: true,
-        subItems: [
-            { name: "Mustard Oil (সরিষার তেল)", slug: "mustard-oil" },
-            { name: "Coconut Oil (নারিকেল তেল)", slug: "coconut-oil" },
-            { name: "Gawa Ghee (গাওয়া ঘি)", slug: "gawa-ghee" },
-            { name: "Sorer Ghee (সরের ঘি)", slug: "sorer-ghee" },
-            { name: "Black Seed Oil (কালোজিরা তেল)", slug: "black-seed-oil" },
-            { name: "Olive Oil (অলিভ অয়েল)", slug: "olive-oil" },
-            { name: "Sesame Oil (তিলের তেল)", slug: "sesame-oil" }
-        ]
-    },
-    {
-        name: "Dates",
-        label: "খেজুর (Dates)",
-        slug: "dates",
-        hasSub: true,
-        subItems: [
-            { name: "Ajwa Dates (আজওয়া খেজুর)", slug: "ajwa-dates" },
-            { name: "Mariyam Dates (মরিয়ম খেজুর)", slug: "mariyam-dates" },
-            { name: "Medjool Dates (মেডজুল খেজুর)", slug: "medjool-dates" },
-            { name: "Sukkari Dates (সুক্কারি খেজুর)", slug: "sukkari-dates" },
-            { name: "Dabbas Dates (দাব্বাস খেজুর)", slug: "dabbas-dates" },
-            { name: "Burni Dates (বারনি খেজুর)", slug: "burni-dates" }
-        ]
-    },
-    {
-        name: "Spices",
-        label: "মশলা (Spices)",
-        slug: "spices",
-        hasSub: true,
-        subItems: [
-            { name: "Turmeric Powder (হলুদ গুঁড়া)", slug: "turmeric-powder" },
-            { name: "Chili Powder (মরিচ গুঁড়া)", slug: "chili-powder" },
-            { name: "Coriander Powder (ধনিয়া গুঁড়া)", slug: "coriander-powder" },
-            { name: "Cumin Powder (জিরা গুঁড়া)", slug: "cumin-powder" },
-            { name: "Spice Combo (মশলা কম্বো)", slug: "spice-combo" }
-        ]
-    },
-    {
-        name: "Nuts & Seeds",
-        label: "বাদাম ও বীজ (Nuts & Seeds)",
-        slug: "nuts-seeds",
-        hasSub: true,
-        subItems: [
-            { name: "Almonds (কাঠ বাদাম)", slug: "almonds" },
-            { name: "Cashews (কাজু বাদাম)", slug: "cashews" },
-            { name: "Chia Seeds (চিয়া সিড)", slug: "chia-seeds" },
-            { name: "Pumpkin Seeds (কুমড়া বীজ)", slug: "pumpkin-seeds" },
-            { name: "Sunflower Seeds (সূর্যমুখী বীজ)", slug: "sunflower-seeds" },
-            { name: "Black Garlic (ব্লাক গার্লিক)", slug: "black-garlic" }
-        ]
-    },
-    {
-        name: "Sugar & Jaggery",
-        label: "চিনি ও গুড় (Sugar & Jaggery)",
-        slug: "sugar-jaggery",
-        hasSub: true,
-        subItems: [
-            { name: "Cane Sugar (আখের চিনি)", slug: "cane-sugar" },
-            { name: "Cane Jaggery (আখের গুড়)", slug: "cane-jaggery" },
-            { name: "Date Jaggery (খেজুরের গুড়)", slug: "date-jaggery" }
-        ]
-    },
-    {
-        name: "Pink Salt",
-        label: "পিংক সল্ট (Pink Salt)",
-        slug: "pink-salt",
-        hasSub: false
-    },
-    {
-        name: "Beverage & Dairy",
-        label: "পানীয় ও দুগ্ধ (Beverage & Dairy)",
-        slug: "beverage-dairy",
-        hasSub: true,
-        subItems: [
-            { name: "Tang (ট্যাং)", slug: "tang" },
-            { name: "Foster Clarks (ফস্টার ক্লার্কস)", slug: "foster-clarks" },
-            { name: "Milk Powder (গুঁড়ো দুধ)", slug: "milk-powder" }
-        ]
-    },
-    {
-        name: "Snacks",
-        label: "নাস্তা ও সেমাই (Snacks)",
-        slug: "snacks",
-        hasSub: true,
-        subItems: [
-            { name: "Lachha Semai (লাচ্ছা সেমাই)", slug: "lachha-semai" }
-        ]
-    }
-];
+// Removed static categories, fetching dynamically now from MongoDB.
 
 const Navbar = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -165,20 +50,39 @@ const Navbar = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     
-    // Fetch products once for search
+    // Fetch products, categories, and public settings
     const [allProducts, setAllProducts] = useState([]);
+    const [dbCategories, setDbCategories] = useState([]);
+    const [siteLogo, setSiteLogo] = useState('');
     
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchInitialData = async () => {
             try {
-                const res = await fetch('/api/products');
-                const data = await res.json();
-                setAllProducts(data);
+                // Fetch Products
+                const resProducts = await fetch('/api/products');
+                if (resProducts.ok) {
+                    const data = await resProducts.json();
+                    setAllProducts(data);
+                }
+                
+                // Fetch Categories
+                const resCats = await fetch('/api/categories');
+                if (resCats.ok) {
+                    const data = await resCats.json();
+                    setDbCategories(data);
+                }
+
+                // Fetch Public Settings
+                const resSettings = await fetch('/api/settings/public');
+                if (resSettings.ok) {
+                    const data = await resSettings.json();
+                    if (data?.logoUrl) setSiteLogo(data.logoUrl);
+                }
             } catch (err) {
-                console.error("Navbar failed to fetch", err);
+                console.error("Navbar failed to fetch data", err);
             }
         };
-        fetchProducts();
+        fetchInitialData();
     }, []);
 
     const handleSearch = (e) => {
@@ -242,10 +146,16 @@ const Navbar = () => {
                     <div className="bg-[#04211c] p-6 flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsDrawerOpen(false)}>
-                                <div className="w-10 h-10 border-2 border-[#f39200] rounded-lg flex items-center justify-center p-1 bg-white">
-                                    <ShoppingBag size={20} className="text-[#f39200]" />
-                                </div>
-                                <span className="text-white font-black text-lg tracking-tight">Amar Organic Shop</span>
+                                {siteLogo ? (
+                                    <img src={siteLogo} alt="Amar Organic" className="h-[40px] w-auto max-w-[120px] object-contain rounded-md bg-white p-1" />
+                                ) : (
+                                    <>
+                                        <div className="w-10 h-10 border-2 border-[#f39200] rounded-lg flex items-center justify-center p-1 bg-white">
+                                            <ShoppingBag size={20} className="text-[#f39200]" />
+                                        </div>
+                                        <span className="text-white font-black text-lg tracking-tight">Amar Organic Shop</span>
+                                    </>
+                                )}
                             </Link>
                             <X className="text-white cursor-pointer" onClick={() => setIsDrawerOpen(false)} />
                         </div>
@@ -264,7 +174,7 @@ const Navbar = () => {
                         <div className="p-4">
                             <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Shop Categories</h3>
                             <div className="space-y-1">
-                                {categories.map((cat, index) => (
+                                {dbCategories.map((cat, index) => (
                                     <div key={index} className="bg-white rounded-lg border border-gray-100 overflow-hidden">
                                         {cat.hasSub ? (
                                             <>
@@ -400,13 +310,19 @@ const Navbar = () => {
                                 <Menu className="w-6 h-6 text-[#1a2b3c]" />
                             </button>
                             <Link href="/" className="flex items-center gap-2">
-                                <div className="w-9 h-9 md:w-11 md:h-11 border-2 border-[#f39200] rounded-xl flex items-center justify-center p-1.5 shrink-0 bg-white shadow-sm">
-                                    <ShoppingBag className="text-[#f39200] w-full h-full" />
-                                </div>
-                                <div className="flex flex-col leading-tight">
-                                    <span className="text-[#04211c] font-black text-base md:text-xl tracking-tighter uppercase">Amar Organic</span>
-                                    <span className="text-[#f39200] font-black text-base md:text-xl tracking-tighter uppercase -mt-1">Shop</span>
-                                </div>
+                                {siteLogo ? (
+                                    <img src={siteLogo} alt="Amar Organic" className="h-[50px] w-auto max-w-[180px] object-contain" />
+                                ) : (
+                                    <>
+                                        <div className="w-9 h-9 md:w-11 md:h-11 border-2 border-[#f39200] rounded-xl flex items-center justify-center p-1.5 shrink-0 bg-white shadow-sm">
+                                            <ShoppingBag className="text-[#f39200] w-full h-full" />
+                                        </div>
+                                        <div className="flex flex-col leading-tight">
+                                            <span className="text-[#04211c] font-black text-base md:text-xl tracking-tighter uppercase">Amar Organic</span>
+                                            <span className="text-[#f39200] font-black text-base md:text-xl tracking-tighter uppercase -mt-1">Shop</span>
+                                        </div>
+                                    </>
+                                )}
                             </Link>
                         </div>
 
@@ -556,7 +472,7 @@ const Navbar = () => {
                 <nav className="hidden md:block bg-[#04211c] w-full text-white relative z-50">
                     <div className="max-w-[1400px] mx-auto px-8">
                         <ul className="flex items-center justify-center lg:justify-start gap-1 lg:gap-8 text-[13px] font-bold h-12">
-                            {categories.map((cat, i) => (
+                            {dbCategories.map((cat, i) => (
                                 <li
                                     key={i}
                                     className="relative group h-full flex items-center"
