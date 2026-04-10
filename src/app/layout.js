@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/contexts/CartContext";
+import ConditionalHeaderFooter from "@/components/ConditionalHeaderFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +28,13 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <CartProvider>
-          <Navbar />
+          <ConditionalHeaderFooter>
+            <Navbar />
+          </ConditionalHeaderFooter>
           {children}
-          <Footer />
+          <ConditionalHeaderFooter>
+            <Footer />
+          </ConditionalHeaderFooter>
         </CartProvider>
       </body>
     </html>

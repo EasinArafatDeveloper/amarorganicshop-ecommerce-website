@@ -19,7 +19,6 @@ import {
     Plus
 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
-import { getAllProducts } from '@/lib/data/productsData';
 
 const StickyNavWrapper = ({ children }) => {
     const [isSticky, setIsSticky] = useState(false);
@@ -167,7 +166,20 @@ const Navbar = () => {
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     
     // Fetch products once for search
-    const allProducts = getAllProducts();
+    const [allProducts, setAllProducts] = useState([]);
+    
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                setAllProducts(data);
+            } catch (err) {
+                console.error("Navbar failed to fetch", err);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     const handleSearch = (e) => {
         const query = e.target.value;

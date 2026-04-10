@@ -4,8 +4,7 @@ import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { getProductBySlug, getProductsByCategory } from '@/lib/data/productsData';
-import { ShoppingCart, Heart, Share2, Check, Truck, RefreshCw, Shield, Minus, Plus, Star, Phone, MessageCircle } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Check, Truck, RefreshCw, Shield, Minus, Plus, Star, Phone, MessageCircle, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 
 const ProductDetailPage = () => {
@@ -26,23 +25,33 @@ const ProductDetailPage = () => {
     const whatsappNumber = "8801645368899"; // Without + for WhatsApp API
 
     useEffect(() => {
-        // Get product by slug
-        const productData = getProductBySlug(slug);
+        const fetchProductData = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const allProducts = await res.json();
+                
+                // Get product by slug
+                const productData = allProducts.find(p => p.slug === slug);
 
-        if (!productData) {
-            notFound();
-            return;
-        }
+                if (!productData) {
+                    notFound();
+                    return;
+                }
 
-        setProduct(productData);
+                setProduct(productData);
 
-        // Get related products from same category
-        const related = getProductsByCategory(productData.category)
-            .filter(p => p.id !== productData.id)
-            .slice(0, 4);
-        setRelatedProducts(related);
-
-        setLoading(false);
+                // Get related products from same category
+                const related = allProducts
+                    .filter(p => p.category === productData.category && p.id !== productData.id)
+                    .slice(0, 4);
+                setRelatedProducts(related);
+            } catch (error) {
+                console.error("Error fetching", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProductData();
     }, [slug]);
 
     // Handle quantity change

@@ -1,21 +1,36 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShoppingCart, Filter, ArrowUpDown, ChevronRight, X, SlidersHorizontal } from 'lucide-react';
-import { getAllProducts } from '@/lib/data/productsData';
+import { ShoppingCart, Filter, ArrowUpDown, ChevronRight, X, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 
 const ShopPage = () => {
     const router = useRouter();
     const { addToCart } = useCart();
-    const allProducts = getAllProducts();
+    const [allProducts, setAllProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     // States
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [sortOption, setSortOption] = useState('default');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch('/api/products');
+                const data = await response.json();
+                setAllProducts(data);
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
 
     // Derive unique categories from products
     const uniqueCategories = useMemo(() => {
@@ -188,8 +203,12 @@ const ShopPage = () => {
                             </h2>
                         </div>
 
-                        {/* Product Grid */}
-                        {displayedProducts.length > 0 ? (
+                        {loading ? (
+                            <div className="flex flex-col items-center justify-center py-32 w-full text-[#f39200]">
+                                <Loader2 className="w-12 h-12 animate-spin mb-4" />
+                                <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading products from database...</p>
+                            </div>
+                        ) : displayedProducts.length > 0 ? (
                             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
                                 {displayedProducts.map((product) => (
                                     <Link key={product.id} href={`/product/${product.slug}`}>

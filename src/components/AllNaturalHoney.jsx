@@ -19,69 +19,31 @@ const AllNaturalHoney = () => {
         addToCart({
             id: product.id,
             name: product.name,
-            price: product.currentPrice,
+            price: product.price,
             image: product.image,
-            unit: '1kg'
+            unit: product.unit || '1kg'
         }, 1, false);
         router.push('/checkout');
     };
 
-    const products = [
-        {
-            id: 1,
-            name: "Black Seed Honey 1kg",
-            currentPrice: 1440,
-            oldPrice: 1600,
-            savePercent: 10,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: "Offered Items"
-        },
-        {
-            id: 2,
-            name: "Crystal Honey 1kg",
-            currentPrice: 1000,
-            oldPrice: 1100,
-            savePercent: 9,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: null
-        },
-        {
-            id: 3,
-            name: "Lichu Flower Honey 1kg",
-            currentPrice: 1000,
-            oldPrice: 1200,
-            savePercent: 17,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: null
-        },
-        {
-            id: 4,
-            name: "African Organic Wild Honey 1kg",
-            currentPrice: 2200,
-            oldPrice: 2500,
-            savePercent: 12,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: null
-        },
-        {
-            id: 5,
-            name: "Sundarban Honey 1kg",
-            currentPrice: 2200,
-            oldPrice: 2500,
-            savePercent: 12,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: "Offered Items"
-        },
-        {
-            id: 6,
-            name: "Wild Flower Honey 1kg",
-            currentPrice: 1200,
-            oldPrice: 1500,
-            savePercent: 20,
-            image: "https://ghorerbazarbd.com/_next/image?url=https%3A%2F%2Fadmin.ghorerbazarbd.com%2Fstorage%2Fproducts%2F1689676602.jpg&w=1920&q=75",
-            badge: "Best Seller"
-        }
-    ];
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchHoney = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                const honeyItems = data.filter(p => p.category === 'honey').slice(0, 6);
+                setProducts(honeyItems);
+            } catch(e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchHoney();
+    }, []);
 
     // Mouse Down handler (Dragging start)
     const handleMouseDown = (e) => {
@@ -167,6 +129,12 @@ const AllNaturalHoney = () => {
                 </div>
 
                 {/* Swiper Container */}
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-20 w-full text-[#f39200]">
+                        <div className="w-10 h-10 border-4 border-[#f39200] border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading natural honey...</p>
+                    </div>
+                ) : (
                 <div
                     ref={scrollRef}
                     onMouseDown={handleMouseDown}
@@ -187,9 +155,11 @@ const AllNaturalHoney = () => {
                                         {product.badge}
                                     </span>
                                 ) : <div />}
-                                <span className="bg-[#4caf50] text-white text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">
-                                    Save {product.savePercent}%
-                                </span>
+                                {product.originalPrice && (
+                                    <span className="bg-[#4caf50] text-white text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">
+                                        Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                                    </span>
+                                )}
                             </div>
 
                             {/* Product Image */}
@@ -209,9 +179,9 @@ const AllNaturalHoney = () => {
 
                                 {/* Pricing */}
                                 <div className="flex items-center gap-3 mb-6">
-                                    <span className="text-[#f39200] text-xl font-black">৳{product.currentPrice.toLocaleString()}</span>
-                                    {product.oldPrice && (
-                                        <span className="text-gray-400 line-through text-sm font-medium">৳{product.oldPrice.toLocaleString()}</span>
+                                    <span className="text-[#f39200] text-xl font-black">৳{product.price.toLocaleString()}</span>
+                                    {product.originalPrice && (
+                                        <span className="text-gray-400 line-through text-sm font-medium">৳{product.originalPrice.toLocaleString()}</span>
                                     )}
                                 </div>
 
@@ -221,13 +191,7 @@ const AllNaturalHoney = () => {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            addToCart({
-                                                id: product.id,
-                                                name: product.name,
-                                                price: product.currentPrice,
-                                                image: product.image,
-                                                unit: '1kg'
-                                            }, 1);
+                                            addToCart(product, 1);
                                         }}
                                         className="flex-1 border-2 border-[#f39200] text-[#f39200] py-2.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all duration-300 hover:bg-[#f39200] hover:text-white pointer-events-auto"
                                     >
@@ -248,6 +212,7 @@ const AllNaturalHoney = () => {
                         </div>
                     ))}
                 </div>
+                )}
 
                 {/* Dynamic Pagination Dots */}
                 <div className="flex justify-center items-center gap-2 mt-10">

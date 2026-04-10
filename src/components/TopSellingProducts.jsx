@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
-import { getTopSellingProducts } from '@/lib/data/productsData';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
@@ -13,9 +12,19 @@ const TopSellingProducts = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const topProducts = getTopSellingProducts();
-        setProducts(topProducts);
-        setLoading(false);
+        const fetchTopSelling = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const data = await res.json();
+                const topProducts = data.filter(p => p.badge === 'Best Seller').slice(0, 4);
+                setProducts(topProducts);
+            } catch (err) {
+                console.error("Failed to load top products", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchTopSelling();
     }, []);
 
     const handleAddToCart = (product) => {

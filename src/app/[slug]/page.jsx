@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ShoppingCart, ArrowRight } from 'lucide-react';
-import { getProductsByCategory } from '@/lib/data/productsData';
+import { ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
+import { useCart } from '@/lib/contexts/CartContext';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
@@ -19,29 +19,39 @@ const CategoryPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        let filteredProducts = [];
-        
-        // Fetch all products in the category using the slug
-        const allCatProducts = getProductsByCategory(slug);
-        
-        // If subcategory is selected in query string (e.g. ?sub=sundarban-honey)
-        if (subSlug && allCatProducts) {
-             // Try to filter by sub-slug (matching product slug or subCategory name if possible)
-             filteredProducts = allCatProducts.filter(p => 
-                p.slug === subSlug || 
-                (p.subCategory && p.subCategory.toLowerCase().includes(subSlug.replace(/-/g, ' ')))
-             );
-             
-             // Fallback if subcategory filter yields nothing
-             if(filteredProducts.length === 0) {
-                 filteredProducts = allCatProducts;
-             }
-        } else if (allCatProducts) {
-            filteredProducts = allCatProducts;
-        }
+        const fetchAndFilterProducts = async () => {
+            try {
+                const res = await fetch('/api/products');
+                const allData = await res.json();
+                
+                // Fetch all products in the category using the slug
+                const allCatProducts = allData.filter(p => p.category === slug);
+                let filteredProducts = [];
+                
+                // If subcategory is selected in query string (e.g. ?sub=sundarban-honey)
+                if (subSlug && allCatProducts) {
+                     // Try to filter by sub-slug (matching product slug or subCategory name if possible)
+                     filteredProducts = allCatProducts.filter(p => 
+                        p.slug === subSlug || 
+                        (p.subCategory && p.subCategory.toLowerCase().includes(subSlug.replace(/-/g, ' ')))
+                     );
+                     
+                     // Fallback if subcategory filter yields nothing
+                     if(filteredProducts.length === 0) {
+                         filteredProducts = allCatProducts;
+                     }
+                } else if (allCatProducts) {
+                    filteredProducts = allCatProducts;
+                }
 
-        setProducts(filteredProducts);
-        setLoading(false);
+                setProducts(filteredProducts);
+            } catch (error) {
+                console.error("Error fetching", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchAndFilterProducts();
     }, [slug, subSlug]);
 
     const handleAddToCart = (e, product) => {
@@ -57,8 +67,9 @@ const CategoryPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[60vh] flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-[#f39200] border-t-transparent rounded-full animate-spin"></div>
+            <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#f39200]">
+                <Loader2 className="w-12 h-12 animate-spin mb-4" />
+                <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading category products...</p>
             </div>
         );
     }
