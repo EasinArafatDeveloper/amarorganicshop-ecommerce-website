@@ -4,11 +4,13 @@ import { ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { getTopSellingProducts } from '@/lib/data/productsData';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 const TopSellingProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart } = useCart();
+    const router = useRouter();
 
     useEffect(() => {
         const topProducts = getTopSellingProducts();
@@ -18,7 +20,11 @@ const TopSellingProducts = () => {
 
     const handleAddToCart = (product) => {
         addToCart(product, 1);
-        // Optional: you could add a subtle toast notification here
+    };
+
+    const handleBuyNow = (product) => {
+        addToCart(product, 1, false);
+        router.push('/checkout');
     };
 
     if (loading) {
@@ -204,12 +210,13 @@ const TopSellingProducts = () => {
                                         Add
                                     </button>
 
-                                    <Link
-                                        href={`/product/${product.slug}`}
-                                        className="flex-1 bg-[#f39200] text-white py-2 rounded-md font-semibold text-xs hover:bg-[#e08600] transition-colors shadow-sm text-center"
+                                    <button
+                                        onClick={() => handleBuyNow(product)}
+                                        disabled={product.inStock === false}
+                                        className={`flex-1 bg-[#f39200] text-white py-2 rounded-md font-semibold text-xs hover:bg-[#e08600] transition-colors shadow-sm text-center ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         Buy Now
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -2,9 +2,16 @@
 import React from 'react';
 import { ShoppingCart, ArrowRight, Star } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 const AllProducts = () => {
     const { addToCart } = useCart();
+    const router = useRouter();
+
+    const handleBuyNow = (product) => {
+        addToCart(product, 1, false);
+        router.push('/checkout');
+    };
     // Mock data for 12 products (Mix)
     const products = [
         { id: 101, name: "Premium Mustard Oil", price: 450, oldPrice: 500, unit: "1L", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Organic" },
@@ -79,11 +86,22 @@ const AllProducts = () => {
                                     )}
                                 </div>
 
-                                {/* Add to Cart Button (Bottom Style) */}
-                                <button onClick={() => addToCart(product, 1)} className="w-full border border-[#f39200] text-[#f39200] py-2 rounded-lg flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all duration-300 hover:bg-[#f39200] hover:text-white mt-auto">
-                                    <ShoppingCart size={16} strokeWidth={2.5} />
-                                    Add To Cart
-                                </button>
+                                {/* Action Buttons */}
+                                <div className="flex items-center gap-2 mt-auto text-xs">
+                                    <button 
+                                        onClick={() => addToCart(product, 1)} 
+                                        className="flex-1 flex items-center justify-center gap-1.5 border border-[#f39200] text-[#f39200] py-2 rounded-md font-semibold transition-all hover:bg-[#f39200] hover:text-white"
+                                    >
+                                        <ShoppingCart size={14} />
+                                        Add
+                                    </button>
+                                    <button 
+                                        onClick={() => handleBuyNow(product)} 
+                                        className="flex-1 bg-[#f39200] text-white py-2 rounded-md font-semibold hover:bg-[#e08600] transition-colors shadow-sm text-center"
+                                    >
+                                        Buy Now
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

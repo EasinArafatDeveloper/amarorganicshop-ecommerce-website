@@ -2,16 +2,29 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 const AllNaturalHoney = () => {
     const scrollRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const { addToCart } = useCart();
+    const router = useRouter();
 
     // Dragging state variables
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+
+    const handleBuyNow = (product) => {
+        addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.currentPrice,
+            image: product.image,
+            unit: '1kg'
+        }, 1, false);
+        router.push('/checkout');
+    };
 
     const products = [
         {
@@ -203,23 +216,34 @@ const AllNaturalHoney = () => {
                                 </div>
 
                                 {/* Add to Cart Button */}
-                                {/* Add to Cart Button */}
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        addToCart({
-                                            id: product.id,
-                                            name: product.name,
-                                            price: product.currentPrice,
-                                            image: product.image,
-                                            unit: '1kg' // Using the value present in product name
-                                        }, 1);
-                                    }}
-                                    className="w-full border-2 border-[#f39200] text-[#f39200] py-2.5 rounded-lg flex items-center justify-center gap-2 font-black text-sm transition-all duration-300 hover:bg-[#f39200] hover:text-white shadow-sm hover:shadow-orange-200 pointer-events-auto"
-                                >
-                                    <ShoppingCart size={20} strokeWidth={2.5} />
-                                    Add To Cart
-                                </button>
+                                {/* Action Buttons */}
+                                <div className="flex items-center gap-2 mt-auto text-xs w-full">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            addToCart({
+                                                id: product.id,
+                                                name: product.name,
+                                                price: product.currentPrice,
+                                                image: product.image,
+                                                unit: '1kg'
+                                            }, 1);
+                                        }}
+                                        className="flex-1 border-2 border-[#f39200] text-[#f39200] py-2.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all duration-300 hover:bg-[#f39200] hover:text-white pointer-events-auto"
+                                    >
+                                        <ShoppingCart size={14} strokeWidth={2.5} />
+                                        Add
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleBuyNow(product);
+                                        }}
+                                        className="flex-1 bg-[#f39200] text-white py-2.5 rounded-lg font-bold hover:bg-[#e08600] transition-colors shadow-sm pointer-events-auto"
+                                    >
+                                        Buy Now
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}

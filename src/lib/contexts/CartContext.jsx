@@ -33,7 +33,7 @@ export const CartProvider = ({ children }) => {
         }
     }, [cartItems, isLoaded]);
 
-    const addToCart = (product, quantity = 1) => {
+    const addToCart = (product, quantity = 1, openDrawer = true) => {
         setCartItems((prevItems) => {
             const existingItem = prevItems.find(item => item.id === product.id);
             if (existingItem) {
@@ -46,8 +46,10 @@ export const CartProvider = ({ children }) => {
             return [...prevItems, { ...product, quantity }];
         });
         
-        // Auto-open the cart drawer when something is added
-        setIsCartOpen(true);
+        // Auto-open the cart drawer when something is added, unless prevented
+        if (openDrawer) {
+            setIsCartOpen(true);
+        }
     };
 
     const removeFromCart = (productId) => {

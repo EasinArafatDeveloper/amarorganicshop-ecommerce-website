@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { getProductBySlug, getProductsByCategory } from '@/lib/data/productsData';
 import { ShoppingCart, Heart, Share2, Check, Truck, RefreshCw, Shield, Minus, Plus, Star, Phone, MessageCircle } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 
 const ProductDetailPage = () => {
     const params = useParams();
+    const router = useRouter();
     const slug = params.slug;
     const { addToCart } = useCart();
 
@@ -66,8 +68,8 @@ const ProductDetailPage = () => {
     // Handle buy now
     const handleBuyNow = () => {
         if (product && product.inStock) {
-            console.log('Buy now:', { ...product, quantity });
-            alert(`Proceed to checkout for ${product.name}`);
+            addToCart(product, quantity, false);
+            router.push('/checkout');
         }
     };
 

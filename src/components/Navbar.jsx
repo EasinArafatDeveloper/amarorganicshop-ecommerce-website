@@ -19,6 +19,7 @@ import {
     Plus
 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
+import { getAllProducts } from '@/lib/data/productsData';
 
 const StickyNavWrapper = ({ children }) => {
     const [isSticky, setIsSticky] = useState(false);
@@ -159,7 +160,30 @@ const Navbar = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [expandedMobileCat, setExpandedMobileCat] = useState(null);
+    
+    // Search States
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    
+    // Fetch products once for search
+    const allProducts = getAllProducts();
 
+    const handleSearch = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        
+        if (query.trim().length > 0) {
+            const results = allProducts.filter(product => 
+                product.name.toLowerCase().includes(query.toLowerCase()) || 
+                (product.nameBn && product.nameBn.includes(query)) ||
+                product.category.toLowerCase().includes(query.toLowerCase())
+            );
+            setSearchResults(results.slice(0, 5)); // Limit to 5 suggestions
+        } else {
+            setSearchResults([]);
+        }
+    };
     // Consume global cart state
     const { 
         cartItems, 
@@ -375,16 +399,65 @@ const Navbar = () => {
                         </div>
 
                         {/* Search Desktop */}
-                        <div className="hidden md:block flex-1 max-w-2xl relative px-4">
+                        <div className="hidden md:block flex-1 max-w-2xl relative px-4 z-[80]">
                             <div className="relative group">
                                 <input
                                     type="text"
+                                    value={searchQuery}
+                                    onChange={handleSearch}
+                                    onFocus={() => setIsSearchFocused(true)}
+                                    // Use a timeout for onBlur so a user can click a link before the dropdown dies
+                                    onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                     placeholder="Search for honey, dates, ghee..."
-                                    className="w-full bg-white border border-gray-200 rounded-full py-2.5 px-6 pr-12 focus:outline-none focus:border-[#f39200] focus:ring-4 focus:ring-orange-50 text-gray-600 text-sm transition-all"
+                                    className="w-full bg-white border border-gray-200 rounded-full py-2.5 px-6 pr-12 focus:outline-none focus:border-[#f39200] focus:ring-4 focus:ring-orange-50 text-gray-800 text-sm transition-all"
                                 />
                                 <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#f39200] p-1.5 rounded-full cursor-pointer hover:bg-[#d88200] transition-colors">
                                     <Search className="text-white w-4 h-4" />
                                 </div>
+                                
+                                {/* Search Dropdown */}
+                                {isSearchFocused && searchQuery.length > 0 && (
+                                    <div className="absolute top-[110%] left-4 right-4 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                        {searchResults.length > 0 ? (
+                                            <div className="py-2">
+                                                <div className="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-gray-50 border-b border-gray-100 mb-1">
+                                                    Products
+                                                </div>
+                                                {searchResults.map((product) => (
+                                                    <Link 
+                                                        key={product.id} 
+                                                        href={`/product/${product.slug}`}
+                                                        onClick={() => {
+                                                            setSearchQuery('');
+                                                            setSearchResults([]);
+                                                        }}
+                                                        className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange-50 transition-colors group/item"
+                                                    >
+                                                        <div className="w-10 h-10 bg-gray-50 rounded flex items-center justify-center p-1 border border-gray-100 shrink-0">
+                                                            <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <h4 className="text-sm font-bold text-gray-800 truncate group-hover/item:text-[#f39200] transition-colors">{product.name}</h4>
+                                                            <p className="text-[11px] text-gray-500">{product.nameBn}</p>
+                                                        </div>
+                                                        <div className="text-[#f39200] font-black text-sm shrink-0">
+                                                            ৳{product.price}
+                                                        </div>
+                                                    </Link>
+                                                ))}
+                                                <div className="p-3 border-t border-gray-100 mt-1">
+                                                    <button className="w-full text-center text-[13px] font-bold text-[#f39200] hover:underline">
+                                                        View all results for "{searchQuery}"
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="p-6 text-center text-gray-500 text-sm font-medium">
+                                                No products found for "<span className="text-gray-800 font-bold">{searchQuery}</span>"
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -410,15 +483,58 @@ const Navbar = () => {
                     </div>
 
                     {/* Search Mobile */}
-                    <div className="md:hidden mt-4">
+                    <div className="md:hidden mt-4 relative z-[80]">
                         <div className="relative">
                             <input
                                 type="text"
+                                value={searchQuery}
+                                onChange={handleSearch}
+                                onFocus={() => setIsSearchFocused(true)}
+                                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                 placeholder="Search products..."
-                                className="w-full bg-white border border-gray-200 rounded-xl py-2.5 px-4 pr-10 focus:outline-none text-sm text-gray-600"
+                                className="w-full bg-white border border-gray-200 rounded-xl py-2.5 px-4 pr-10 focus:outline-none focus:border-[#f39200] focus:ring-2 focus:ring-[#f39200]/20 text-sm text-gray-800"
                             />
                             <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                         </div>
+                        
+                        {/* Mobile Search Dropdown */}
+                        {isSearchFocused && searchQuery.length > 0 && (
+                            <div className="absolute top-[110%] left-0 right-0 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                                {searchResults.length > 0 ? (
+                                    <div className="py-2">
+                                        <div className="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider bg-gray-50 border-b border-gray-100 mb-1">
+                                            Products
+                                        </div>
+                                        {searchResults.map((product) => (
+                                            <Link 
+                                                key={product.id} 
+                                                href={`/product/${product.slug}`}
+                                                onClick={() => {
+                                                    setSearchQuery('');
+                                                    setSearchResults([]);
+                                                }}
+                                                className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange-50 transition-colors"
+                                            >
+                                                <div className="w-10 h-10 bg-gray-50 rounded flex items-center justify-center p-1 border border-gray-100 shrink-0">
+                                                    <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <h4 className="text-sm font-bold text-gray-800 truncate">{product.name}</h4>
+                                                    <p className="text-[11px] text-gray-500">{product.nameBn}</p>
+                                                </div>
+                                                <div className="text-[#f39200] font-black text-sm shrink-0">
+                                                    ৳{product.price}
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="p-6 text-center text-gray-500 text-sm font-medium">
+                                        No products found
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
             </header>

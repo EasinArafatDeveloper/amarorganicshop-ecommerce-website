@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
 import { getProductsByCategory } from '@/lib/data/productsData';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 const CategoryPage = () => {
     const params = useParams();
@@ -12,6 +13,7 @@ const CategoryPage = () => {
     const slug = params.slug;
     const subSlug = searchParams.get('sub');
     const { addToCart } = useCart();
+    const router = useRouter();
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,6 +47,12 @@ const CategoryPage = () => {
     const handleAddToCart = (e, product) => {
         e.preventDefault();
         addToCart(product, 1);
+    };
+
+    const handleBuyNow = (e, product) => {
+        e.preventDefault();
+        addToCart(product, 1, false);
+        router.push('/checkout');
     };
 
     if (loading) {
@@ -142,19 +150,32 @@ const CategoryPage = () => {
                                         )}
                                     </div>
 
-                                    {/* Add to Cart Button */}
-                                    <button 
-                                        onClick={(e) => handleAddToCart(e, product)}
-                                        disabled={!product.inStock}
-                                        className={`w-full border py-2 rounded-lg flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all duration-300 mt-auto ${
-                                            product.inStock 
-                                            ? 'border-[#f39200] text-[#f39200] hover:bg-[#f39200] hover:text-white'
-                                            : 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
-                                        }`}
-                                    >
-                                        <ShoppingCart size={16} strokeWidth={2.5} />
-                                        {product.inStock ? 'Add To Cart' : 'Out of Stock'}
-                                    </button>
+                                    {/* Action Buttons */}
+                                    <div className="flex items-center gap-2 mt-auto text-xs w-full">
+                                        <button 
+                                            onClick={(e) => handleAddToCart(e, product)}
+                                            disabled={!product.inStock}
+                                            className={`flex-1 flex items-center justify-center gap-1.5 border py-2 rounded-md font-semibold transition-all ${
+                                                product.inStock 
+                                                ? 'border-[#f39200] text-[#f39200] hover:bg-[#f39200] hover:text-white'
+                                                : 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
+                                            }`}
+                                        >
+                                            <ShoppingCart size={14} />
+                                            Add
+                                        </button>
+                                        <button 
+                                            onClick={(e) => handleBuyNow(e, product)}
+                                            disabled={!product.inStock}
+                                            className={`flex-1 py-2 rounded-md font-semibold text-white shadow-sm text-center transition-colors ${
+                                                product.inStock 
+                                                ? 'bg-[#f39200] hover:bg-[#e08600]'
+                                                : 'bg-gray-300 cursor-not-allowed text-gray-500 shadow-none'
+                                            }`}
+                                        >
+                                            Buy Now
+                                        </button>
+                                    </div>
                                 </div>
                             </Link>
                         ))}
