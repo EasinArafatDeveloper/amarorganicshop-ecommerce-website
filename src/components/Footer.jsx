@@ -53,7 +53,7 @@ const Footer = () => {
                     <div className="lg:col-span-2 space-y-5">
                         <Link href="/" className="flex flex-col leading-tight cursor-pointer">
                             <span className="text-[#04211c] font-black text-2xl tracking-tighter uppercase">Amar Organic</span>
-                            <span className="text-[#f39200] font-black text-2xl tracking-tighter uppercase -mt-1">Shop</span>
+                            <span className="text-secondary font-black text-2xl tracking-tighter uppercase -mt-1">Shop</span>
                         </Link>
                         <p className="text-sm text-gray-500 leading-relaxed max-w-sm pt-2">
                             Amar Organic Shop is your trusted online destination for pure, natural, and healthy organic foods delivery across Bangladesh.
@@ -76,13 +76,13 @@ const Footer = () => {
 
                         {/* Social Icons */}
                         <div className="flex gap-4 pt-2">
-                            <a href="#" className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                            <a href="#" className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
                                 {/* <Facebook size={16} /> */}
                             </a>
-                            <a href="#" className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                            <a href="#" className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
                                 {/* <Twitter size={16} /> */}
                             </a>
-                            <a href="#" className="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                            <a href="#" className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
                                 {/* <Instagram size={16} /> */}
                             </a>
                         </div>
@@ -96,7 +96,7 @@ const Footer = () => {
                                 <ul className="space-y-2">
                                     {section.links.map((link, i) => (
                                         <li key={i}>
-                                            <Link href={link.href} className="text-gray-500 hover:text-[#f39200] text-sm transition-colors block py-0.5">
+                                            <Link href={link.href} className="text-gray-500 hover:text-secondary text-sm transition-colors block py-0.5">
                                                 {link.name}
                                             </Link>
                                         </li>

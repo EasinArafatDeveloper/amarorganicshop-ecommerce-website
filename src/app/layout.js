@@ -6,6 +6,7 @@ import { CartProvider } from "@/lib/contexts/CartContext";
 import ConditionalHeaderFooter from "@/components/ConditionalHeaderFooter";
 import FloatingCart from "@/components/FloatingCart";
 import GlobalOverlays from "@/components/GlobalOverlays";
+import ClientThemeProvider from "@/components/ClientThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -50,6 +51,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <ClientThemeProvider />
         <CartProvider>
           <ConditionalHeaderFooter>
             <GlobalOverlays />

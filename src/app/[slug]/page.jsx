@@ -66,7 +66,7 @@ const CategoryPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[60vh] flex flex-col items-center justify-center text-[#f39200]">
+            <div className="min-h-[60vh] flex flex-col items-center justify-center text-secondary">
                 <Loader2 className="w-12 h-12 animate-spin mb-4" />
                 <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading category products...</p>
             </div>
@@ -78,11 +78,11 @@ const CategoryPage = () => {
             <div className="max-w-[1400px] mx-auto">
                 {/* Breadcrumb */}
                 <div className="flex items-center gap-2 text-xs md:text-sm mb-6 bg-white p-3 md:px-5 rounded-lg shadow-sm border border-gray-100">
-                    <Link href="/" className="text-gray-500 hover:text-[#f39200] flex items-center gap-1">
+                    <Link href="/" className="text-gray-500 hover:text-secondary flex items-center gap-1">
                         Home
                     </Link>
                     <span className="text-gray-400">›</span>
-                    <span className="text-[#f39200] capitalize font-medium">
+                    <span className="text-secondary capitalize font-medium">
                         {slug ? slug.replace(/-/g, ' ') : ''} {subSlug ? `/ ${subSlug.replace(/-/g, ' ')}` : ''}
                     </span>
                 </div>
@@ -93,7 +93,7 @@ const CategoryPage = () => {
                         <h1 className="text-[#1a2b3c] text-3xl font-black capitalize">
                             {subSlug ? subSlug.replace(/-/g, ' ') : (slug ? slug.replace(/-/g, ' ') : '')} Products
                         </h1>
-                        <div className="absolute bottom-[-18px] left-0 w-2/3 h-[3px] bg-[#f39200]"></div>
+                        <div className="absolute bottom-[-18px] left-0 w-2/3 h-[3px] bg-secondary"></div>
                     </div>
                 </div>
 
@@ -101,7 +101,7 @@ const CategoryPage = () => {
                     <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-gray-300">
                         <h2 className="text-2xl font-bold text-gray-500 mb-2">No products found</h2>
                         <p className="text-gray-400 mb-6">We couldn't find any products in this category.</p>
-                        <Link href="/" className="bg-[#f39200] text-white px-6 py-2 rounded-lg font-bold hover:bg-[#e08600] transition-colors">
+                        <Link href="/" className="bg-secondary text-white px-6 py-2 rounded-lg font-bold hover:bg-secondary hover:brightness-95 transition-colors">
                             Return Home
                         </Link>
                     </div>
@@ -116,7 +116,7 @@ const CategoryPage = () => {
                                 {/* Tag/Discount Badge */}
                                 <div className="flex justify-between items-start mb-2 pointer-events-none z-10 relative">
                                     {product.badge ? (
-                                        <span className="bg-[#f39200] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                        <span className="bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
                                             {product.badge}
                                         </span>
                                     ) : product.isOrganic ? (
@@ -144,7 +144,7 @@ const CategoryPage = () => {
 
                                 {/* Product Info */}
                                 <div className="flex flex-col flex-grow">
-                                    <h3 className="text-[#1a2b3c] text-xs md:text-base font-bold mb-1 line-clamp-2 leading-tight group-hover:text-[#f39200] transition-colors">
+                                    <h3 className="text-[#1a2b3c] text-xs md:text-base font-bold mb-1 line-clamp-2 leading-tight group-hover:text-secondary transition-colors">
                                         {product.name}
                                     </h3>
                                     
@@ -154,7 +154,7 @@ const CategoryPage = () => {
 
                                     {/* Pricing */}
                                     <div className="flex items-center gap-2 mb-4 mt-auto">
-                                        <span className="text-[#f39200] text-lg md:text-xl font-black">৳{product.price}</span>
+                                        <span className="text-secondary text-lg md:text-xl font-black">৳{product.price}</span>
                                         {product.originalPrice && (
                                             <span className="text-gray-400 line-through text-xs md:text-sm font-medium">৳{product.originalPrice}</span>
                                         )}
@@ -167,7 +167,7 @@ const CategoryPage = () => {
                                             disabled={!product.inStock}
                                             className={`flex-1 flex items-center justify-center gap-1.5 border py-2 rounded-md font-semibold transition-all ${
                                                 product.inStock 
-                                                ? 'border-[#f39200] text-[#f39200] hover:bg-[#f39200] hover:text-white'
+                                                ? 'border-secondary text-secondary hover:bg-secondary hover:text-white'
                                                 : 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
                                             }`}
                                         >
@@ -179,7 +179,7 @@ const CategoryPage = () => {
                                             disabled={!product.inStock}
                                             className={`flex-1 py-2 rounded-md font-semibold text-white shadow-sm text-center transition-colors ${
                                                 product.inStock 
-                                                ? 'bg-[#f39200] hover:bg-[#e08600]'
+                                                ? 'bg-secondary hover:bg-secondary hover:brightness-95'
                                                 : 'bg-gray-300 cursor-not-allowed text-gray-500 shadow-none'
                                             }`}
                                         >

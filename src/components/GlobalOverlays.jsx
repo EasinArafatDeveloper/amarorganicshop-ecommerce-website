@@ -44,7 +44,7 @@ export default function GlobalOverlays() {
         <>
             {/* Top Announcement Bar */}
             {settings.topAnnouncementIsActive && settings.topAnnouncementText && (
-                <div className="bg-[#f39200] text-white text-xs md:text-sm font-semibold py-2.5 px-4 text-center z-50 relative shadow-sm break-words tracking-wide">
+                <div className="bg-secondary text-white text-xs md:text-sm font-semibold py-2.5 px-4 text-center z-50 relative shadow-sm break-words tracking-wide">
                     {settings.topAnnouncementText}
                 </div>
             )}
@@ -76,7 +76,7 @@ export default function GlobalOverlays() {
                                     className="w-full h-auto object-cover max-h-[70vh] transition-transform duration-500 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-                                    <div className="bg-green-600 text-white px-6 py-3 rounded-full font-bold shadow-lg opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all flex items-center gap-2">
+                                    <div className="bg-primary text-white px-6 py-3 rounded-full font-bold shadow-lg opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all flex items-center gap-2">
                                         View Offer <ExternalLink className="w-4 h-4" />
                                     </div>
                                 </div>

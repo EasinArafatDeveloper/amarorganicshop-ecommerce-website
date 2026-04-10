@@ -20,6 +20,9 @@ const StoreSettingsSchema = new mongoose.Schema({
     promoPopupLink: { type: String, default: '' },
     promoPopupIsActive: { type: Boolean, default: false },
 
+    primaryColor: { type: String, default: '#16a34a' },
+    secondaryColor: { type: String, default: '#f39200' },
+
     sectionToggles: {
         showHero: { type: Boolean, default: true },
         showCategories: { type: Boolean, default: true },

@@ -43,8 +43,8 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4 relative overflow-hidden">
       {/* Decorative background blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[30rem] h-[30rem] bg-green-600/20 rounded-full blur-[100px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[30rem] h-[30rem] bg-green-600/20 rounded-full blur-[100px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-[30rem] h-[30rem] bg-primary/20 rounded-full blur-[100px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30rem] h-[30rem] bg-primary/20 rounded-full blur-[100px]" />
 
       <div className="w-full max-w-md bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl p-8 relative z-10">
         <div className="text-center mb-8">
@@ -96,7 +96,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-[0_0_20px_rgba(22,163,74,0.3)] hover:shadow-[0_0_30px_rgba(22,163,74,0.5)] disabled:opacity-70 mt-4"
+            className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary hover:brightness-110 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-[0_0_20px_rgba(22,163,74,0.3)] hover:shadow-[0_0_30px_rgba(22,163,74,0.5)] disabled:opacity-70 mt-4"
           >
             {isLoading ? 'Authenticating...' : 'Sign In'}
             {!isLoading && <ArrowRight className="w-5 h-5" />}

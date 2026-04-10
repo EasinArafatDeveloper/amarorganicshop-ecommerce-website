@@ -86,13 +86,13 @@ const ShopPage = () => {
         <div className="bg-[#fcfcfc] min-h-screen pb-16">
             {/* Header Banner */}
             <div className="bg-[#04211c] text-white py-12 px-4 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#f39200] opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-secondary opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4"></div>
                 <div className="max-w-[1400px] mx-auto relative z-10 text-center">
                     <h1 className="text-3xl md:text-5xl font-black mb-2">Our Shop</h1>
                     <div className="flex items-center justify-center gap-2 text-sm text-gray-300 font-medium">
-                        <Link href="/" className="hover:text-[#f39200] transition-colors">Home</Link>
+                        <Link href="/" className="hover:text-secondary transition-colors">Home</Link>
                         <ChevronRight size={14} />
-                        <span className="text-[#f39200]">Shop</span>
+                        <span className="text-secondary">Shop</span>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@ const ShopPage = () => {
                     <div className="lg:hidden flex items-center justify-between bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                         <button 
                             onClick={() => setIsMobileFilterOpen(true)}
-                            className="flex items-center gap-2 text-gray-700 font-bold hover:text-[#f39200] transition-colors"
+                            className="flex items-center gap-2 text-gray-700 font-bold hover:text-secondary transition-colors"
                         >
                             <SlidersHorizontal size={20} />
                             Filter Products
@@ -143,13 +143,13 @@ const ShopPage = () => {
 
                             <div className="bg-white lg:border lg:border-gray-200 rounded-2xl lg:p-6 lg:shadow-sm">
                                 <h3 className="font-black text-lg text-gray-800 mb-4 pb-4 border-b border-gray-100 flex items-center gap-2">
-                                    <Filter size={18} className="text-[#f39200]" />
+                                    <Filter size={18} className="text-secondary" />
                                     Categories
                                 </h3>
                                 <div className="space-y-2">
                                     <button 
                                         onClick={() => { setSelectedCategory('all'); setIsMobileFilterOpen(false); }}
-                                        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${selectedCategory === 'all' ? 'bg-orange-50 text-[#f39200] border-l-4 border-[#f39200]' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-l-4 border-transparent'}`}
+                                        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${selectedCategory === 'all' ? 'bg-secondary/10 text-secondary border-l-4 border-secondary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-l-4 border-transparent'}`}
                                     >
                                         All Products
                                     </button>
@@ -158,7 +158,7 @@ const ShopPage = () => {
                                         <button 
                                             key={cat.id}
                                             onClick={() => { setSelectedCategory(cat.id); setIsMobileFilterOpen(false); }}
-                                            className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${selectedCategory === cat.id ? 'bg-orange-50 text-[#f39200] border-l-4 border-[#f39200]' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-l-4 border-transparent'}`}
+                                            className={`w-full text-left px-4 py-2.5 rounded-lg text-sm font-bold transition-all ${selectedCategory === cat.id ? 'bg-secondary/10 text-secondary border-l-4 border-secondary' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 border-l-4 border-transparent'}`}
                                         >
                                             {cat.name}
                                         </button>
@@ -178,7 +178,7 @@ const ShopPage = () => {
                             </h2>
                             <div className="flex items-center gap-3">
                                 <span className="text-sm font-bold text-gray-500">Sort by:</span>
-                                <div className="relative bg-gray-50 border border-gray-200 rounded-lg pr-4 pl-2 py-1.5 focus-within:border-[#f39200] focus-within:ring-2 focus-within:ring-[#f39200]/20 transition-all">
+                                <div className="relative bg-gray-50 border border-gray-200 rounded-lg pr-4 pl-2 py-1.5 focus-within:border-secondary focus-within:ring-2 focus-within:ring-secondary/20 transition-all">
                                     <select 
                                         value={sortOption}
                                         onChange={(e) => setSortOption(e.target.value)}
@@ -204,7 +204,7 @@ const ShopPage = () => {
                         </div>
 
                         {loading ? (
-                            <div className="flex flex-col items-center justify-center py-32 w-full text-[#f39200]">
+                            <div className="flex flex-col items-center justify-center py-32 w-full text-secondary">
                                 <Loader2 className="w-12 h-12 animate-spin mb-4" />
                                 <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading products from database...</p>
                             </div>
@@ -217,7 +217,7 @@ const ShopPage = () => {
                                             {/* Tag/Discount Badge */}
                                             <div className="flex justify-between items-start mb-2 pointer-events-none">
                                                 {product.badge ? (
-                                                    <span className="bg-[#f39200] text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                                    <span className="bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded">
                                                         {product.badge}
                                                     </span>
                                                 ) : <div />}
@@ -240,13 +240,13 @@ const ShopPage = () => {
 
                                             {/* Product Info */}
                                             <div className="flex flex-col flex-grow pointer-events-none">
-                                                <h3 className="text-[#1a2b3c] text-xs md:text-sm font-bold mb-1.5 line-clamp-2 min-h-[32px] md:min-h-[40px] group-hover:text-[#f39200] transition-colors">
+                                                <h3 className="text-[#1a2b3c] text-xs md:text-sm font-bold mb-1.5 line-clamp-2 min-h-[32px] md:min-h-[40px] group-hover:text-secondary transition-colors">
                                                     {product.name}
                                                 </h3>
 
                                                 {/* Pricing */}
                                                 <div className="flex flex-wrap items-end gap-2 mb-4">
-                                                    <span className="text-[#f39200] text-base md:text-lg font-black leading-none">৳{product.price}</span>
+                                                    <span className="text-secondary text-base md:text-lg font-black leading-none">৳{product.price}</span>
                                                     {product.originalPrice && (
                                                         <span className="text-gray-400 line-through text-xs font-medium leading-none mb-0.5">৳{product.originalPrice}</span>
                                                     )}
@@ -259,7 +259,7 @@ const ShopPage = () => {
                                                         disabled={!product.inStock}
                                                         className={`flex-1 flex items-center justify-center gap-1.5 border py-2 rounded-md font-semibold transition-all ${
                                                             product.inStock 
-                                                            ? 'border-[#f39200] text-[#f39200] hover:bg-[#f39200] hover:text-white'
+                                                            ? 'border-secondary text-secondary hover:bg-secondary hover:text-white'
                                                             : 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50'
                                                         }`}
                                                     >
@@ -271,7 +271,7 @@ const ShopPage = () => {
                                                         disabled={!product.inStock}
                                                         className={`flex-[2] py-2 rounded-md font-semibold text-white shadow-sm text-center transition-colors ${
                                                             product.inStock 
-                                                            ? 'bg-[#f39200] hover:bg-[#e08600]'
+                                                            ? 'bg-secondary hover:bg-secondary hover:brightness-95'
                                                             : 'bg-gray-300 cursor-not-allowed text-gray-500 shadow-none'
                                                         }`}
                                                     >
@@ -292,7 +292,7 @@ const ShopPage = () => {
                                 <p className="text-gray-500 max-w-sm mx-auto">We couldn't find any products matching your current filters. Try selecting a different category.</p>
                                 <button 
                                     onClick={() => setSelectedCategory('all')}
-                                    className="mt-6 font-bold text-[#f39200] hover:underline"
+                                    className="mt-6 font-bold text-secondary hover:underline"
                                 >
                                     Clear all filters
                                 </button>

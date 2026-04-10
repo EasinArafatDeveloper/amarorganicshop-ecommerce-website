@@ -15,6 +15,8 @@ export default function UISettingsPage() {
         promoPopupImage: '',
         promoPopupLink: '',
         promoPopupIsActive: false,
+        primaryColor: '#16a34a',
+        secondaryColor: '#f39200',
         sectionToggles: {
             showHero: true,
             showCategories: true,
@@ -132,7 +134,7 @@ export default function UISettingsPage() {
                 </div>
                 
                 <div className="flex gap-3">
-                    <a href="/admin/dashboard/categories" className="bg-green-50 text-green-700 border border-green-200 px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-green-100 transition-colors">
+                    <a href="/admin/dashboard/categories" className="bg-primary/10 text-primary border border-primary/20 px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-primary/20 transition-colors">
                         📁 Categories
                     </a>
                     <a href="/admin/dashboard/testimonials" className="bg-indigo-50 text-indigo-700 border border-indigo-200 px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-indigo-100 transition-colors">
@@ -188,6 +190,40 @@ export default function UISettingsPage() {
                                     className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                 />
                             </div>
+                        </div>
+
+                        {/* Theme Colors Configuration */}
+                        <div className="border-t border-gray-100 pt-6">
+                            <label className="block text-sm font-bold text-gray-700 mb-3">
+                                Site Branding Colors
+                            </label>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                                    <label className="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Primary Color</label>
+                                    <input 
+                                        type="color" 
+                                        name="primaryColor"
+                                        value={settings.primaryColor}
+                                        onChange={handleChange}
+                                        className="w-full h-10 cursor-pointer rounded border-none bg-transparent"
+                                    />
+                                    <div className="text-center text-xs font-mono text-gray-400 mt-2">{settings.primaryColor}</div>
+                                </div>
+                                <div className="p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                                    <label className="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Secondary Color</label>
+                                    <input 
+                                        type="color" 
+                                        name="secondaryColor"
+                                        value={settings.secondaryColor}
+                                        onChange={handleChange}
+                                        className="w-full h-10 cursor-pointer rounded border-none bg-transparent"
+                                    />
+                                    <div className="text-center text-xs font-mono text-gray-400 mt-2">{settings.secondaryColor}</div>
+                                </div>
+                            </div>
+                            <p className="text-xs text-gray-400 mt-3 flex items-center gap-1">
+                                💡 Primary controls buttons and highlights. Secondary controls badges and accents.
+                            </p>
                         </div>
 
                         {/* Top Announcement Bar Configuration */}
@@ -393,7 +429,7 @@ export default function UISettingsPage() {
                     <button 
                         type="submit"
                         disabled={saving}
-                        className={`flex items-center gap-2 px-8 py-4 rounded-xl font-black text-white transition-all shadow-lg shadow-green-500/30 ${saving ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700 hover:-translate-y-0.5'}`}
+                        className={`flex items-center gap-2 px-8 py-4 rounded-xl font-black text-white transition-all shadow-lg shadow-primary/30 ${saving ? 'bg-gray-400' : 'bg-primary hover:bg-primary hover:brightness-90 hover:-translate-y-0.5'}`}
                     >
                         {saving ? (
                             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

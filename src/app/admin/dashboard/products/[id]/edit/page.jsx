@@ -107,7 +107,7 @@ export default function EditProductPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center p-20">
-                <Loader2 className="w-10 h-10 animate-spin text-green-600" />
+                <Loader2 className="w-10 h-10 animate-spin text-primary" />
             </div>
         );
     }
@@ -208,12 +208,12 @@ export default function EditProductPage() {
                         
                         <div className="flex flex-col gap-4 mt-6">
                             <label className="flex items-center gap-3 cursor-pointer group">
-                                <input type="checkbox" name="inStock" checked={formData.inStock} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                                <span className="text-sm font-bold text-gray-700 group-hover:text-green-600 transition-colors">Product is In Stock</span>
+                                <input type="checkbox" name="inStock" checked={formData.inStock} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-green-500" />
+                                <span className="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">Product is In Stock</span>
                             </label>
                             <label className="flex items-center gap-3 cursor-pointer group">
-                                <input type="checkbox" name="isOrganic" checked={formData.isOrganic} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                                <span className="text-sm font-bold text-gray-700 group-hover:text-green-600 transition-colors">100% Organic Certified</span>
+                                <input type="checkbox" name="isOrganic" checked={formData.isOrganic} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-green-500" />
+                                <span className="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">100% Organic Certified</span>
                             </label>
                         </div>
                     </div>

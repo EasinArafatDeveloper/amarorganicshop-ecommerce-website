@@ -52,7 +52,7 @@ export default function OrderInvoicePage({ params }) {
                 {/* Invoice Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start border-b-2 border-gray-100 pb-8 mb-8">
                     <div>
-                        <h1 className="text-4xl font-black text-green-600 tracking-tight leading-none mb-1">AMAR ORGANIC</h1>
+                        <h1 className="text-4xl font-black text-primary tracking-tight leading-none mb-1">AMAR ORGANIC</h1>
                         <p className="text-gray-500 font-medium tracking-widest text-sm uppercase">Pure Nature & Quality</p>
                         
                         <div className="mt-6 space-y-1 text-sm text-gray-600">
@@ -128,7 +128,7 @@ export default function OrderInvoicePage({ params }) {
                         <div className="border-t border-gray-200 pt-4 mt-2">
                             <div className="flex justify-between items-center">
                                 <span className="text-xl font-black text-gray-800">Total</span>
-                                <span className="text-2xl font-black text-green-600">৳{order.finalTotal}</span>
+                                <span className="text-2xl font-black text-primary">৳{order.finalTotal}</span>
                             </div>
                         </div>
                     </div>

@@ -42,7 +42,7 @@ const FeaturedCategories = () => {
                     {/* Left Navigation Button */}
                     <button
                         onClick={() => scroll('left')}
-                        className="absolute -left-2 md:-left-5 z-20 w-10 h-10 bg-[#f39200] rounded-full flex items-center justify-center text-white shadow-md hover:bg-[#e08600] transition-all active:scale-95"
+                        className="absolute -left-2 md:-left-5 z-20 w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white shadow-md hover:bg-secondary hover:brightness-95 transition-all active:scale-95"
                     >
                         <ChevronLeft size={24} strokeWidth={3} />
                     </button>
@@ -78,7 +78,7 @@ const FeaturedCategories = () => {
                     {/* Right Navigation Button */}
                     <button
                         onClick={() => scroll('right')}
-                        className="absolute -right-2 md:-right-5 z-20 w-10 h-10 bg-[#f39200] rounded-full flex items-center justify-center text-white shadow-md hover:bg-[#e08600] transition-all active:scale-95"
+                        className="absolute -right-2 md:-right-5 z-20 w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-white shadow-md hover:bg-secondary hover:brightness-95 transition-all active:scale-95"
                     >
                         <ChevronRight size={24} strokeWidth={3} />
                     </button>

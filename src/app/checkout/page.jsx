@@ -91,12 +91,12 @@ const CheckoutPage = () => {
         return (
             <div className="min-h-[70vh] bg-gray-50 flex flex-col items-center justify-center p-4">
                 <div className="bg-white p-8 rounded-2xl shadow-sm text-center max-w-md w-full">
-                    <div className="w-20 h-20 bg-orange-50 text-[#f39200] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-20 h-20 bg-secondary/10 text-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                         <Truck size={32} />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">Cart is Empty</h2>
                     <p className="text-gray-500 mb-6">Looks like you haven't added anything to your cart yet.</p>
-                    <Link href="/" className="inline-block w-full bg-[#f39200] text-white py-3 rounded-xl font-bold hover:bg-[#e08600] transition-colors">
+                    <Link href="/" className="inline-block w-full bg-secondary text-white py-3 rounded-xl font-bold hover:bg-secondary hover:brightness-95 transition-colors">
                         Continue Shopping
                     </Link>
                 </div>
@@ -114,16 +114,16 @@ const CheckoutPage = () => {
                         Thank you for your order, <strong>{formData.name}</strong>. We'll contact you soon at <strong>{formData.mobile}</strong> to confirm your delivery details.
                     </p>
                     
-                    <div className="bg-orange-50 p-4 rounded-xl text-left mb-8 flex items-start gap-3 border border-orange-100">
-                        <ShieldCheck className="text-[#f39200] shrink-0 mt-0.5" size={20} />
+                    <div className="bg-secondary/10 p-4 rounded-xl text-left mb-8 flex items-start gap-3 border border-orange-100">
+                        <ShieldCheck className="text-secondary shrink-0 mt-0.5" size={20} />
                         <div>
                             <h4 className="font-bold text-gray-800 text-sm">Prepare Cash Amount</h4>
-                            <p className="text-[#f39200] font-black text-xl">৳ {finalTotal.toLocaleString()}</p>
+                            <p className="text-secondary font-black text-xl">৳ {finalTotal.toLocaleString()}</p>
                             <p className="text-xs text-gray-500 mt-1">Please keep this amount ready for cash on delivery.</p>
                         </div>
                     </div>
 
-                    <Link href="/" className="inline-block w-full bg-[#f39200] text-white py-4 rounded-xl font-bold hover:bg-[#e08600] transition-colors shadow-lg shadow-orange-200">
+                    <Link href="/" className="inline-block w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-secondary hover:brightness-95 transition-colors shadow-lg shadow-orange-200">
                         Continue Shopping
                     </Link>
                 </div>
@@ -135,7 +135,7 @@ const CheckoutPage = () => {
         <div className="min-h-screen bg-gray-50 py-8 px-4 md:px-8">
             <div className="max-w-[1200px] mx-auto">
                 {/* Header Back Button */}
-                <Link href="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-[#f39200] font-medium mb-6 transition-colors">
+                <Link href="/" className="inline-flex items-center gap-2 text-gray-500 hover:text-secondary font-medium mb-6 transition-colors">
                     <ChevronLeft size={20} /> Back to Shopping
                 </Link>
 
@@ -144,7 +144,7 @@ const CheckoutPage = () => {
                     {/* Left Column - Checkout Form */}
                     <div className="w-full lg:w-3/5 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
                         <div className="flex items-center gap-3 mb-8 pb-4 border-b border-gray-100">
-                            <div className="w-8 h-8 rounded-full bg-[#f39200] flex items-center justify-center text-white font-bold">1</div>
+                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white font-bold">1</div>
                             <h2 className="text-xl md:text-2xl font-black text-gray-800">Billing & Delivery Details</h2>
                         </div>
 
@@ -164,7 +164,7 @@ const CheckoutPage = () => {
                                             onChange={handleInputChange}
                                             required 
                                             placeholder="আপনার পুরো নাম লিখুন" 
-                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f39200]/20 focus:border-[#f39200] outline-none transition-all"
+                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all"
                                         />
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@ const CheckoutPage = () => {
                                             onChange={handleInputChange}
                                             required 
                                             placeholder="আপনার মোবাইল নম্বর লিখুন" 
-                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f39200]/20 focus:border-[#f39200] outline-none transition-all"
+                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all"
                                         />
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@ const CheckoutPage = () => {
                                     <label className="block text-sm font-bold text-gray-700 mb-3">Delivery Area <span className="text-red-500">*</span></label>
                                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {/* Dhaka Inside */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'dhaka' ? 'border-[#f39200] bg-orange-50 ring-1 ring-[#f39200]' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
+                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'dhaka' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
                                             <input 
                                                 type="radio" 
                                                 name="deliveryZone" 
@@ -201,11 +201,11 @@ const CheckoutPage = () => {
                                                 className="sr-only" 
                                             />
                                             <span className="font-bold text-sm text-gray-800">Inside Dhaka</span>
-                                            <span className="text-xs text-[#f39200] font-black mt-1">৳ 60</span>
+                                            <span className="text-xs text-secondary font-black mt-1">৳ 60</span>
                                         </label>
                                         
                                         {/* Sub Dhaka */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'sub_dhaka' ? 'border-[#f39200] bg-orange-50 ring-1 ring-[#f39200]' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
+                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'sub_dhaka' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
                                             <input 
                                                 type="radio" 
                                                 name="deliveryZone" 
@@ -215,11 +215,11 @@ const CheckoutPage = () => {
                                                 className="sr-only" 
                                             />
                                             <span className="font-bold text-sm text-gray-800">Sub-side Dhaka</span>
-                                            <span className="text-xs text-[#f39200] font-black mt-1">৳ 70</span>
+                                            <span className="text-xs text-secondary font-black mt-1">৳ 70</span>
                                         </label>
                                         
                                         {/* Outside Dhaka */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'outside' ? 'border-[#f39200] bg-orange-50 ring-1 ring-[#f39200]' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
+                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'outside' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
                                             <input 
                                                 type="radio" 
                                                 name="deliveryZone" 
@@ -229,7 +229,7 @@ const CheckoutPage = () => {
                                                 className="sr-only" 
                                             />
                                             <span className="font-bold text-sm text-gray-800">Outside Dhaka</span>
-                                            <span className="text-xs text-[#f39200] font-black mt-1">৳ 100</span>
+                                            <span className="text-xs text-secondary font-black mt-1">৳ 100</span>
                                         </label>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@ const CheckoutPage = () => {
                                             required 
                                             rows="3"
                                             placeholder="আপনার সম্পূর্ণ ঠিকানা লিখুন (বাসা/ফ্ল্যাট, রোড নম্বর, এলাকা)" 
-                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f39200]/20 focus:border-[#f39200] outline-none transition-all resize-none"
+                                            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all resize-none"
                                         ></textarea>
                                     </div>
                                 </div>
@@ -260,7 +260,7 @@ const CheckoutPage = () => {
                                         onChange={handleInputChange}
                                         rows="2"
                                         placeholder="আপনার অর্ডারের জন্য কোনো বিশেষ নির্দেশনা থাকলে লিখুন..." 
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#f39200]/20 focus:border-[#f39200] outline-none transition-all resize-none text-sm"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:border-secondary outline-none transition-all resize-none text-sm"
                                     ></textarea>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@ const CheckoutPage = () => {
                                         <h4 className="text-sm font-bold text-gray-800 truncate">{item.name}</h4>
                                         <p className="text-xs text-gray-500 mt-0.5">{item.quantity} × ৳{item.price}</p>
                                     </div>
-                                    <div className="font-black text-[#f39200] text-sm whitespace-nowrap px-1">
+                                    <div className="font-black text-secondary text-sm whitespace-nowrap px-1">
                                         ৳{(item.price * item.quantity).toLocaleString()}
                                     </div>
                                 </div>

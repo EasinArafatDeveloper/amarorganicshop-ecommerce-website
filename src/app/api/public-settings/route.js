@@ -15,6 +15,8 @@ export async function GET() {
             promoPopupImage: settings?.promoPopupImage || '',
             promoPopupLink: settings?.promoPopupLink || '',
             promoPopupIsActive: settings?.promoPopupIsActive ?? false,
+            primaryColor: settings?.primaryColor || '#16a34a',
+            secondaryColor: settings?.secondaryColor || '#f39200',
         }, { status: 200 });
 
     } catch (error) {

@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
     <>
       <div className="h-20 flex items-center justify-between px-6 font-bold tracking-tight border-b border-gray-800 bg-[#0F172A]">
         <div className="flex items-center gap-2 relative z-20">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/20">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-green-500/20">
              <span className="text-white text-lg font-black leading-none mt-[-2px]">A</span>
           </div>
           <span className="text-xl md:text-2xl text-white ml-1 tracking-tight">Admin<span className="text-green-500 font-black">.</span></span>
@@ -165,7 +165,7 @@ export default function DashboardLayout({ children }) {
              <div className="relative" ref={dropdownRef}>
                <button 
                   onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                  className="relative p-2.5 text-gray-500 hover:text-green-600 transition-all bg-gray-50 rounded-full hover:bg-green-50 shadow-sm border border-gray-200 hover:border-green-200"
+                  className="relative p-2.5 text-gray-500 hover:text-primary transition-all bg-gray-50 rounded-full hover:bg-primary/10 shadow-sm border border-gray-200 hover:border-primary/30"
                >
                  <Bell className="w-5 h-5" />
                  {notifications.length > 0 && (
@@ -184,7 +184,7 @@ export default function DashboardLayout({ children }) {
                         Pending Orders
                       </h3>
                       {notifications.length > 0 && (
-                        <span className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                        <span className="bg-primary/20 text-primary text-xs font-bold px-2 py-0.5 rounded-full">
                           {notifications.length} New
                         </span>
                       )}
@@ -203,15 +203,15 @@ export default function DashboardLayout({ children }) {
                               key={order._id}
                               href="/admin/dashboard/orders"
                               onClick={() => setIsNotificationOpen(false)}
-                              className="p-4 hover:bg-green-50/50 transition-colors flex flex-col gap-1 group block"
+                              className="p-4 hover:bg-primary/10/50 transition-colors flex flex-col gap-1 group block"
                             >
                                <div className="flex justify-between items-start">
-                                 <span className="font-bold text-sm text-gray-800 group-hover:text-green-700 transition-colors">#{order.orderId}</span>
+                                 <span className="font-bold text-sm text-gray-800 group-hover:text-primary scale-[0.98] transition-colors">#{order.orderId}</span>
                                  <span className="text-xs font-semibold text-gray-400 bg-white border border-gray-100 shadow-sm px-2 py-0.5 rounded-full">{timeAgo(order.createdAt)}</span>
                                </div>
                                <div className="flex justify-between items-center mt-1">
                                  <span className="text-sm text-gray-600 truncate mr-2">{order.customerName}</span>
-                                 <span className="font-black text-green-600 text-sm">৳{order.finalTotal}</span>
+                                 <span className="font-black text-primary text-sm">৳{order.finalTotal}</span>
                                </div>
                             </Link>
                           ))}
@@ -222,7 +222,7 @@ export default function DashboardLayout({ children }) {
                     <Link 
                       href="/admin/dashboard/orders"
                       onClick={() => setIsNotificationOpen(false)}
-                      className="block w-full p-3 text-center text-xs font-bold text-green-600 bg-gray-50 hover:bg-green-50 hover:text-green-700 transition-colors border-t border-gray-100"
+                      className="block w-full p-3 text-center text-xs font-bold text-primary bg-gray-50 hover:bg-primary/10 hover:text-primary scale-[0.98] transition-colors border-t border-gray-100"
                     >
                       View All Orders →
                     </Link>
@@ -230,11 +230,11 @@ export default function DashboardLayout({ children }) {
                )}
              </div>
 
-             <Link href="/admin/dashboard/ui-settings" className="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-gray-200 shadow-sm rounded-full cursor-pointer hover:border-green-300 hover:bg-green-50 transition-all group">
+             <Link href="/admin/dashboard/ui-settings" className="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-gray-200 shadow-sm rounded-full cursor-pointer hover:border-green-300 hover:bg-primary/10 transition-all group">
                <div className="w-9 h-9 bg-gradient-to-tr from-green-500 to-green-400 rounded-full flex items-center justify-center text-white font-bold shadow-inner group-hover:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all">
                  A
                </div>
-               <span className="text-sm font-bold text-gray-700 group-hover:text-green-700 hidden sm:block tracking-wide">Easin Arafat</span>
+               <span className="text-sm font-bold text-gray-700 group-hover:text-primary scale-[0.98] hidden sm:block tracking-wide">Easin Arafat</span>
              </Link>
           </div>
         </header>

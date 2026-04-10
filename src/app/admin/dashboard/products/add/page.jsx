@@ -159,12 +159,12 @@ export default function AddProductPage() {
                         
                         <div className="flex flex-col gap-4 mt-6">
                             <label className="flex items-center gap-3 cursor-pointer group">
-                                <input type="checkbox" name="inStock" checked={formData.inStock} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                                <span className="text-sm font-bold text-gray-700 group-hover:text-green-600 transition-colors">Product is In Stock</span>
+                                <input type="checkbox" name="inStock" checked={formData.inStock} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-green-500" />
+                                <span className="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">Product is In Stock</span>
                             </label>
                             <label className="flex items-center gap-3 cursor-pointer group">
-                                <input type="checkbox" name="isOrganic" checked={formData.isOrganic} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500" />
-                                <span className="text-sm font-bold text-gray-700 group-hover:text-green-600 transition-colors">100% Organic Certified</span>
+                                <input type="checkbox" name="isOrganic" checked={formData.isOrganic} onChange={handleChange} className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-green-500" />
+                                <span className="text-sm font-bold text-gray-700 group-hover:text-primary transition-colors">100% Organic Certified</span>
                             </label>
                         </div>
                     </div>
@@ -174,7 +174,7 @@ export default function AddProductPage() {
                     <Link href="/admin/dashboard/products" className="px-6 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
                         Cancel
                     </Link>
-                    <button type="submit" disabled={loading} className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-md shadow-green-600/20 disabled:opacity-50">
+                    <button type="submit" disabled={loading} className="bg-primary hover:bg-primary hover:brightness-90 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-md shadow-primary/20 disabled:opacity-50">
                         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                         {loading ? 'Saving to Database...' : 'Save Product'}
                     </button>

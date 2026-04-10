@@ -125,7 +125,7 @@ export default function CategoriesAdmin() {
         <div className="max-w-6xl mx-auto space-y-6 pb-20">
             <div>
                 <h2 className="text-2xl font-black text-gray-800 tracking-tight flex items-center gap-2">
-                    <FolderTree className="w-6 h-6 text-green-600" />
+                    <FolderTree className="w-6 h-6 text-primary" />
                     Manage Store Categories
                 </h2>
                 <p className="text-gray-500 text-sm mt-1">Add or remove Navigation links and subcategories dynamically.</p>
@@ -168,7 +168,7 @@ export default function CategoriesAdmin() {
                                     <input 
                                         type="checkbox" name="hasSub" 
                                         checked={formData.hasSub} onChange={handleInputChange}
-                                        className="w-4 h-4 text-green-600 rounded border-gray-300 focus:ring-green-500"
+                                        className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-green-500"
                                     />
                                     <span className="text-sm font-bold text-gray-700">Has Sub-categories?</span>
                                 </label>
@@ -180,7 +180,7 @@ export default function CategoriesAdmin() {
                                     <textarea 
                                         name="subItemsRaw" value={formData.subItemsRaw} onChange={handleInputChange}
                                         rows="3" placeholder="Sundarban Honey, Litchi Flower Honey, Hill Flower Honey"
-                                        className="w-full px-4 py-2.5 bg-green-50 border border-green-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none text-sm resize-none"
+                                        className="w-full px-4 py-2.5 bg-primary/10 border border-primary/20 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none text-sm resize-none"
                                     />
                                     <p className="text-[11px] text-gray-500 mt-1">Separate each item with a comma. Slugs will be auto-generated.</p>
                                 </div>
@@ -188,7 +188,7 @@ export default function CategoriesAdmin() {
 
                             <button 
                                 type="submit" disabled={isSubmitting}
-                                className="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-green-500/30 mt-4"
+                                className="w-full py-3 bg-primary hover:bg-primary hover:brightness-90 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-primary/30 mt-4"
                             >
                                 <Plus size={18} />
                                 {isSubmitting ? 'Creating...' : 'Create Category'}
@@ -211,7 +211,7 @@ export default function CategoriesAdmin() {
                         ) : (
                             <div className="grid grid-cols-1 gap-4">
                                 {categories.map(cat => (
-                                    <div key={cat._id} className="border border-gray-100 rounded-xl p-5 hover:border-green-200 transition-colors group bg-white shadow-sm flex flex-col relative overflow-hidden">
+                                    <div key={cat._id} className="border border-gray-100 rounded-xl p-5 hover:border-primary/30 transition-colors group bg-white shadow-sm flex flex-col relative overflow-hidden">
                                         <button 
                                             onClick={() => handleDelete(cat._id)}
                                             className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 bg-white rounded-md z-10"

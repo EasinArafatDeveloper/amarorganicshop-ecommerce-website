@@ -150,8 +150,8 @@ const Navbar = () => {
                                     <img src={siteLogo} alt="Amar Organic" className="h-[40px] w-auto max-w-[120px] object-contain rounded-md bg-white p-1" />
                                 ) : (
                                     <>
-                                        <div className="w-10 h-10 border-2 border-[#f39200] rounded-lg flex items-center justify-center p-1 bg-white">
-                                            <ShoppingBag size={20} className="text-[#f39200]" />
+                                        <div className="w-10 h-10 border-2 border-secondary rounded-lg flex items-center justify-center p-1 bg-white">
+                                            <ShoppingBag size={20} className="text-secondary" />
                                         </div>
                                         <span className="text-white font-black text-lg tracking-tight">Amar Organic Shop</span>
                                     </>
@@ -179,13 +179,13 @@ const Navbar = () => {
                                         {cat.hasSub ? (
                                             <>
                                                 <div
-                                                    className="flex items-center justify-between p-3.5 cursor-pointer hover:bg-orange-50 transition-colors"
+                                                    className="flex items-center justify-between p-3.5 cursor-pointer hover:bg-secondary/10 transition-colors"
                                                     onClick={() => toggleMobileSub(index)}
                                                 >
                                                     <span className="text-[14px] text-gray-700 font-semibold">{cat.label}</span>
                                                     <ChevronDown
                                                         size={16}
-                                                        className={`text-gray-400 transition-transform duration-300 ${expandedMobileCat === index ? 'rotate-180 text-[#f39200]' : ''}`}
+                                                        className={`text-gray-400 transition-transform duration-300 ${expandedMobileCat === index ? 'rotate-180 text-secondary' : ''}`}
                                                     />
                                                 </div>
 
@@ -196,7 +196,7 @@ const Navbar = () => {
                                                             <Link
                                                                 key={sIdx}
                                                                 href={`/${cat.slug}?sub=${encodeURIComponent(sub.slug)}`}
-                                                                className="px-6 py-2.5 text-[13px] text-gray-600 hover:text-[#f39200] flex items-center gap-2 border-l-2 border-transparent hover:border-[#f39200] hover:bg-white"
+                                                                className="px-6 py-2.5 text-[13px] text-gray-600 hover:text-secondary flex items-center gap-2 border-l-2 border-transparent hover:border-secondary hover:bg-white"
                                                                 onClick={() => setIsDrawerOpen(false)}
                                                             >
                                                                 <div className="w-1.5 h-1.5 rounded-full bg-gray-300" />
@@ -209,7 +209,7 @@ const Navbar = () => {
                                         ) : (
                                             <Link
                                                 href={`/${cat.slug}`}
-                                                className="flex items-center justify-between p-3.5 cursor-pointer hover:bg-orange-50 transition-colors"
+                                                className="flex items-center justify-between p-3.5 cursor-pointer hover:bg-secondary/10 transition-colors"
                                                 onClick={() => setIsDrawerOpen(false)}
                                             >
                                                 <span className="text-[14px] text-gray-700 font-semibold">{cat.label}</span>
@@ -223,11 +223,11 @@ const Navbar = () => {
                         <div className="p-4 border-t border-gray-100">
                             <div className="grid grid-cols-2 gap-2">
                                 <Link href="/track-order" className="bg-white p-3 rounded-lg border border-gray-100 flex flex-col items-center gap-1" onClick={() => setIsDrawerOpen(false)}>
-                                    <MapPin size={18} className="text-[#f39200]" />
+                                    <MapPin size={18} className="text-secondary" />
                                     <span className="text-[10px] font-bold">Track</span>
                                 </Link>
                                 <Link href="/wishlist" className="bg-white p-3 rounded-lg border border-gray-100 flex flex-col items-center gap-1" onClick={() => setIsDrawerOpen(false)}>
-                                    <Heart size={18} className="text-[#f39200]" />
+                                    <Heart size={18} className="text-secondary" />
                                     <span className="text-[10px] font-bold">Wishlist</span>
                                 </Link>
                             </div>
@@ -239,7 +239,7 @@ const Navbar = () => {
                 <div className={`fixed top-0 right-0 h-full w-full sm:w-[350px] bg-white z-[70] transform transition-transform duration-300 ease-in-out shadow-2xl flex flex-col ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                     <div className="p-5 border-b border-gray-100 flex items-center justify-between bg-[#04211c]">
                         <div className="flex items-center gap-2 text-white">
-                            <ShoppingBag className="text-[#f39200]" size={20} />
+                            <ShoppingBag className="text-secondary" size={20} />
                             <span className="font-bold">Your Basket ({cartCount})</span>
                         </div>
                         <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
@@ -254,7 +254,7 @@ const Navbar = () => {
                             </div>
                             <p className="text-gray-800 font-bold">Your cart is empty</p>
                             <p className="text-sm text-gray-400 mt-1">Looks like you haven't added anything yet.</p>
-                            <button className="mt-6 px-6 py-2 bg-[#f39200] text-white rounded-full font-bold text-sm" onClick={() => setIsCartOpen(false)}>Start Shopping</button>
+                            <button className="mt-6 px-6 py-2 bg-secondary text-white rounded-full font-bold text-sm" onClick={() => setIsCartOpen(false)}>Start Shopping</button>
                         </div>
                     ) : (
                         <div className="flex-1 overflow-y-auto w-full p-4 bg-gray-50 flex flex-col gap-3">
@@ -267,15 +267,15 @@ const Navbar = () => {
                                         <h4 className="text-sm font-bold text-gray-800 line-clamp-2 leading-tight pr-5">{item.name}</h4>
                                         <p className="text-xs text-gray-500 mt-1">{item.unit}</p>
                                         <div className="flex items-center justify-between mt-auto">
-                                            <span className="text-[#f39200] font-black text-sm">৳{item.price}</span>
+                                            <span className="text-secondary font-black text-sm">৳{item.price}</span>
                                             
                                             {/* Quantity Control */}
                                             <div className="flex items-center gap-1 bg-gray-100 rounded-md p-1">
-                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-6 h-6 flex items-center justify-center bg-white rounded text-gray-600 hover:text-[#f39200]">
+                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-6 h-6 flex items-center justify-center bg-white rounded text-gray-600 hover:text-secondary">
                                                     <Minus size={12} />
                                                 </button>
                                                 <span className="text-xs font-bold w-6 text-center">{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 flex items-center justify-center bg-white rounded text-gray-600 hover:text-[#f39200]">
+                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 flex items-center justify-center bg-white rounded text-gray-600 hover:text-secondary">
                                                     <Plus size={12} />
                                                 </button>
                                             </div>
@@ -295,7 +295,7 @@ const Navbar = () => {
                                 <span className="text-gray-400 font-medium text-sm">Subtotal:</span>
                                 <span className="text-xl font-bold text-[#04211c]">৳ {cartTotal.toLocaleString()}</span>
                             </div>
-                            <Link href="/checkout" className="w-full bg-[#f39200] hover:bg-[#d88200] text-white py-3.5 flex items-center justify-center rounded-xl font-bold transition-all shadow-lg shadow-orange-100" onClick={() => setIsCartOpen(false)}>
+                            <Link href="/checkout" className="w-full bg-secondary hover:bg-secondary hover:brightness-90 text-white py-3.5 flex items-center justify-center rounded-xl font-bold transition-all shadow-lg shadow-secondary/20" onClick={() => setIsCartOpen(false)}>
                                 Proceed to Checkout
                             </Link>
                         </div>
@@ -314,12 +314,12 @@ const Navbar = () => {
                                     <img src={siteLogo} alt="Amar Organic" className="h-[50px] w-auto max-w-[180px] object-contain" />
                                 ) : (
                                     <>
-                                        <div className="w-9 h-9 md:w-11 md:h-11 border-2 border-[#f39200] rounded-xl flex items-center justify-center p-1.5 shrink-0 bg-white shadow-sm">
-                                            <ShoppingBag className="text-[#f39200] w-full h-full" />
+                                        <div className="w-9 h-9 md:w-11 md:h-11 border-2 border-secondary rounded-xl flex items-center justify-center p-1.5 shrink-0 bg-white shadow-sm">
+                                            <ShoppingBag className="text-secondary w-full h-full" />
                                         </div>
                                         <div className="flex flex-col leading-tight">
                                             <span className="text-[#04211c] font-black text-base md:text-xl tracking-tighter uppercase">Amar Organic</span>
-                                            <span className="text-[#f39200] font-black text-base md:text-xl tracking-tighter uppercase -mt-1">Shop</span>
+                                            <span className="text-secondary font-black text-base md:text-xl tracking-tighter uppercase -mt-1">Shop</span>
                                         </div>
                                     </>
                                 )}
@@ -337,9 +337,9 @@ const Navbar = () => {
                                     // Use a timeout for onBlur so a user can click a link before the dropdown dies
                                     onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                     placeholder="Search for honey, dates, ghee..."
-                                    className="w-full bg-white border border-gray-200 rounded-full py-2.5 px-6 pr-12 focus:outline-none focus:border-[#f39200] focus:ring-4 focus:ring-orange-50 text-gray-800 text-sm transition-all"
+                                    className="w-full bg-white border border-gray-200 rounded-full py-2.5 px-6 pr-12 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 text-gray-800 text-sm transition-all"
                                 />
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#f39200] p-1.5 rounded-full cursor-pointer hover:bg-[#d88200] transition-colors">
+                                <div className="absolute right-2 top-1/2 -translate-y-1/2 bg-secondary p-1.5 rounded-full cursor-pointer hover:bg-secondary hover:brightness-90 transition-colors">
                                     <Search className="text-white w-4 h-4" />
                                 </div>
                                 
@@ -359,22 +359,22 @@ const Navbar = () => {
                                                             setSearchQuery('');
                                                             setSearchResults([]);
                                                         }}
-                                                        className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange-50 transition-colors group/item"
+                                                        className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary/10 transition-colors group/item"
                                                     >
                                                         <div className="w-10 h-10 bg-gray-50 rounded flex items-center justify-center p-1 border border-gray-100 shrink-0">
                                                             <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <h4 className="text-sm font-bold text-gray-800 truncate group-hover/item:text-[#f39200] transition-colors">{product.name}</h4>
+                                                            <h4 className="text-sm font-bold text-gray-800 truncate group-hover/item:text-secondary transition-colors">{product.name}</h4>
                                                             <p className="text-[11px] text-gray-500">{product.nameBn}</p>
                                                         </div>
-                                                        <div className="text-[#f39200] font-black text-sm shrink-0">
+                                                        <div className="text-secondary font-black text-sm shrink-0">
                                                             ৳{product.price}
                                                         </div>
                                                     </Link>
                                                 ))}
                                                 <div className="p-3 border-t border-gray-100 mt-1">
-                                                    <button className="w-full text-center text-[13px] font-bold text-[#f39200] hover:underline">
+                                                    <button className="w-full text-center text-[13px] font-bold text-secondary hover:underline">
                                                         View all results for "{searchQuery}"
                                                     </button>
                                                 </div>
@@ -391,17 +391,17 @@ const Navbar = () => {
 
                         <div className="flex items-center gap-2 md:gap-6 shrink-0">
                             <Link href="/track-order" className="hidden lg:flex flex-col items-center cursor-pointer group text-center px-2">
-                                <MapPin className="w-5 h-5 text-[#1a2b3c] group-hover:text-[#f39200] transition-colors" />
+                                <MapPin className="w-5 h-5 text-[#1a2b3c] group-hover:text-secondary transition-colors" />
                                 <span className="text-[10px] font-bold text-[#1a2b3c] mt-1">Track</span>
                             </Link>
                             <Link href="/account" className="hidden sm:flex flex-col items-center cursor-pointer group text-center px-2">
-                                <User className="w-5 h-5 text-[#1a2b3c] group-hover:text-[#f39200] transition-colors" />
+                                <User className="w-5 h-5 text-[#1a2b3c] group-hover:text-secondary transition-colors" />
                                 <span className="text-[10px] font-bold text-[#1a2b3c] mt-1">Sign In</span>
                             </Link>
                             <div className="flex flex-col items-center cursor-pointer group relative text-center px-2" onClick={() => setIsCartOpen(true)}>
                                 <div className="relative">
-                                    <ShoppingCart className="w-6 h-6 text-[#1a2b3c] group-hover:text-[#f39200] transition-colors" />
-                                    <span className="absolute -top-2 -right-2 bg-[#f39200] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                    <ShoppingCart className="w-6 h-6 text-[#1a2b3c] group-hover:text-secondary transition-colors" />
+                                    <span className="absolute -top-2 -right-2 bg-secondary text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                                         {cartCount}
                                     </span>
                                 </div>
@@ -420,7 +420,7 @@ const Navbar = () => {
                                 onFocus={() => setIsSearchFocused(true)}
                                 onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                                 placeholder="Search products..."
-                                className="w-full bg-white border border-gray-200 rounded-xl py-2.5 px-4 pr-10 focus:outline-none focus:border-[#f39200] focus:ring-2 focus:ring-[#f39200]/20 text-sm text-gray-800"
+                                className="w-full bg-white border border-gray-200 rounded-xl py-2.5 px-4 pr-10 focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-sm text-gray-800"
                             />
                             <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                         </div>
@@ -441,7 +441,7 @@ const Navbar = () => {
                                                     setSearchQuery('');
                                                     setSearchResults([]);
                                                 }}
-                                                className="flex items-center gap-3 px-4 py-2.5 hover:bg-orange-50 transition-colors"
+                                                className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary/10 transition-colors"
                                             >
                                                 <div className="w-10 h-10 bg-gray-50 rounded flex items-center justify-center p-1 border border-gray-100 shrink-0">
                                                     <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain" />
@@ -450,7 +450,7 @@ const Navbar = () => {
                                                     <h4 className="text-sm font-bold text-gray-800 truncate">{product.name}</h4>
                                                     <p className="text-[11px] text-gray-500">{product.nameBn}</p>
                                                 </div>
-                                                <div className="text-[#f39200] font-black text-sm shrink-0">
+                                                <div className="text-secondary font-black text-sm shrink-0">
                                                     ৳{product.price}
                                                 </div>
                                             </Link>
@@ -481,7 +481,7 @@ const Navbar = () => {
                                 >
                                     <Link
                                         href={`/${cat.slug}`}
-                                        className={`flex items-center gap-1.5 cursor-pointer h-full px-1 border-b-2 border-transparent transition-all hover:text-[#f39200] ${activeDropdown === i ? 'text-[#f39200] border-[#f39200]' : ''}`}
+                                        className={`flex items-center gap-1.5 cursor-pointer h-full px-1 border-b-2 border-transparent transition-all hover:text-secondary ${activeDropdown === i ? 'text-secondary border-secondary' : ''}`}
                                     >
                                         {cat.name}
                                         {cat.hasSub && <ChevronDown size={14} className={`opacity-60 transition-transform ${activeDropdown === i ? 'rotate-180' : ''}`} />}
@@ -489,15 +489,15 @@ const Navbar = () => {
 
                                     {/* Dropdown Menu */}
                                     {cat.hasSub && activeDropdown === i && (
-                                        <div className="absolute top-[100%] left-0 bg-white text-gray-800 shadow-2xl border-t-4 border-[#f39200] py-3 min-w-[220px] z-[100] rounded-b-xl animate-in fade-in slide-in-from-top-2 duration-200">
+                                        <div className="absolute top-[100%] left-0 bg-white text-gray-800 shadow-2xl border-t-4 border-secondary py-3 min-w-[220px] z-[100] rounded-b-xl animate-in fade-in slide-in-from-top-2 duration-200">
                                             {cat.subItems.map((sub, subIdx) => (
                                                 <Link
                                                     key={subIdx}
                                                     href={`/${cat.slug}?sub=${encodeURIComponent(sub.slug)}`}
-                                                    className="px-5 py-3 hover:bg-orange-50 hover:text-[#f39200] text-[13.5px] font-semibold cursor-pointer transition-all flex items-center justify-between group/item"
+                                                    className="px-5 py-3 hover:bg-secondary/10 hover:text-secondary text-[13.5px] font-semibold cursor-pointer transition-all flex items-center justify-between group/item"
                                                 >
                                                     {sub.name}
-                                                    <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all text-[#f39200]" />
+                                                    <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-100 -translate-x-2 group-hover/item:translate-x-0 transition-all text-secondary" />
                                                 </Link>
                                             ))}
                                         </div>

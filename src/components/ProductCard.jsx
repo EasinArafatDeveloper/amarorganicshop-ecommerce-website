@@ -50,7 +50,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 )}
 
                 {product.badge && (
-                    <span className="bg-[#f39200] text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
+                    <span className="bg-secondary text-white text-[9px] font-bold px-2 py-0.5 rounded-full">
                         {product.badge}
                     </span>
                 )}
@@ -80,7 +80,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 {product.category && (
                     <Link
                         href={`/${product.category}`}
-                        className="text-[10px] text-gray-400 hover:text-[#f39200] mb-1 inline-block uppercase"
+                        className="text-[10px] text-gray-400 hover:text-secondary mb-1 inline-block uppercase"
                     >
                         {product.category}
                     </Link>
@@ -88,7 +88,7 @@ const ProductCard = ({ product, onAddToCart }) => {
 
                 {/* Product Name */}
                 <Link href={`/product/${product.slug}`} className="block">
-                    <h3 className="text-[#1a2b3c] font-semibold text-sm leading-tight mb-1 line-clamp-2 min-h-[2.4rem] hover:text-[#f39200] transition-colors">
+                    <h3 className="text-[#1a2b3c] font-semibold text-sm leading-tight mb-1 line-clamp-2 min-h-[2.4rem] hover:text-secondary transition-colors">
                         {product.name}
                     </h3>
                 </Link>
@@ -108,7 +108,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                 {/* Price */}
                 <div className="mb-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[#f39200] font-black text-base">
+                        <span className="text-secondary font-black text-base">
                             ৳{product.price.toLocaleString()}
                         </span>
 
@@ -147,7 +147,7 @@ const ProductCard = ({ product, onAddToCart }) => {
                     disabled={product.inStock === false}
                     className={`w-full mt-auto py-2 px-2 rounded-md flex items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 font-medium text-xs ${product.inStock === false
                             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                            : 'border border-[#f39200] text-[#f39200] hover:bg-[#f39200] hover:text-white'
+                            : 'border border-secondary text-secondary hover:bg-secondary hover:text-white'
                         }`}
                 >
                     <ShoppingCart size={14} />

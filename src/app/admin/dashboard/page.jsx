@@ -68,7 +68,7 @@ export default async function DashboardOverview() {
   const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5).lean();
 
   const stats = [
-    { name: 'Total Revenue', value: `৳ ${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-green-600', bg: 'bg-green-100' },
+    { name: 'Total Revenue', value: `৳ ${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-primary', bg: 'bg-primary/20' },
     { name: 'Total Orders', value: orderCount.toLocaleString(), icon: ShoppingCart, color: 'text-blue-600', bg: 'bg-blue-100' },
     { name: 'Active Products', value: productCount.toLocaleString(), icon: PackageOpen, color: 'text-purple-600', bg: 'bg-purple-100' },
     { name: 'Total Customers', value: uniqueCustomers.toLocaleString(), icon: Users, color: 'text-amber-600', bg: 'bg-amber-100' },
@@ -78,7 +78,7 @@ export default async function DashboardOverview() {
     switch (status) {
         case 'Pending': return 'text-yellow-600 bg-yellow-100';
         case 'Processing': return 'text-blue-600 bg-blue-100';
-        case 'Delivered': return 'text-green-600 bg-green-100';
+        case 'Delivered': return 'text-primary bg-primary/20';
         case 'Cancelled': return 'text-red-600 bg-red-100';
         default: return 'text-gray-600 bg-gray-100';
     }
@@ -144,8 +144,8 @@ export default async function DashboardOverview() {
              Quick Actions
            </h2>
            <div className="space-y-3 flex-1 relative z-10">
-             <Link href="/admin/dashboard/products/add" className="w-full bg-gradient-to-r from-green-50 to-green-100/50 text-green-700 border border-green-200 py-3.5 rounded-2xl hover:border-green-300 hover:shadow-[0_4px_15px_rgba(34,197,94,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
-                <span className="w-6 h-6 bg-green-200 text-green-700 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">+</span>
+             <Link href="/admin/dashboard/products/add" className="w-full bg-gradient-to-r from-green-50 to-green-100/50 text-primary border border-primary/20 py-3.5 rounded-2xl hover:border-green-300 hover:shadow-[0_4px_15px_rgba(34,197,94,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
+                <span className="w-6 h-6 bg-green-200 text-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">+</span>
                 Add New Product
              </Link>
              <Link href="/admin/dashboard/orders" className="w-full bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 border border-blue-200 py-3.5 rounded-2xl hover:border-blue-300 hover:shadow-[0_4px_15px_rgba(59,130,246,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
@@ -158,7 +158,7 @@ export default async function DashboardOverview() {
            
            <div className="mt-8 pt-6 border-t border-gray-100 text-center">
              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">System Status</p>
-             <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-bold text-green-600">
+             <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-bold text-primary">
                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                 All Systems Operational
              </div>
@@ -173,7 +173,7 @@ export default async function DashboardOverview() {
                 <Clock className="text-amber-500 w-5 h-5" />
                 Recent Orders
             </h2>
-            <Link href="/admin/dashboard/orders" className="text-sm font-bold text-green-600 hover:text-green-700 hover:underline transition-all">
+            <Link href="/admin/dashboard/orders" className="text-sm font-bold text-primary hover:text-primary scale-[0.98] hover:underline transition-all">
                 View All →
             </Link>
         </div>
@@ -197,7 +197,7 @@ export default async function DashboardOverview() {
                         <tr key={order._id?.toString()} className="hover:bg-gray-50 transition-colors">
                             <td className="py-4 px-6 font-mono text-sm font-bold text-gray-600">{order.orderId}</td>
                             <td className="py-4 px-6 font-medium text-gray-800">{order.customerName}</td>
-                            <td className="py-4 px-6 font-black text-green-600">৳{order.finalTotal}</td>
+                            <td className="py-4 px-6 font-black text-primary">৳{order.finalTotal}</td>
                             <td className="py-4 px-6">
                                 <span className={`px-2.5 py-1 text-xs font-bold rounded-md ${getStatusColor(order.status)}`}>
                                     {order.status}

@@ -121,17 +121,17 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                         <h2 className="text-xl md:text-3xl font-black text-center text-[#1a2b3c] mb-8 md:mb-10 uppercase tracking-tight font-sans">
                             {customTitle}
                         </h2>
-                        <div className="absolute bottom-[-10px] left-0 w-full h-[3px] bg-[#f39200]"></div>
+                        <div className="absolute bottom-[-10px] left-0 w-full h-[3px] bg-secondary"></div>
                     </div>
-                    <button className="flex items-center gap-1 text-[#f39200] font-bold text-xs md:text-sm underline uppercase tracking-wider transition-all">
+                    <button className="flex items-center gap-1 text-secondary font-bold text-xs md:text-sm underline uppercase tracking-wider transition-all">
                         View All Items <ArrowRight size={16} />
                     </button>
                 </div>
 
                 {/* Swiper Container */}
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 w-full text-[#f39200]">
-                        <div className="w-10 h-10 border-4 border-[#f39200] border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <div className="flex flex-col items-center justify-center py-20 w-full text-secondary">
+                        <div className="w-10 h-10 border-4 border-secondary border-t-transparent rounded-full animate-spin mb-4"></div>
                         <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading natural honey...</p>
                     </div>
                 ) : (
@@ -146,12 +146,12 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                     {products.map((product) => (
                         <div
                             key={product.id}
-                            className="min-w-[260px] md:min-w-[300px] lg:min-w-[calc(25%-1.25rem)] bg-white border border-gray-100 rounded-xl p-5 flex flex-col snap-start transition-all duration-300 hover:shadow-xl hover:border-[#f39200]/20 group no-select"
+                            className="min-w-[260px] md:min-w-[300px] lg:min-w-[calc(25%-1.25rem)] bg-white border border-gray-100 rounded-xl p-5 flex flex-col snap-start transition-all duration-300 hover:shadow-xl hover:border-secondary/20 group no-select"
                         >
                             {/* Badges */}
                             <div className="flex justify-between items-start h-8 mb-4 pointer-events-none">
                                 {product.badge ? (
-                                    <span className="bg-[#f39200] text-white text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">
+                                    <span className="bg-secondary text-white text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">
                                         {product.badge}
                                     </span>
                                 ) : <div />}
@@ -173,13 +173,13 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
 
                             {/* Details */}
                             <div className="flex flex-col flex-grow pointer-events-none">
-                                <h3 className="text-gray-800 text-sm md:text-base font-bold mb-3 line-clamp-2 min-h-[44px] group-hover:text-[#f39200] transition-colors">
+                                <h3 className="text-gray-800 text-sm md:text-base font-bold mb-3 line-clamp-2 min-h-[44px] group-hover:text-secondary transition-colors">
                                     {product.name}
                                 </h3>
 
                                 {/* Pricing */}
                                 <div className="flex items-center gap-3 mb-6">
-                                    <span className="text-[#f39200] text-xl font-black">৳{product.price.toLocaleString()}</span>
+                                    <span className="text-secondary text-xl font-black">৳{product.price.toLocaleString()}</span>
                                     {product.originalPrice && (
                                         <span className="text-gray-400 line-through text-sm font-medium">৳{product.originalPrice.toLocaleString()}</span>
                                     )}
@@ -193,7 +193,7 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                             e.stopPropagation();
                                             addToCart(product, 1);
                                         }}
-                                        className="flex-1 border-2 border-[#f39200] text-[#f39200] py-2.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all duration-300 hover:bg-[#f39200] hover:text-white pointer-events-auto"
+                                        className="flex-1 border-2 border-secondary text-secondary py-2.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all duration-300 hover:bg-secondary hover:text-white pointer-events-auto"
                                     >
                                         <ShoppingCart size={14} strokeWidth={2.5} />
                                         Add
@@ -203,7 +203,7 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                             e.stopPropagation();
                                             handleBuyNow(product);
                                         }}
-                                        className="flex-1 bg-[#f39200] text-white py-2.5 rounded-lg font-bold hover:bg-[#e08600] transition-colors shadow-sm pointer-events-auto"
+                                        className="flex-1 bg-secondary text-white py-2.5 rounded-lg font-bold hover:bg-secondary hover:brightness-95 transition-colors shadow-sm pointer-events-auto"
                                     >
                                         Buy Now
                                     </button>
@@ -228,8 +228,8 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                 }
                             }}
                             className={`transition-all duration-300 rounded-full ${activeIndex === i
-                                    ? "w-4 h-4 bg-[#f39200] shadow-md scale-110" // Color e mawnugol ngam dot active
-                                    : "w-2.5 h-2.5 border-2 border-[#f39200] bg-transparent opacity-40 hover:opacity-100" // Dot inactive
+                                    ? "w-4 h-4 bg-secondary shadow-md scale-110" // Color e mawnugol ngam dot active
+                                    : "w-2.5 h-2.5 border-2 border-secondary bg-transparent opacity-40 hover:opacity-100" // Dot inactive
                                 }`}
                             aria-label={`Go to slide ${i + 1}`}
                         />

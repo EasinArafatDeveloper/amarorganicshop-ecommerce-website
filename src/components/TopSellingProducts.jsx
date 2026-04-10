@@ -92,7 +92,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                             <div
                                 className={`absolute top-0 right-0 ${product.badge === 'Best Selling'
                                         ? 'bg-red-500'
-                                        : 'bg-[#f39200]'
+                                        : 'bg-secondary'
                                     } text-white text-[10px] font-bold px-2.5 py-1 rounded-bl-lg rounded-tr-xl z-10 flex items-center gap-1`}
                             >
                                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
@@ -119,14 +119,14 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                 {/* Category */}
                                 <Link
                                     href={`/${product.category}`}
-                                    className="text-[10px] text-gray-400 hover:text-[#f39200] uppercase mb-1"
+                                    className="text-[10px] text-gray-400 hover:text-secondary uppercase mb-1"
                                 >
                                     {product.category}
                                 </Link>
 
                                 {/* Product Name */}
                                 <Link href={`/product/${product.slug}`}>
-                                    <h3 className="text-[#1a2b3c] text-sm sm:text-base font-bold leading-snug line-clamp-2 hover:text-[#f39200] transition-colors mb-1">
+                                    <h3 className="text-[#1a2b3c] text-sm sm:text-base font-bold leading-snug line-clamp-2 hover:text-secondary transition-colors mb-1">
                                         {product.name}
                                     </h3>
                                 </Link>
@@ -166,7 +166,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                     )}
 
                                     <div className="flex items-center gap-2 flex-wrap">
-                                        <span className="text-[#f39200] text-base sm:text-lg font-black">
+                                        <span className="text-secondary text-base sm:text-lg font-black">
                                             ৳{product.price.toLocaleString()}
                                         </span>
                                         {product.originalPrice && (
@@ -210,9 +210,9 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                     <button
                                         onClick={() => handleAddToCart(product)}
                                         disabled={product.inStock === false}
-                                        className={`flex-1 flex items-center justify-center gap-1.5 border border-[#f39200] text-[#f39200] py-2 rounded-md font-semibold text-xs transition-colors ${product.inStock === false
+                                        className={`flex-1 flex items-center justify-center gap-1.5 border border-secondary text-secondary py-2 rounded-md font-semibold text-xs transition-colors ${product.inStock === false
                                                 ? 'opacity-50 cursor-not-allowed'
-                                                : 'hover:bg-orange-50'
+                                                : 'hover:bg-secondary/10'
                                             }`}
                                     >
                                         <ShoppingCart size={14} />
@@ -222,7 +222,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                     <button
                                         onClick={() => handleBuyNow(product)}
                                         disabled={product.inStock === false}
-                                        className={`flex-1 bg-[#f39200] text-white py-2 rounded-md font-semibold text-xs hover:bg-[#e08600] transition-colors shadow-sm text-center ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        className={`flex-1 bg-secondary text-white py-2 rounded-md font-semibold text-xs hover:bg-secondary hover:brightness-95 transition-colors shadow-sm text-center ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
                                         Buy Now
                                     </button>

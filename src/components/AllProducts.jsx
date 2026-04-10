@@ -38,16 +38,16 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4 border-b-2 border-gray-100 pb-4">
                     <div className="relative">
                         <h2 className="text-[#1a2b3c] text-2xl md:text-3xl font-black">{customTitle}</h2>
-                        <div className="absolute bottom-[-18px] left-0 w-full h-[3px] bg-[#f39200]"></div>
+                        <div className="absolute bottom-[-18px] left-0 w-full h-[3px] bg-secondary"></div>
                     </div>
 
-                    <button className="flex items-center gap-1 text-[#f39200] font-bold text-sm underline uppercase tracking-wider">
+                    <button className="flex items-center gap-1 text-secondary font-bold text-sm underline uppercase tracking-wider">
                         View All Items <ArrowRight size={18} />
                     </button>
                 </div>
 
                 {loading ? (
-                    <div className="flex flex-col items-center justify-center py-20 text-[#f39200]">
+                    <div className="flex flex-col items-center justify-center py-20 text-secondary">
                         <Loader2 className="w-12 h-12 animate-spin mb-4" />
                         <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading products from database...</p>
                     </div>
@@ -62,7 +62,7 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                                 {/* Tag/Discount Badge */}
                                 <div className="flex justify-between items-start mb-2 pointer-events-none">
                                     {product.badge ? (
-                                        <span className="bg-[#f39200] text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                        <span className="bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded">
                                             {product.badge}
                                         </span>
                                     ) : <div />}
@@ -91,7 +91,7 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
 
                                     {/* Pricing */}
                                     <div className="flex items-center gap-2 mb-4">
-                                        <span className="text-[#f39200] text-lg md:text-xl font-black">৳{product.price}</span>
+                                        <span className="text-secondary text-lg md:text-xl font-black">৳{product.price}</span>
                                         {product.originalPrice && (
                                             <span className="text-gray-400 line-through text-xs md:text-sm font-medium">৳{product.originalPrice}</span>
                                         )}
@@ -101,14 +101,14 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                                     <div className="flex items-center gap-2 mt-auto text-xs">
                                         <button 
                                             onClick={() => addToCart(product, 1)} 
-                                            className="flex-1 flex items-center justify-center gap-1.5 border border-[#f39200] text-[#f39200] py-2 rounded-md font-semibold transition-all hover:bg-[#f39200] hover:text-white"
+                                            className="flex-1 flex items-center justify-center gap-1.5 border border-secondary text-secondary py-2 rounded-md font-semibold transition-all hover:bg-secondary hover:text-white"
                                         >
                                             <ShoppingCart size={14} />
                                             Add
                                         </button>
                                         <button 
                                             onClick={() => handleBuyNow(product)} 
-                                            className="flex-1 bg-[#f39200] text-white py-2 rounded-md font-semibold hover:bg-[#e08600] transition-colors shadow-sm text-center"
+                                            className="flex-1 bg-secondary text-white py-2 rounded-md font-semibold hover:bg-secondary hover:brightness-95 transition-colors shadow-sm text-center"
                                         >
                                             Buy Now
                                         </button>

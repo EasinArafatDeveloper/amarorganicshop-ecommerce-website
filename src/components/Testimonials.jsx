@@ -134,8 +134,8 @@ const Testimonials = () => {
                         {reviews.map((_, i) => (
                             <button
                                 key={i}
-                                className={`transition-all duration-300 rounded-full border-2 border-[#f39200] ${activeIndex === i
-                                        ? "w-3.5 h-3.5 bg-[#f39200]"
+                                className={`transition-all duration-300 rounded-full border-2 border-secondary ${activeIndex === i
+                                        ? "w-3.5 h-3.5 bg-secondary"
                                         : "w-3.5 h-3.5 bg-transparent"
                                     }`}
                                 aria-label={`Go to slide ${i + 1}`}
