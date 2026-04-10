@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Package, Clock, Truck, CheckCircle2, XCircle, ChevronRight, Loader2, Info } from 'lucide-react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-export default function TrackOrderPage() {
+function TrackOrderContent() {
     const searchParams = useSearchParams();
     const initialId = searchParams.get('id') || '';
 
@@ -298,3 +298,15 @@ const MapPinTrackIcon = ({ width = 24, height = 24, opacity = 1 }) => (
         <circle cx="12" cy="10" r="3"></circle>
     </svg>
 );
+
+export default function TrackOrderPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-[50vh] flex flex-col items-center justify-center">
+                <Loader2 className="w-10 h-10 text-secondary animate-spin" />
+            </div>
+        }>
+            <TrackOrderContent />
+        </Suspense>
+    );
+}
