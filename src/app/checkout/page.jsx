@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/contexts/CartContext';
 import { ChevronLeft, Truck, CheckCircle2, ShieldCheck, MapPin, Phone, User } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const CheckoutPage = () => {
     const router = useRouter();
@@ -36,23 +37,53 @@ const CheckoutPage = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmitOrder = (e) => {
+    const handleSubmitOrder = async (e) => {
         e.preventDefault();
         
         if (cartItems.length === 0) {
-            alert("Your cart is empty. Please add items to checkout.");
+            toast.error("Your cart is empty. Please add items to checkout.");
             router.push('/');
             return;
         }
 
         setIsSubmitting(true);
 
-        // Simulate API call delay
-        setTimeout(() => {
+        const orderPayload = {
+            ...formData,
+            deliveryZone,
+            items: cartItems.map(i => ({
+                id: i.id,
+                name: i.name,
+                price: i.price,
+                quantity: i.quantity,
+                image: i.image
+            })),
+            subTotal: cartTotal,
+            deliveryCost,
+            finalTotal
+        };
+
+        try {
+            const res = await fetch('/api/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderPayload)
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                toast.success('Order placed successfully!');
+                setOrderSuccess(true);
+                clearCart();
+            } else {
+                toast.error('Failed to place order. Please try again or contact support.');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred. Check your network.');
+        } finally {
             setIsSubmitting(false);
-            setOrderSuccess(true);
-            clearCart();
-        }, 1500);
+        }
     };
 
     // If completely empty and loaded, show empty state immediately
