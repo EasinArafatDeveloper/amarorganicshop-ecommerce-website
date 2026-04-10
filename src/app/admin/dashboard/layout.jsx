@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 
 export default function DashboardLayout({ children }) {
   const pathname = usePathname();
@@ -23,6 +24,7 @@ export default function DashboardLayout({ children }) {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden text-gray-900">
+      <Toaster position="top-right" />
       {/* Sidebar */}
       <div className="w-64 bg-gray-900 text-white flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 font-bold text-xl tracking-tight border-b border-gray-800">

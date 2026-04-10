@@ -4,7 +4,6 @@ import { useParams, useSearchParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
-import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 
 const CategoryPage = () => {

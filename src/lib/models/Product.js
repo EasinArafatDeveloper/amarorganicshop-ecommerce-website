@@ -16,7 +16,8 @@ const ProductSchema = new mongoose.Schema({
     reviewCount: { type: Number, default: 0 },
     isOrganic: { type: Boolean, default: false },
     badge: { type: String },
-    unit: { type: String }
+    unit: { type: String },
+    productCode: { type: String, unique: true }
 }, { timestamps: true });
 
 export default mongoose.models.Product || mongoose.model('Product', ProductSchema);

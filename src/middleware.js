@@ -4,17 +4,23 @@ import { decrypt } from '@/lib/auth';
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   
-  // Protect all routes strictly under /admin/dashboard
-  if (path.startsWith('/admin/dashboard')) {
+  // Protect all routes strictly under /admin/dashboard or /api/admin
+  if (path.startsWith('/admin/dashboard') || path.startsWith('/api/admin')) {
     const sessionCookie = request.cookies.get('admin_session')?.value;
     
     if (!sessionCookie) {
+      if (path.startsWith('/api/')) {
+         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
       return NextResponse.redirect(new URL('/admin', request.url));
     }
     
     // Verify the token
     const payload = await decrypt(sessionCookie);
     if (!payload || payload.role !== 'admin') {
+      if (path.startsWith('/api/')) {
+         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
       return NextResponse.redirect(new URL('/admin', request.url));
     }
   }
@@ -34,5 +40,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin', '/admin/dashboard/:path*'],
+  matcher: ['/admin', '/admin/dashboard/:path*', '/api/admin/:path*'],
 };
