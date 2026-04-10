@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
-import ProductCard from './ProductCard'; // Implemented the unified ProductCard redesign
 
 const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     const [products, setProducts] = useState([]);
@@ -15,7 +16,6 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
             try {
                 const res = await fetch('/api/products');
                 const data = await res.json();
-                // Find products badged as Best Seller, fallback to first 4 if none.
                 const topProducts = data.filter(p => p.badge === 'Best Seller').slice(0, 4);
                 if (topProducts.length > 0) {
                     setProducts(topProducts);
@@ -35,23 +35,26 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
         addToCart(product, 1);
     };
 
+    const handleBuyNow = (product) => {
+        addToCart(product, 1, false);
+        router.push('/checkout');
+    };
+
     if (loading) {
         return (
-            <section className="w-full bg-[#fcfcfc] py-14 px-4 md:px-6 relative">
+            <section className="w-full bg-[#fafafa] py-10 px-4 md:px-8">
                 <div className="max-w-[1400px] mx-auto">
-                    <div className="text-center mb-10">
-                        <div className="h-8 md:h-10 w-64 bg-gray-200 animate-pulse mx-auto rounded-lg mb-4"></div>
-                        <div className="h-4 w-48 bg-gray-200 animate-pulse mx-auto rounded"></div>
+                    <div className="text-center mb-8">
+                        <div className="h-8 md:h-10 w-64 bg-gray-200 animate-pulse mx-auto rounded-lg"></div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="bg-white border border-gray-100 rounded-2xl p-4 h-[380px] animate-pulse">
-                                <div className="w-full h-[180px] bg-gray-100 rounded-xl mb-4"></div>
-                                <div className="space-y-3">
-                                    <div className="h-4 bg-gray-100 rounded w-1/4"></div>
+                            <div key={i} className="bg-white rounded-xl p-5 border border-gray-100 flex gap-6 animate-pulse">
+                                <div className="w-[140px] md:w-[180px] h-[180px] bg-gray-100 rounded-lg"></div>
+                                <div className="flex-1 space-y-4 py-4">
                                     <div className="h-5 bg-gray-100 rounded w-3/4"></div>
                                     <div className="h-4 bg-gray-100 rounded w-1/2"></div>
-                                    <div className="h-10 bg-gray-100 rounded w-full mt-6"></div>
+                                    <div className="h-10 bg-gray-100 rounded w-full mt-auto"></div>
                                 </div>
                             </div>
                         ))}
@@ -64,35 +67,105 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     if (products.length === 0) return null;
 
     return (
-        <section className="w-full bg-[#fcfcfc] py-14 px-4 md:px-8 relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-                <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-                <div className="absolute top-1/2 -left-32 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
-            </div>
-
-            <div className="max-w-[1400px] mx-auto relative z-10">
-                {/* Section header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="w-8 h-1 bg-secondary rounded-full"></span>
-                            <span className="text-text-secondary text-sm font-bold uppercase tracking-wider text-secondary">Most Popular</span>
-                        </div>
-                        <h2 className="text-3xl md:text-4xl font-black text-[#1a2b3c] tracking-tight">
-                            {customTitle}
-                        </h2>
-                    </div>
+        <section className="w-full bg-[#fafafa] py-10 px-4 md:px-8">
+            <div className="max-w-[1400px] mx-auto">
+                {/* Section Title */}
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-[28px] font-semibold text-[#1a2b3c] tracking-normal">
+                        {customTitle}
+                    </h2>
                 </div>
 
-                {/* Vertical Premium Grid using ProductCard */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 xl:gap-6">
+                {/* Product Horizontal Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {products.map((product) => (
-                        <div key={product.id} className="h-full transform transition-all duration-300">
-                            <ProductCard 
-                                product={product} 
-                                onAddToCart={handleAddToCart} 
-                            />
+                        <div
+                            key={product.id}
+                            className="bg-white rounded-xl p-4 sm:p-5 flex gap-4 sm:gap-6 relative shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100 group"
+                        >
+                            {/* Top Right Red Badge */}
+                            <div className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-[10px] rounded-tr-xl flex items-center gap-1 z-10">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                                {product.badge || 'Best Selling'}
+                            </div>
+
+                            {/* Left Product Image */}
+                            <Link
+                                href={`/product/${product.slug}`}
+                                className="w-[120px] sm:w-[180px] shrink-0 flex flex-col items-center justify-center cursor-pointer"
+                            >
+                                <img
+                                    src={product.image || "https://via.placeholder.com/300x300?text=No+Image"}
+                                    alt={product.name}
+                                    className="w-full h-auto max-h-[200px] object-contain group-hover:scale-105 transition-transform duration-500"
+                                    onError={(e) => {
+                                        e.target.src = "https://via.placeholder.com/300x300?text=No+Image";
+                                    }}
+                                />
+                            </Link>
+
+                            {/* Right Product Info */}
+                            <div className="flex-1 min-w-0 flex flex-col justify-center py-2">
+                                {/* Title */}
+                                <Link href={`/product/${product.slug}`}>
+                                    <h3 className="text-[#1a2b3c] text-base sm:text-[17px] font-semibold leading-snug hover:text-secondary transition-colors mb-2 line-clamp-2">
+                                        {product.name}
+                                    </h3>
+                                </Link>
+
+                                {/* Price Row */}
+                                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                    <span className="text-secondary text-lg sm:text-[20px] font-bold">
+                                        ৳{product.price.toLocaleString()}
+                                    </span>
+                                    {product.originalPrice && (
+                                        <span className="text-gray-400 font-medium line-through text-sm">
+                                            ৳{product.originalPrice.toLocaleString()}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Save Savings Pill */}
+                                {product.originalPrice && product.price && (
+                                    <div className="mb-4">
+                                        <span className="bg-[#8ec63f] text-white text-[11px] font-bold px-3 py-1 rounded-sm tracking-wide">
+                                            Save ৳{(product.originalPrice - product.price).toLocaleString()}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Spacer equivalent */}
+                                <div className="mt-auto"></div>
+
+                                {/* Action Buttons - Restrained width like original */}
+                                <div className="flex items-center gap-3 w-full max-w-[320px] mt-4">
+                                    <button
+                                        onClick={() => handleAddToCart(product)}
+                                        disabled={product.inStock === false}
+                                        className={`flex-1 flex items-center justify-center gap-2 border border-secondary text-secondary py-2 rounded font-semibold text-sm transition-all hover:bg-secondary/5 ${product.inStock === false
+                                                ? 'opacity-50 cursor-not-allowed border-gray-300 text-gray-400'
+                                                : ''
+                                            }`}
+                                    >
+                                        <ShoppingCart size={16} strokeWidth={2.5} />
+                                        Add To Cart
+                                    </button>
+
+                                    <button
+                                        onClick={() => handleBuyNow(product)}
+                                        disabled={product.inStock === false}
+                                        className={`flex-1 flex items-center justify-center gap-2 bg-secondary text-white border border-secondary py-2 rounded font-semibold text-sm transition-all hover:brightness-95 shadow-sm ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    >
+                                        <ShoppingCart size={16} strokeWidth={2.5} />
+                                        Buy now
+                                    </button>
+                                </div>
+                                
+                                {/* Out of Stock Warning */}
+                                {product.inStock === false && (
+                                    <p className="text-red-500 text-xs font-bold mt-2">Currently Out of Stock</p>
+                                )}
+                            </div>
                         </div>
                     ))}
                 </div>
