@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/contexts/CartContext";
 import ConditionalHeaderFooter from "@/components/ConditionalHeaderFooter";
 import FloatingCart from "@/components/FloatingCart";
+import GlobalOverlays from "@/components/GlobalOverlays";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col">
         <CartProvider>
           <ConditionalHeaderFooter>
+            <GlobalOverlays />
             <Navbar />
             <FloatingCart />
           </ConditionalHeaderFooter>

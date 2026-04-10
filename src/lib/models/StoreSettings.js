@@ -13,6 +13,13 @@ const StoreSettingsSchema = new mongoose.Schema({
     contactEmail: { type: String, default: 'support@amarorganic.shop' },
     facebookUrl: { type: String, default: 'https://facebook.com' },
 
+    topAnnouncementText: { type: String, default: 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801765890646 | বা কল করুন: 09613-821489' },
+    topAnnouncementIsActive: { type: Boolean, default: true },
+    
+    promoPopupImage: { type: String, default: '' },
+    promoPopupLink: { type: String, default: '' },
+    promoPopupIsActive: { type: Boolean, default: false },
+
     sectionToggles: {
         showHero: { type: Boolean, default: true },
         showCategories: { type: Boolean, default: true },

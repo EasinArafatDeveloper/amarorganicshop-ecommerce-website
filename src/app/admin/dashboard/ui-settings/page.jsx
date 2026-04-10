@@ -10,6 +10,11 @@ export default function UISettingsPage() {
         contactPhone: '',
         contactEmail: '',
         facebookUrl: '',
+        topAnnouncementText: '',
+        topAnnouncementIsActive: true,
+        promoPopupImage: '',
+        promoPopupLink: '',
+        promoPopupIsActive: false,
         sectionToggles: {
             showHero: true,
             showCategories: true,
@@ -182,6 +187,76 @@ export default function UISettingsPage() {
                                     placeholder="https://..." 
                                     className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                 />
+                            </div>
+                        </div>
+
+                        {/* Top Announcement Bar Configuration */}
+                        <div className="border-t border-gray-100 pt-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <label className="block text-sm font-bold text-gray-700">
+                                    Top Announcement Bar
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => setSettings(prev => ({ ...prev, topAnnouncementIsActive: !prev.topAnnouncementIsActive }))}
+                                    className={`transition-colors p-1 rounded-full ${settings.topAnnouncementIsActive ? 'text-green-500' : 'text-gray-300'}`}
+                                >
+                                    {settings.topAnnouncementIsActive ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                                </button>
+                            </div>
+                            <div className="relative">
+                                <input 
+                                    type="text" 
+                                    name="topAnnouncementText"
+                                    value={settings.topAnnouncementText}
+                                    onChange={handleChange}
+                                    placeholder="Enter announcement text..." 
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Promo Popup Modal Configuration */}
+                        <div className="border-t border-gray-100 pt-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <label className="block text-sm font-bold text-gray-700">
+                                    Offers Popup Modal (Auto-pops on visit)
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => setSettings(prev => ({ ...prev, promoPopupIsActive: !prev.promoPopupIsActive }))}
+                                    className={`transition-colors p-1 rounded-full ${settings.promoPopupIsActive ? 'text-green-500' : 'text-gray-300'}`}
+                                >
+                                    {settings.promoPopupIsActive ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                                </button>
+                            </div>
+                            <div className="space-y-4">
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <ImageIcon size={18} />
+                                    </div>
+                                    <input 
+                                        type="url" 
+                                        name="promoPopupImage"
+                                        value={settings.promoPopupImage}
+                                        onChange={handleChange}
+                                        placeholder="Offer Image URL..." 
+                                        className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
+                                    />
+                                </div>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <Globe size={18} />
+                                    </div>
+                                    <input 
+                                        type="url" 
+                                        name="promoPopupLink"
+                                        value={settings.promoPopupLink}
+                                        onChange={handleChange}
+                                        placeholder="Target Link (e.g., /products/honey)..." 
+                                        className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
