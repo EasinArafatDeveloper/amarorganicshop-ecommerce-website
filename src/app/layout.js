@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/contexts/CartContext";
 import ConditionalHeaderFooter from "@/components/ConditionalHeaderFooter";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,6 +58,7 @@ export default function RootLayout({ children }) {
           </ConditionalHeaderFooter>
         </CartProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
