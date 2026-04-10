@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users, Tag } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
 // Helper for relative time
@@ -64,6 +64,7 @@ export default function DashboardLayout({ children }) {
   const navigation = [
     { name: 'Overview', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Products', href: '/admin/dashboard/products', icon: Package },
+    { name: 'Discounts', href: '/admin/dashboard/discounts', icon: Tag },
     { name: 'Orders', href: '/admin/dashboard/orders', icon: ShoppingBag },
     { name: 'Customers', href: '/admin/dashboard/customers', icon: Users },
     { name: 'UI Settings', href: '/admin/dashboard/ui-settings', icon: Settings },
