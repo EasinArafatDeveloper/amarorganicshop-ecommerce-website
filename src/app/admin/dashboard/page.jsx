@@ -96,17 +96,22 @@ export default async function DashboardOverview() {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.name} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center gap-5 hover:shadow-md transition-all group">
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center shrink-0 transition-transform group-hover:scale-110 ${stat.bg}`}>
-                <Icon className={`w-7 h-7 ${stat.color}`} />
+            <div key={stat.name} className="bg-white rounded-3xl p-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 group overflow-hidden relative">
+              <div className="absolute -right-4 -top-4 w-24 h-24 bg-gradient-to-br from-gray-50 to-transparent rounded-full opacity-50 group-hover:scale-150 transition-transform duration-700"></div>
+              
+              <div className="flex items-start justify-between mb-4 relative z-10">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-inner group-hover:rotate-6 transition-transform duration-300 ${stat.bg}`}>
+                  <Icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
               </div>
-              <div className="min-w-0">
-                <p className="text-sm font-bold text-gray-400 uppercase tracking-wider">{stat.name}</p>
-                <p className="text-2xl font-black text-gray-800 truncate">{stat.value}</p>
+              
+              <div className="min-w-0 relative z-10">
+                <p className="text-2xl font-black text-gray-800 tracking-tight my-1">{stat.value}</p>
+                <p className="text-[13px] font-bold text-gray-400 uppercase tracking-wider">{stat.name}</p>
               </div>
             </div>
           );
@@ -131,20 +136,23 @@ export default async function DashboardOverview() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col">
-           <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 p-6 flex flex-col relative overflow-hidden">
+           <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50/50 rounded-bl-full pointer-events-none"></div>
+           
+           <h2 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2 relative z-10">
              <CheckCircle className="text-blue-500 w-5 h-5" />
              Quick Actions
            </h2>
-           <div className="space-y-4 flex-1">
-             <Link href="/admin/dashboard/products/add" className="w-full bg-green-50 text-green-700 border border-green-200 py-4 rounded-xl hover:bg-green-100 transition-colors font-bold text-sm text-center flex items-center justify-center gap-2 shadow-sm">
-                + Add New Product
+           <div className="space-y-3 flex-1 relative z-10">
+             <Link href="/admin/dashboard/products/add" className="w-full bg-gradient-to-r from-green-50 to-green-100/50 text-green-700 border border-green-200 py-3.5 rounded-2xl hover:border-green-300 hover:shadow-[0_4px_15px_rgba(34,197,94,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
+                <span className="w-6 h-6 bg-green-200 text-green-700 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">+</span>
+                Add New Product
              </Link>
-             <Link href="/admin/dashboard/orders" className="w-full bg-blue-50 text-blue-700 border border-blue-200 py-4 rounded-xl hover:bg-blue-100 transition-colors font-bold text-sm text-center flex items-center justify-center gap-2 shadow-sm">
-                📦 Manage Latest Orders
+             <Link href="/admin/dashboard/orders" className="w-full bg-gradient-to-r from-blue-50 to-blue-100/50 text-blue-700 border border-blue-200 py-3.5 rounded-2xl hover:border-blue-300 hover:shadow-[0_4px_15px_rgba(59,130,246,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
+                <span className="group-hover:-translate-y-1 transition-transform">📦</span> Manage Latest Orders
              </Link>
-             <Link href="/admin/dashboard/ui-settings" className="w-full bg-purple-50 text-purple-700 border border-purple-200 py-4 rounded-xl hover:bg-purple-100 transition-colors font-bold text-sm text-center flex items-center justify-center gap-2 shadow-sm">
-                🎨 Customize Homepage UI
+             <Link href="/admin/dashboard/ui-settings" className="w-full bg-gradient-to-r from-purple-50 to-purple-100/50 text-purple-700 border border-purple-200 py-3.5 rounded-2xl hover:border-purple-300 hover:shadow-[0_4px_15px_rgba(168,85,247,0.15)] transition-all font-bold text-sm text-center flex items-center justify-center gap-2 group">
+                <span className="group-hover:rotate-12 transition-transform">🎨</span> Customize Homepage UI
              </Link>
            </div>
            
@@ -159,25 +167,25 @@ export default async function DashboardOverview() {
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
         <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
             <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                 <Clock className="text-amber-500 w-5 h-5" />
                 Recent Orders
             </h2>
-            <Link href="/admin/dashboard/orders" className="text-sm font-bold text-green-600 hover:text-green-700 transition-colors">
+            <Link href="/admin/dashboard/orders" className="text-sm font-bold text-green-600 hover:text-green-700 hover:underline transition-all">
                 View All →
             </Link>
         </div>
         
         <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-                <thead className="bg-white border-b border-gray-100">
+            <table className="w-full text-left border-collapse min-w-[600px]">
+                <thead className="bg-gray-50/50 border-b border-gray-100">
                     <tr>
-                        <th className="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Order ID</th>
-                        <th className="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Customer</th>
-                        <th className="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Amount</th>
-                        <th className="py-4 px-6 text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                        <th className="py-4 px-6 text-[11px] font-black text-gray-400 uppercase tracking-widest">Order ID</th>
+                        <th className="py-4 px-6 text-[11px] font-black text-gray-400 uppercase tracking-widest">Customer</th>
+                        <th className="py-4 px-6 text-[11px] font-black text-gray-400 uppercase tracking-widest">Amount</th>
+                        <th className="py-4 px-6 text-[11px] font-black text-gray-400 uppercase tracking-widest">Status</th>
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
