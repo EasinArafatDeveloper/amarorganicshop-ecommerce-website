@@ -6,14 +6,14 @@ const FeaturedCategories = () => {
     const scrollRef = useRef(null);
 
     const categories = [
-        { id: 1, name: "Organic", image: "https://cdn-icons-png.flaticon.com/512/2329/2329865.png" },
-        { id: 2, name: "Honey", image: "https://cdn-icons-png.flaticon.com/512/2153/2153788.png" },
-        { id: 3, name: "Dates", image: "https://cdn-icons-png.flaticon.com/512/7627/7627609.png" },
-        { id: 4, name: "Spices", image: "https://cdn-icons-png.flaticon.com/512/2153/2153833.png" },
-        { id: 5, name: "Nuts & Seeds", image: "https://cdn-icons-png.flaticon.com/512/2553/2553702.png" },
-        { id: 6, name: "Beverage", image: "https://cdn-icons-png.flaticon.com/512/3082/3082006.png" },
-        { id: 7, name: "Rice", image: "https://cdn-icons-png.flaticon.com/512/2636/2636737.png" },
-        { id: 8, name: "Flours & Lentils", image: "https://cdn-icons-png.flaticon.com/512/6122/6122415.png" },
+        { id: 1, name: "Honey", image: "https://cdn-icons-png.flaticon.com/512/2153/2153788.png" },
+        { id: 2, name: "Mustard Oil", image: "https://cdn-icons-png.flaticon.com/512/2329/2329865.png" },
+        { id: 3, name: "Coconut Oil", image: "https://cdn-icons-png.flaticon.com/512/2329/2329865.png" },
+        { id: 4, name: "Ghee", image: "https://cdn-icons-png.flaticon.com/512/2329/2329865.png" },
+        { id: 5, name: "Olive Oil", image: "https://cdn-icons-png.flaticon.com/512/2329/2329865.png" },
+        { id: 6, name: "Spices", image: "https://cdn-icons-png.flaticon.com/512/2153/2153833.png" },
+        { id: 7, name: "Dates", image: "https://cdn-icons-png.flaticon.com/512/7627/7627609.png" },
+        { id: 8, name: "Seeds & Nuts", image: "https://cdn-icons-png.flaticon.com/512/2553/2553702.png" },
     ];
 
     const scroll = (direction) => {

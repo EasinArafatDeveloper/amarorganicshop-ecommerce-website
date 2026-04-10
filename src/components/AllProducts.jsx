@@ -1,22 +1,24 @@
 "use client";
 import React from 'react';
 import { ShoppingCart, ArrowRight, Star } from 'lucide-react';
+import { useCart } from '@/lib/contexts/CartContext';
 
 const AllProducts = () => {
+    const { addToCart } = useCart();
     // Mock data for 12 products (Mix)
     const products = [
-        { id: 1, name: "Premium Mustard Oil", price: 450, oldPrice: 500, unit: "1L", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Organic" },
-        { id: 2, name: "Black Seed Honey", price: 850, oldPrice: 950, unit: "500g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Top Rated" },
-        { id: 3, name: "Desi Ghee", price: 1200, oldPrice: 1400, unit: "900g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Pure" },
-        { id: 4, name: "Chia Seeds", price: 350, oldPrice: 400, unit: "250g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
-        { id: 5, name: "Pink Salt", price: 150, oldPrice: 180, unit: "500g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "New" },
-        { id: 6, name: "Makhana", price: 450, oldPrice: 500, unit: "100g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
-        { id: 7, name: "Organic Turmeric", price: 220, oldPrice: 250, unit: "200g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Farm Fresh" },
-        { id: 8, name: "Coconut Oil", price: 550, oldPrice: 650, unit: "500ml", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
-        { id: 9, name: "Dry Dates (Ajwa)", price: 1800, oldPrice: 2000, unit: "1kg", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Imported" },
-        { id: 10, name: "Peanut Butter", price: 480, oldPrice: 550, unit: "350g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "High Protein" },
-        { id: 11, name: "Green Tea", price: 320, oldPrice: 380, unit: "100g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
-        { id: 12, name: "Wild Honey", price: 1100, oldPrice: 1300, unit: "1kg", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Wild" },
+        { id: 101, name: "Premium Mustard Oil", price: 450, oldPrice: 500, unit: "1L", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Organic" },
+        { id: 102, name: "Black Seed Honey", price: 850, oldPrice: 950, unit: "500g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Top Rated" },
+        { id: 103, name: "Desi Ghee", price: 1200, oldPrice: 1400, unit: "900g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Pure" },
+        { id: 104, name: "Chia Seeds", price: 350, oldPrice: 400, unit: "250g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
+        { id: 105, name: "Pink Salt", price: 150, oldPrice: 180, unit: "500g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "New" },
+        { id: 106, name: "Makhana", price: 450, oldPrice: 500, unit: "100g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
+        { id: 107, name: "Organic Turmeric", price: 220, oldPrice: 250, unit: "200g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Farm Fresh" },
+        { id: 108, name: "Coconut Oil", price: 550, oldPrice: 650, unit: "500ml", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
+        { id: 109, name: "Dry Dates (Ajwa)", price: 1800, oldPrice: 2000, unit: "1kg", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Imported" },
+        { id: 110, name: "Peanut Butter", price: 480, oldPrice: 550, unit: "350g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "High Protein" },
+        { id: 111, name: "Green Tea", price: 320, oldPrice: 380, unit: "100g", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: null },
+        { id: 112, name: "Wild Honey", price: 1100, oldPrice: 1300, unit: "1kg", image: "https://admin.ghorerbazarbd.com/storage/products/1689676602.jpg", tag: "Wild" },
     ];
 
     return (
@@ -78,7 +80,7 @@ const AllProducts = () => {
                                 </div>
 
                                 {/* Add to Cart Button (Bottom Style) */}
-                                <button className="w-full border border-[#f39200] text-[#f39200] py-2 rounded-lg flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all duration-300 hover:bg-[#f39200] hover:text-white mt-auto">
+                                <button onClick={() => addToCart(product, 1)} className="w-full border border-[#f39200] text-[#f39200] py-2 rounded-lg flex items-center justify-center gap-2 font-bold text-xs md:text-sm transition-all duration-300 hover:bg-[#f39200] hover:text-white mt-auto">
                                     <ShoppingCart size={16} strokeWidth={2.5} />
                                     Add To Cart
                                 </button>

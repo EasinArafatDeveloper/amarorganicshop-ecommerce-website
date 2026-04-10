@@ -1,10 +1,12 @@
 "use client";
 import React, { useRef, useState, useEffect } from 'react';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
+import { useCart } from '@/lib/contexts/CartContext';
 
 const AllNaturalHoney = () => {
     const scrollRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
+    const { addToCart } = useCart();
 
     // Dragging state variables
     const [isDragging, setIsDragging] = useState(false);
@@ -201,10 +203,17 @@ const AllNaturalHoney = () => {
                                 </div>
 
                                 {/* Add to Cart Button */}
+                                {/* Add to Cart Button */}
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        // Logique ngam add to cart
+                                        addToCart({
+                                            id: product.id,
+                                            name: product.name,
+                                            price: product.currentPrice,
+                                            image: product.image,
+                                            unit: '1kg' // Using the value present in product name
+                                        }, 1);
                                     }}
                                     className="w-full border-2 border-[#f39200] text-[#f39200] py-2.5 rounded-lg flex items-center justify-center gap-2 font-black text-sm transition-all duration-300 hover:bg-[#f39200] hover:text-white shadow-sm hover:shadow-orange-200 pointer-events-auto"
                                 >
