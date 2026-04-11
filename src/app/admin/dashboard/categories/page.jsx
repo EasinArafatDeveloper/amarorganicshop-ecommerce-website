@@ -8,6 +8,7 @@ export default function CategoriesAdmin() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [editingId, setEditingId] = useState(null);
     
     // Create Mode State
     const [formData, setFormData] = useState({
@@ -75,24 +76,46 @@ export default function CategoriesAdmin() {
         };
 
         try {
-            const res = await fetch('/api/admin/categories', {
-                method: 'POST',
+            const url = editingId ? `/api/admin/categories/${editingId}` : '/api/admin/categories';
+            const method = editingId ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             if (res.ok) {
-                toast.success('Category Added!');
+                toast.success(editingId ? 'Category Updated!' : 'Category Added!');
                 setFormData({ name: '', label: '', slug: '', hasSub: false, subItemsRaw: '' });
+                setEditingId(null);
                 fetchCategories();
             } else {
                 toast.error('Failed or Duplicate Slug');
             }
         } catch (error) {
-            toast.error('Error adding category');
+            toast.error(editingId ? 'Error updating category' : 'Error adding category');
         } finally {
             setIsSubmitting(false);
         }
+    };
+
+    const handleEditClick = (cat) => {
+        setEditingId(cat._id);
+        const rawSubItems = cat.hasSub && cat.subItems ? cat.subItems.map(i => i.name).join(', ') : '';
+        setFormData({
+            name: cat.name,
+            label: cat.label,
+            slug: cat.slug,
+            hasSub: cat.hasSub,
+            subItemsRaw: rawSubItems
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const cancelEdit = () => {
+        setEditingId(null);
+        setFormData({ name: '', label: '', slug: '', hasSub: false, subItemsRaw: '' });
     };
 
     const handleDelete = async (id) => {
@@ -133,10 +156,19 @@ export default function CategoriesAdmin() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                {/* Add New Category Form */}
+                {/* Add/Edit Category Form */}
                 <div className="lg:col-span-1">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-                        <h3 className="text-lg font-bold text-gray-800 mb-5">Create Category</h3>
+                    <div className={`bg-white rounded-2xl shadow-sm border p-6 sticky top-24 transition-colors ${editingId ? 'border-primary/50 shadow-primary/10' : 'border-gray-100'}`}>
+                        <div className="flex items-center justify-between mb-5">
+                            <h3 className="text-lg font-bold text-gray-800">
+                                {editingId ? 'Edit Category' : 'Create Category'}
+                            </h3>
+                            {editingId && (
+                                <button onClick={cancelEdit} className="text-sm text-gray-500 hover:text-gray-800 font-bold px-3 py-1 bg-gray-100 rounded-lg transition-colors">
+                                    Cancel
+                                </button>
+                            )}
+                        </div>
                         <form onSubmit={handleAddCategory} className="space-y-4">
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-1.5">Category Name (English)</label>
@@ -188,10 +220,10 @@ export default function CategoriesAdmin() {
 
                             <button 
                                 type="submit" disabled={isSubmitting}
-                                className="w-full py-3 bg-primary hover:bg-primary hover:brightness-90 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-primary/30 mt-4"
+                                className={`w-full py-3 text-white rounded-xl font-bold transition-all flex justify-center items-center gap-2 shadow-lg mt-4 ${editingId ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/30' : 'bg-primary hover:bg-primary hover:brightness-90 shadow-primary/30'}`}
                             >
-                                <Plus size={18} />
-                                {isSubmitting ? 'Creating...' : 'Create Category'}
+                                {editingId ? <Save size={18} /> : <Plus size={18} />}
+                                {isSubmitting ? 'Saving...' : editingId ? 'Update Category' : 'Create Category'}
                             </button>
                         </form>
                     </div>
@@ -212,12 +244,20 @@ export default function CategoriesAdmin() {
                             <div className="grid grid-cols-1 gap-4">
                                 {categories.map(cat => (
                                     <div key={cat._id} className="border border-gray-100 rounded-xl p-5 hover:border-primary/30 transition-colors group bg-white shadow-sm flex flex-col relative overflow-hidden">
-                                        <button 
-                                            onClick={() => handleDelete(cat._id)}
-                                            className="absolute top-4 right-4 text-gray-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 bg-white rounded-md z-10"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
+                                        <div className="absolute top-4 right-4 flex items-center gap-2 bg-white rounded-md z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity drop-shadow-sm p-1">
+                                            <button 
+                                                onClick={() => handleEditClick(cat)}
+                                                className="w-8 h-8 flex items-center justify-center text-blue-500 hover:bg-blue-50 rounded transition-colors"
+                                            >
+                                                <Edit size={16} />
+                                            </button>
+                                            <button 
+                                                onClick={() => handleDelete(cat._id)}
+                                                className="w-8 h-8 flex items-center justify-center text-red-500 hover:bg-red-50 rounded transition-colors"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
 
                                         <div className="flex items-start justify-between">
                                             <div>
