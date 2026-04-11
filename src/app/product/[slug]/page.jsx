@@ -151,6 +151,18 @@ const ProductDetailPage = () => {
     const currentOriginalPrice = selectedVariant ? selectedVariant.originalPrice : product.originalPrice;
     const currentUnit = selectedVariant ? selectedVariant.unit : product.unit;
 
+    // Calculate price range
+    let minPrice = product.price;
+    let maxPrice = product.price;
+
+    if (product.variants && product.variants.length > 0) {
+        const prices = product.variants.map(v => v.price);
+        minPrice = Math.min(...prices);
+        maxPrice = Math.max(...prices);
+    }
+
+    const hasPriceRange = minPrice !== maxPrice;
+    
     // Calculate discount percentage
     const discountPercentage = currentOriginalPrice && currentPrice
         ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
@@ -249,94 +261,81 @@ const ProductDetailPage = () => {
                             )}
 
                             {/* Rating */}
-                            {product.rating && (
-                                <div className="flex items-center gap-3 mb-6 bg-gray-50 w-fit px-3 py-1.5 rounded-full">
+                            {product.rating > 0 && (
+                                <div className="flex items-center gap-3 mb-4">
                                     <div className="flex items-center gap-0.5">
                                         {renderRating(product.rating)}
                                     </div>
-                                    <div className="h-4 w-px bg-gray-300"></div>
-                                    <span className="text-sm font-medium text-[#1a2b3c]">
-                                        {product.rating}
-                                    </span>
                                     <Link href="#reviews" onClick={() => setActiveTab('reviews')} className="text-sm text-gray-500 hover:text-secondary underline-offset-2 hover:underline">
-                                        ({product.reviewCount || 0} customer reviews)
+                                        ({product.reviewCount || 0} customer review{product.reviewCount !== 1 ? 's' : ''})
                                     </Link>
+                                </div>
+                            )}
+
+                            {/* Price Range */}
+                            <div className="mb-4">
+                                <h3 className="text-2xl font-black text-secondary">
+                                    {hasPriceRange ? (
+                                        <span>৳{minPrice.toLocaleString()} – ৳{maxPrice.toLocaleString()}</span>
+                                    ) : (
+                                        <span>৳{product.price.toLocaleString()}</span>
+                                    )}
+                                </h3>
+                            </div>
+
+                            {/* Short Description */}
+                            {product.shortDescription && (
+                                <div className="text-gray-600 text-sm md:text-base mb-6 leading-relaxed">
+                                    <p>{product.shortDescription}</p>
                                 </div>
                             )}
 
                             {/* Variants Selection */}
                             {product.variants && product.variants.length > 0 && (
                                 <div className="mb-4">
-                                    <h3 className="text-sm font-bold text-gray-700 mb-2">Select Variant:</h3>
+                                    <h3 className="text-sm font-bold text-gray-700 mb-2">
+                                        Weight:: <span className="font-normal">{selectedVariant ? selectedVariant.unit : ''}</span>
+                                    </h3>
                                     <div className="flex flex-wrap gap-2">
                                         {product.variants.map((variant, idx) => (
                                             <button
                                                 key={idx}
                                                 onClick={() => setSelectedVariant(variant)}
-                                                className={`px-4 py-2 rounded-lg font-bold text-sm transition-all border-2 ${
+                                                className={`px-4 py-2 text-sm transition-all border ${
                                                     selectedVariant === variant 
-                                                    ? 'border-secondary bg-secondary/10 text-secondary shadow-sm' 
-                                                    : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white hover:bg-gray-50'
+                                                    ? 'border-gray-800 text-gray-800 font-bold' 
+                                                    : 'border-gray-300 text-gray-600 hover:border-gray-400 bg-white hover:bg-gray-50'
                                                 }`}
                                             >
                                                 {variant.unit}
                                             </button>
                                         ))}
                                     </div>
+                                    <button 
+                                        onClick={() => setSelectedVariant(null)} 
+                                        className="text-gray-400 text-xs mt-2 hover:text-gray-600 flex items-center gap-1"
+                                    >
+                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                                        Clear
+                                    </button>
                                 </div>
                             )}
 
-                            {/* Price */}
-                            <div className="mb-6 p-4 bg-secondary/10/50 border border-orange-100 rounded-xl relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full -z-10"></div>
-                                <div className="flex items-end gap-3 mb-1">
-                                    <span className="text-4xl md:text-5xl font-black text-secondary tracking-tight">
-                                        ৳{currentPrice.toLocaleString()}
+                            {/* Selected Variant Price */}
+                            {selectedVariant && (
+                                <div className="mb-4 flex items-center gap-2">
+                                    {selectedVariant.originalPrice && (
+                                        <span className="text-gray-400 line-through text-lg font-medium">
+                                            ৳{selectedVariant.originalPrice.toLocaleString()}
+                                        </span>
+                                    )}
+                                    <span className="text-2xl font-black text-secondary">
+                                        ৳{selectedVariant.price.toLocaleString()}
                                     </span>
-                                    {currentOriginalPrice && (
-                                        <span className="text-gray-400 line-through text-xl font-medium mb-1">
-                                            ৳{currentOriginalPrice.toLocaleString()}
-                                        </span>
-                                    )}
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    {currentUnit && (
-                                        <span className="text-sm font-medium text-gray-500 bg-white px-2 py-0.5 rounded border border-gray-200">
-                                            Per {currentUnit}
-                                        </span>
-                                    )}
-                                    {currentOriginalPrice && currentPrice && currentOriginalPrice > currentPrice && (
-                                        <span className="text-primary text-sm font-bold bg-primary/20 px-3 py-1 rounded-full shadow-sm border border-primary/20">
-                                            Save ৳{(currentOriginalPrice - currentPrice).toLocaleString()}
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Stock Status */}
-                            <div className="mb-6">
-                                {product.inStock ? (
-                                    <div className="flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg border border-green-100 w-fit">
-                                        <Check size={18} className="text-primary" />
-                                        <span className="font-semibold">In Stock</span>
-                                        <div className="h-4 w-px bg-green-200 mx-1"></div>
-                                        <span className="text-sm">Ready to dispatch</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-lg border border-red-100 w-fit">
-                                        <span className="font-semibold text-lg">✗</span>
-                                        <span className="font-semibold">Out of Stock</span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Description Short / Full depending on length, just rendering it */}
-                            {product.description && (
-                                <div 
-                                    className="text-gray-600 text-base mb-8 leading-relaxed border-l-4 border-secondary pl-4 bg-gray-50 py-2 rounded-r-lg"
-                                    dangerouslySetInnerHTML={{ __html: product.description }}
-                                />
                             )}
+
+                            {/* Description Full Output Location (Removed from here, only showing variants and selection) */}
 
                             {/* Quantity & Actions Wrapper */}
                             <div className="mt-auto space-y-4 pt-6 border-t border-gray-100">

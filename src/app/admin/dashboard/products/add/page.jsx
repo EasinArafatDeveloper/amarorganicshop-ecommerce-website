@@ -17,6 +17,7 @@ export default function AddProductPage() {
         subCategory: '',
         image: '',
         images: [],
+        shortDescription: '',
         description: '',
         inStock: true,
         isOrganic: false,
@@ -26,6 +27,7 @@ export default function AddProductPage() {
 
     const [imageUrlInput, setImageUrlInput] = useState('');
     const [reviewInput, setReviewInput] = useState({ user: '', rating: 5, comment: '' });
+    const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
     const categories = ['honey', 'dates', 'oil-ghee', 'spices', 'nuts-seeds', 'sugar-jaggery', 'beverage-dairy', 'snacks', 'pink-salt', 'honey-nut'];
 
@@ -39,6 +41,35 @@ export default function AddProductPage() {
 
     const handleDescriptionChange = (e) => {
         setFormData(prev => ({ ...prev, description: e.target.value }));
+    };
+
+    const handleGenerateDescription = async () => {
+        if (!formData.description) {
+            toast.error('Please enter some text in the description field to beautify.');
+            return;
+        }
+        
+        setIsGeneratingAI(true);
+        try {
+            const res = await fetch('/api/admin/generate-description', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: formData.description })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setFormData(prev => ({ ...prev, description: data.result }));
+                toast.success('Description beautified!');
+            } else {
+                toast.error('Failed to generate. Please check API Key.');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred.');
+        } finally {
+            setIsGeneratingAI(false);
+        }
     };
 
     const addImage = () => {
@@ -180,13 +211,24 @@ export default function AddProductPage() {
                     </div>
 
                     <div className="mt-8 space-y-2">
+                        <label className="text-sm font-bold text-gray-700">Short Description</label>
+                        <textarea rows={2} name="shortDescription" value={formData.shortDescription} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white resize-none" placeholder="A brief summary of the product (bullets or short paragraph)"></textarea>
+                    </div>
+
+                    <div className="mt-6 space-y-2">
                         <label className="text-sm font-bold text-gray-700">Description</label>
-                        <div className="prose max-w-none">
+                        <div className="prose max-w-none relative border border-gray-200 rounded-xl overflow-hidden">
                             <Editor 
                                 value={formData.description} 
                                 onChange={handleDescriptionChange} 
-                                containerProps={{ style: { minHeight: '300px' } }}
+                                containerProps={{ style: { minHeight: '300px', border: 'none' } }}
                             />
+                            <div className="bg-gray-50 border-t border-gray-200 p-3 flex justify-end">
+                                <button type="button" onClick={handleGenerateDescription} disabled={isGeneratingAI} className="bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm disabled:opacity-50">
+                                    {isGeneratingAI ? <Loader2 className="w-4 h-4 animate-spin" /> : '✨'} 
+                                    {isGeneratingAI ? 'Beautifying...' : 'Beautify with AI'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
