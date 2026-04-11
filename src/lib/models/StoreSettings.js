@@ -58,7 +58,13 @@ const StoreSettingsSchema = new mongoose.Schema({
     },
 
     aboutStoryText: { type: String, default: "Amar Organic Shop was born from a simple but profound frustration: finding pure, unadulterated food in today's market has become a luxury. We realized that our families were consuming processed items stripped of their actual nutritional value." },
-    aboutMissionText: { type: String, default: "Our mission is straightforward: We source directly from the most authentic remote farmers and renowned organic estates to eliminate the middlemen. Whether it's Sundarbans' raw honey, premium Arabian dates, or traditional village ghee, we guarantee quality so you don't have to second-guess." }
+    aboutMissionText: { type: String, default: "Our mission is straightforward: We source directly from the most authentic remote farmers and renowned organic estates to eliminate the middlemen. Whether it's Sundarbans' raw honey, premium Arabian dates, or traditional village ghee, we guarantee quality so you don't have to second-guess." },
+
+    footerDescription: { type: String, default: "Amar Organic Shop is your trusted source for 100% pure, natural, and authentic organic foods directly from farmers." },
+    footerAddress: { type: String, default: "123 Organic City, Dhaka, Bangladesh" },
+    footerPhone: { type: String, default: "+880 1234-567890" },
+    footerEmail: { type: String, default: "support@amarorganic.shop" },
+    footerCopyright: { type: String, default: "© 2026 Amar Organic Shop. All rights reserved." }
     
 }, { timestamps: true });
 

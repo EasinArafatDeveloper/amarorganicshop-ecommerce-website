@@ -24,7 +24,7 @@ export async function POST(request) {
         }
 
         // Create JWT Token
-        const token = await encrypt({ id: adminUser._id, role: 'admin' });
+        const token = await encrypt({ id: adminUser._id.toString(), role: 'admin' });
         
         // Set HTTP-only cookie
         const cookieStore = await cookies();

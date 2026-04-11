@@ -4,6 +4,8 @@ import Admin from '@/lib/models/Admin';
 import { decrypt, encrypt } from '@/lib/auth';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req) {
     try {
         await connectMongo();
@@ -29,7 +31,7 @@ export async function GET(req) {
 
     } catch (error) {
         console.error('Error fetching admin profile:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }
 
@@ -84,6 +86,6 @@ export async function PUT(req) {
 
     } catch (error) {
         console.error('Error updating admin profile:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }

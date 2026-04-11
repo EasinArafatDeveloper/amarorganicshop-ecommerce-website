@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
     Phone,
@@ -9,6 +9,22 @@ import {
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const [settings, setSettings] = useState(null);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const res = await fetch('/api/settings/public');
+                if (res.ok) {
+                    const data = await res.json();
+                    setSettings(data);
+                }
+            } catch (err) {
+                console.error("Failed to load footer settings", err);
+            }
+        };
+        fetchSettings();
+    }, []);
 
     const footerSections = [
         {
@@ -52,25 +68,31 @@ const Footer = () => {
                     {/* Brand & Contact Section */}
                     <div className="lg:col-span-2 space-y-5">
                         <Link href="/" className="flex flex-col leading-tight cursor-pointer">
-                            <span className="text-[#04211c] font-black text-2xl tracking-tighter uppercase">Amar Organic</span>
-                            <span className="text-secondary font-black text-2xl tracking-tighter uppercase -mt-1">Shop</span>
+                            {settings?.logoUrl ? (
+                                <img src={settings.logoUrl} alt="Amar Organic" className="h-[50px] w-auto max-w-[180px] object-contain" />
+                            ) : (
+                                <>
+                                    <span className="text-[#04211c] font-black text-2xl tracking-tighter uppercase">Amar Organic</span>
+                                    <span className="text-secondary font-black text-2xl tracking-tighter uppercase -mt-1">Shop</span>
+                                </>
+                            )}
                         </Link>
                         <p className="text-sm text-gray-500 leading-relaxed max-w-sm pt-2">
-                            Amar Organic Shop is your trusted online destination for pure, natural, and healthy organic foods delivery across Bangladesh.
+                            {settings?.footerDescription || "Amar Organic Shop is your trusted online destination for pure, natural, and healthy organic foods delivery across Bangladesh."}
                         </p>
 
                         <div className="space-y-3 text-sm">
                             <div className="flex items-start gap-3">
                                 <MapPin size={18} className="text-gray-400 mt-0.5 shrink-0" />
-                                <span>Dhaka, Bangladesh</span>
+                                <span>{settings?.footerAddress || "Dhaka, Bangladesh"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Phone size={18} className="text-gray-400 shrink-0" />
-                                <span>+880 1XXX-XXXXXX</span>
+                                <span>{settings?.footerPhone || "+880 1XXX-XXXXXX"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Mail size={18} className="text-gray-400 shrink-0" />
-                                <span>support@amar-organic-shop.com</span>
+                                <span>{settings?.footerEmail || "support@amar-organic-shop.com"}</span>
                             </div>
                         </div>
 
@@ -125,7 +147,11 @@ const Footer = () => {
                 {/* Copyright */}
                 <div className="mt-12 pt-6 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-gray-400 text-xs text-center md:text-left">
-                        Copyright © {currentYear} Amar Organic Shop. All rights reserved.
+                        {settings?.footerCopyright ? (
+                            settings.footerCopyright.replace('{year}', currentYear)
+                        ) : (
+                            `Copyright © ${currentYear} Amar Organic Shop. All rights reserved.`
+                        )}
                     </p>
                     <div className="flex gap-4 items-center">
                         <span className="text-[11px] font-medium text-gray-400">Handcrafted with care for healthy living</span>

@@ -30,7 +30,12 @@ export default function UISettingsPage() {
         },
         aboutStoryText: '',
         aboutMissionText: '',
-        deliveryZones: []
+        deliveryZones: [],
+        footerDescription: '',
+        footerAddress: '',
+        footerPhone: '',
+        footerEmail: '',
+        footerCopyright: ''
     });
     const [activeTab, setActiveTab] = useState('branding');
     const [loading, setLoading] = useState(true);
@@ -183,6 +188,9 @@ export default function UISettingsPage() {
                 </button>
                 <button type="button" onClick={() => setActiveTab('delivery')} className={`px-4 py-2.5 rounded-t-xl text-sm font-bold whitespace-nowrap transition-colors ${activeTab === 'delivery' ? 'bg-amber-500 text-white shadow-md' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
                     Delivery Zones
+                </button>
+                <button type="button" onClick={() => setActiveTab('footer')} className={`px-4 py-2.5 rounded-t-xl text-sm font-bold whitespace-nowrap transition-colors ${activeTab === 'footer' ? 'bg-rose-500 text-white shadow-md' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
+                    Footer Options
                 </button>
             </div>
 
@@ -431,6 +439,70 @@ export default function UISettingsPage() {
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* FOOTER TAB */}
+                {activeTab === 'footer' && (
+                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                            <h3 className="text-lg font-bold text-gray-800 border-b border-gray-100 pb-3 mb-6">Footer Settings</h3>
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-1.5 flex items-center justify-between">
+                                        Footer Description
+                                        <span className="text-[10px] text-gray-400 font-normal">Appears below the logo (Logo uses Branding image)</span>
+                                    </label>
+                                    <textarea 
+                                        rows="3"
+                                        value={settings.footerDescription} 
+                                        onChange={(e) => handleChange(e, 'footerDescription')}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Phone Number</label>
+                                        <input 
+                                            type="text" 
+                                            value={settings.footerPhone} 
+                                            onChange={(e) => handleChange(e, 'footerPhone')}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Email</label>
+                                        <input 
+                                            type="email" 
+                                            value={settings.footerEmail} 
+                                            onChange={(e) => handleChange(e, 'footerEmail')}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Physical Address</label>
+                                    <input 
+                                        type="text" 
+                                        value={settings.footerAddress} 
+                                        onChange={(e) => handleChange(e, 'footerAddress')}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-1.5">Copyright Text</label>
+                                    <input 
+                                        type="text" 
+                                        value={settings.footerCopyright} 
+                                        onChange={(e) => handleChange(e, 'footerCopyright')}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
