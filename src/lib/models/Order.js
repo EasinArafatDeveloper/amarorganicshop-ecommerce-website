@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
 const OrderItemSchema = new mongoose.Schema({
-    id: { type: Number, required: true },
+    id: { type: String, required: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    image: { type: String }
+    image: { type: String },
+    unit: { type: String }
 });
 
 const OrderSchema = new mongoose.Schema({
