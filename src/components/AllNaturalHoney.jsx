@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
     const scrollRef = useRef(null);
@@ -163,19 +164,29 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                             </div>
 
                             {/* Product Image */}
-                            <div className="h-56 flex items-center justify-center mb-6 overflow-hidden pointer-events-none">
+                            <Link 
+                                href={`/product/${product.slug}`} 
+                                onClick={(e) => { if(isDragging) e.preventDefault(); }}
+                                className="block h-56 flex items-center justify-center mb-6 overflow-hidden"
+                            >
                                 <img
                                     src={product.image}
                                     alt={product.name}
-                                    className="max-h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                                    className="max-h-full object-contain transition-transform duration-500 group-hover:scale-110 pointer-events-none"
                                 />
-                            </div>
+                            </Link>
 
                             {/* Details */}
-                            <div className="flex flex-col flex-grow pointer-events-none">
-                                <h3 className="text-gray-800 text-sm md:text-base font-bold mb-3 line-clamp-2 min-h-[44px] group-hover:text-secondary transition-colors">
-                                    {product.name}
-                                </h3>
+                            <div className="flex flex-col flex-grow">
+                                <Link 
+                                    href={`/product/${product.slug}`} 
+                                    onClick={(e) => { if(isDragging) e.preventDefault(); }}
+                                    className="block"
+                                >
+                                    <h3 className="text-gray-800 text-sm md:text-base font-bold mb-3 line-clamp-2 min-h-[44px] group-hover:text-secondary transition-colors">
+                                        {product.name}
+                                    </h3>
+                                </Link>
 
                                 {/* Pricing */}
                                 <div className="flex items-center gap-3 mb-6">

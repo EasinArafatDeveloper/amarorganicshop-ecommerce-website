@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingCart, ArrowRight, Star, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const AllProducts = ({ customTitle = 'All Products' }) => {
     const { addToCart } = useCart();
@@ -75,19 +76,21 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                                 </div>
 
                                 {/* Product Image */}
-                                <div className="h-40 md:h-52 flex items-center justify-center mb-4 overflow-hidden">
+                                <Link href={`/product/${product.slug}`} className="block h-40 md:h-52 flex items-center justify-center mb-4 overflow-hidden">
                                     <img
                                         src={product.image}
                                         alt={product.name}
                                         className="max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
                                     />
-                                </div>
+                                </Link>
 
                                 {/* Product Info */}
                                 <div className="flex flex-col flex-grow">
-                                    <h3 className="text-[#1a2b3c] text-xs md:text-base font-bold mb-2 line-clamp-2 min-h-[32px] md:min-h-[48px]">
-                                        {product.name}
-                                    </h3>
+                                    <Link href={`/product/${product.slug}`} className="block">
+                                        <h3 className="text-[#1a2b3c] text-xs md:text-base font-bold mb-2 line-clamp-2 min-h-[32px] md:min-h-[48px] hover:text-secondary transition-colors">
+                                            {product.name}
+                                        </h3>
+                                    </Link>
 
                                     {/* Pricing */}
                                     <div className="flex items-center gap-2 mb-4">
