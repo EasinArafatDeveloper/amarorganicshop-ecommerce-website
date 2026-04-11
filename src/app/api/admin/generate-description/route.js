@@ -20,7 +20,16 @@ export async function POST(req) {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const formattedPrompt = `Format and beautify the following product description for an organic store. Make it sound appealing, professional, and use HTML tags like <p>, <ul>, <li>, <strong> for formatting. Only output the HTML, do not include markdown blocks like \`\`\`html:\n\n${prompt}`;
+        const formattedPrompt = `You are an expert E-commerce Copywriter and SEO Specialist. Your task is to rewrite and beautify the following product description.
+Goals:
+1. Make it sound highly appealing, human-like, engaging, and persuasive.
+2. Optimize it for SEO (Search Engine Optimization) with relevant keywords naturally integrated.
+3. Structure it beautifully using HTML tags: <h2> or <h3> for subheadings, <p> for paragraphs, <ul> and <li> for features/benefits, and <strong> for highlighting keywords.
+4. Add relevant and subtle emojis to make it eye-catching (but don't overdo it).
+5. Please output strictly the HTML code so it can be rendered directly. Do NOT wrap it in markdown code blocks like \`\`\`html.
+
+Here is the raw text to improve:
+${prompt}`;
 
         const result = await model.generateContent(formattedPrompt);
         const response = await result.response;
