@@ -44,6 +44,19 @@ const StoreSettingsSchema = new mongoose.Schema({
         allProducts: { type: String, default: 'All Products' }
     },
 
+    deliveryZones: {
+        type: [{
+            id: { type: String, required: true },
+            label: { type: String, required: true },
+            cost: { type: Number, required: true }
+        }],
+        default: [
+            { id: 'dhaka', label: 'Inside Dhaka', cost: 60 },
+            { id: 'sub_dhaka', label: 'Sub-side Dhaka', cost: 70 },
+            { id: 'outside', label: 'Outside Dhaka', cost: 100 }
+        ]
+    },
+
     aboutStoryText: { type: String, default: "Amar Organic Shop was born from a simple but profound frustration: finding pure, unadulterated food in today's market has become a luxury. We realized that our families were consuming processed items stripped of their actual nutritional value." },
     aboutMissionText: { type: String, default: "Our mission is straightforward: We source directly from the most authentic remote farmers and renowned organic estates to eliminate the middlemen. Whether it's Sundarbans' raw honey, premium Arabian dates, or traditional village ghee, we guarantee quality so you don't have to second-guess." }
     

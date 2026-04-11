@@ -21,6 +21,11 @@ export async function GET() {
             dualPosterOneLink: settings?.dualPosterOneLink || '/',
             dualPosterTwoImage: settings?.dualPosterTwoImage || 'https://admin.ghorerbazarbd.com/storage/banners/1709121683.jpg',
             dualPosterTwoLink: settings?.dualPosterTwoLink || '/',
+            deliveryZones: settings?.deliveryZones && settings.deliveryZones.length > 0 ? settings.deliveryZones : [
+                { id: 'dhaka', label: 'Inside Dhaka', cost: 60 },
+                { id: 'sub_dhaka', label: 'Sub-side Dhaka', cost: 70 },
+                { id: 'outside', label: 'Outside Dhaka', cost: 100 }
+            ]
         }, { status: 200 });
 
     } catch (error) {

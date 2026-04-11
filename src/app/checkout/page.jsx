@@ -18,18 +18,35 @@ const CheckoutPage = () => {
         address: '',
         note: ''
     });
-    const [deliveryZone, setDeliveryZone] = useState('dhaka');
+    const [deliveryZone, setDeliveryZone] = useState('');
+    const [deliveryZonesConfig, setDeliveryZonesConfig] = useState([]);
+    const [isLoadingSettings, setIsLoadingSettings] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderSuccess, setOrderSuccess] = useState(null); // stores orderId instead of boolean
 
-    // Delivery charges
-    const deliveryCharges = {
-        dhaka: 60,
-        sub_dhaka: 70,
-        outside: 100
-    };
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const res = await fetch('/api/public-settings');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.deliveryZones && data.deliveryZones.length > 0) {
+                        setDeliveryZonesConfig(data.deliveryZones);
+                        setDeliveryZone(data.deliveryZones[0].id); // Auto-select first zone
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to load delivery settings");
+            } finally {
+                setIsLoadingSettings(false);
+            }
+        };
+        fetchSettings();
+    }, []);
 
-    const deliveryCost = deliveryCharges[deliveryZone];
+    // Active delivery cost calculation
+    const activeZone = deliveryZonesConfig.find(z => z.id === deliveryZone);
+    const deliveryCost = activeZone ? activeZone.cost : 0;
     const finalTotal = cartTotal + deliveryCost;
 
     const handleInputChange = (e) => {
@@ -221,49 +238,34 @@ const CheckoutPage = () => {
                                 
                                 <div className="pt-2">
                                     <label className="block text-sm font-bold text-gray-700 mb-3">Delivery Area <span className="text-red-500">*</span></label>
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                                        {/* Dhaka Inside */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'dhaka' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
-                                            <input 
-                                                type="radio" 
-                                                name="deliveryZone" 
-                                                value="dhaka" 
-                                                checked={deliveryZone === 'dhaka'} 
-                                                onChange={() => setDeliveryZone('dhaka')} 
-                                                className="sr-only" 
-                                            />
-                                            <span className="font-bold text-sm text-gray-800">Inside Dhaka</span>
-                                            <span className="text-xs text-secondary font-black mt-1">৳ 60</span>
-                                        </label>
-                                        
-                                        {/* Sub Dhaka */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'sub_dhaka' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
-                                            <input 
-                                                type="radio" 
-                                                name="deliveryZone" 
-                                                value="sub_dhaka" 
-                                                checked={deliveryZone === 'sub_dhaka'} 
-                                                onChange={() => setDeliveryZone('sub_dhaka')} 
-                                                className="sr-only" 
-                                            />
-                                            <span className="font-bold text-sm text-gray-800">Sub-side Dhaka</span>
-                                            <span className="text-xs text-secondary font-black mt-1">৳ 70</span>
-                                        </label>
-                                        
-                                        {/* Outside Dhaka */}
-                                        <label className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === 'outside' ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
-                                            <input 
-                                                type="radio" 
-                                                name="deliveryZone" 
-                                                value="outside" 
-                                                checked={deliveryZone === 'outside'} 
-                                                onChange={() => setDeliveryZone('outside')} 
-                                                className="sr-only" 
-                                            />
-                                            <span className="font-bold text-sm text-gray-800">Outside Dhaka</span>
-                                            <span className="text-xs text-secondary font-black mt-1">৳ 100</span>
-                                        </label>
-                                    </div>
+                                    
+                                    {isLoadingSettings ? (
+                                        <div className="flex justify-center items-center py-4 bg-gray-50 rounded-xl border border-gray-100">
+                                            <div className="w-6 h-6 border-2 border-secondary border-t-transparent rounded-full animate-spin"></div>
+                                            <span className="ml-2 text-sm text-gray-500 font-medium">Loading delivery options...</span>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            {deliveryZonesConfig.map((zone) => (
+                                                <label key={zone.id} className={`cursor-pointer border rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all ${deliveryZone === zone.id ? 'border-secondary bg-secondary/10 ring-1 ring-secondary' : 'border-gray-200 hover:border-gray-300 bg-white'}`}>
+                                                    <input 
+                                                        type="radio" 
+                                                        name="deliveryZone" 
+                                                        value={zone.id} 
+                                                        checked={deliveryZone === zone.id} 
+                                                        onChange={() => setDeliveryZone(zone.id)} 
+                                                        className="sr-only" 
+                                                    />
+                                                    <span className="font-bold text-sm text-gray-800">{zone.label}</span>
+                                                    <span className="text-xs text-secondary font-black mt-1">৳ {zone.cost}</span>
+                                                </label>
+                                            ))}
+                                            
+                                            {deliveryZonesConfig.length === 0 && (
+                                                <p className="text-sm text-gray-400 font-medium col-span-full">No delivery zones configured.</p>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div>
