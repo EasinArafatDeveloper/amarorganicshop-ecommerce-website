@@ -116,8 +116,7 @@ const Footer = () => {
                             <img
                                 src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-01.png"
                                 alt="Payment Methods SSL Commerz"
-                                className="w-full h-auto object-contain max-h-16"
-                                onError={(e) => { e.target.style.display = 'none'; }}
+                                className="h-14 lg:h-16 w-auto object-contain drop-shadow-md transition-transform hover:scale-105 duration-300"
                             />
                         </div>
                     </div>

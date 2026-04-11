@@ -97,10 +97,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                 <img
                                     src={product.image || "https://via.placeholder.com/300x300?text=No+Image"}
                                     alt={product.name}
-                                    className="w-full h-auto max-h-[200px] object-contain group-hover:scale-105 transition-transform duration-500"
-                                    onError={(e) => {
-                                        e.target.src = "https://via.placeholder.com/300x300?text=No+Image";
-                                    }}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             </Link>
 

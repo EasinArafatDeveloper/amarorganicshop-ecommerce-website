@@ -24,7 +24,6 @@ const DualPosters = ({ settings }) => {
                             src={posterOneImage}
                             alt="Promotion Banner 1"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com/800x400?text=Banner+Image'; }}
                         />
                     </div>
                     <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -37,7 +36,6 @@ const DualPosters = ({ settings }) => {
                             src={posterTwoImage}
                             alt="Promotion Banner 2"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com/800x400?text=Banner+Image'; }}
                         />
                     </div>
                     <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
