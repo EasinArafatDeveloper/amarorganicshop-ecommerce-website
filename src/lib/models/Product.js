@@ -17,7 +17,12 @@ const ProductSchema = new mongoose.Schema({
     isOrganic: { type: Boolean, default: false },
     badge: { type: String },
     unit: { type: String },
-    productCode: { type: String, unique: true }
+    productCode: { type: String, unique: true },
+    variants: [{
+        unit: { type: String, required: true },
+        price: { type: Number, required: true },
+        originalPrice: { type: Number }
+    }]
 }, { timestamps: true });
 
 export default mongoose.models.Product || mongoose.model('Product', ProductSchema);

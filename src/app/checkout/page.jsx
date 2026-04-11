@@ -52,11 +52,12 @@ const CheckoutPage = () => {
             ...formData,
             deliveryZone,
             items: cartItems.map(i => ({
-                id: i.id,
+                id: i.cartItemId || i.id,
                 name: i.name,
                 price: i.price,
                 quantity: i.quantity,
-                image: i.image
+                image: i.image,
+                unit: i.unit
             })),
             subTotal: cartTotal,
             deliveryCost,
@@ -308,12 +309,12 @@ const CheckoutPage = () => {
                         {/* Cart Items */}
                         <div className="mb-6 max-h-[300px] overflow-y-auto pr-2 space-y-3 scrollbar-hide">
                             {cartItems.map((item) => (
-                                <div key={item.id} className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                <div key={item.cartItemId || item.id} className="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-100">
                                     <div className="w-14 h-14 bg-white rounded flex items-center justify-center shrink-0 border border-gray-200">
                                         <img src={item.image || "https://via.placeholder.com/150"} alt={item.name} className="max-w-full max-h-full object-contain p-1" />
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-sm font-bold text-gray-800 truncate">{item.name}</h4>
+                                        <h4 className="text-sm font-bold text-gray-800 truncate">{item.name} <span className="text-gray-400 font-normal">({item.unit})</span></h4>
                                         <p className="text-xs text-gray-500 mt-0.5">{item.quantity} × ৳{item.price}</p>
                                     </div>
                                     <div className="font-black text-secondary text-sm whitespace-nowrap px-1">

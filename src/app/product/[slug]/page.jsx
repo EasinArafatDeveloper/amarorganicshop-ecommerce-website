@@ -19,6 +19,7 @@ const ProductDetailPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState(0);
     const [activeTab, setActiveTab] = useState('description');
+    const [selectedVariant, setSelectedVariant] = useState(null);
 
     // Company contact number
     const phoneNumber = "+8801645368899"; // Replace with real
@@ -39,6 +40,11 @@ const ProductDetailPage = () => {
                 }
 
                 setProduct(productData);
+                
+                // Initialize default variant
+                if (productData.variants && productData.variants.length > 0) {
+                    setSelectedVariant(productData.variants[0]);
+                }
 
                 // Get related products from same category
                 const related = allProducts
@@ -70,14 +76,14 @@ const ProductDetailPage = () => {
     // Handle add to cart
     const handleAddToCart = () => {
         if (product && product.inStock) {
-            addToCart(product, quantity);
+            addToCart(product, quantity, true, selectedVariant);
         }
     };
 
     // Handle buy now
     const handleBuyNow = () => {
         if (product && product.inStock) {
-            addToCart(product, quantity, false);
+            addToCart(product, quantity, false, selectedVariant);
             router.push('/checkout');
         }
     };
@@ -89,7 +95,8 @@ const ProductDetailPage = () => {
 
     // Handle WhatsApp
     const handleWhatsApp = () => {
-        const message = encodeURIComponent(`Hello, I'm interested in ${product?.name}. Price: ৳${product?.price}. Can you please provide more information?`);
+        const currentPrice = selectedVariant ? selectedVariant.price : product?.price;
+        const message = encodeURIComponent(`Hello, I'm interested in ${product?.name}. Price: ৳${currentPrice}. Can you please provide more information?`);
         window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
     };
 
@@ -139,9 +146,14 @@ const ProductDetailPage = () => {
         return null;
     }
 
+    // Dynamic rendering variables
+    const currentPrice = selectedVariant ? selectedVariant.price : product.price;
+    const currentOriginalPrice = selectedVariant ? selectedVariant.originalPrice : product.originalPrice;
+    const currentUnit = selectedVariant ? selectedVariant.unit : product.unit;
+
     // Calculate discount percentage
-    const discountPercentage = product.originalPrice && product.price
-        ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    const discountPercentage = currentOriginalPrice && currentPrice
+        ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
         : 0;
 
     // Product images array (you can add multiple images)
@@ -254,28 +266,50 @@ const ProductDetailPage = () => {
                                 </div>
                             )}
 
+                            {/* Variants Selection */}
+                            {product.variants && product.variants.length > 0 && (
+                                <div className="mb-4">
+                                    <h3 className="text-sm font-bold text-gray-700 mb-2">Select Variant:</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {product.variants.map((variant, idx) => (
+                                            <button
+                                                key={idx}
+                                                onClick={() => setSelectedVariant(variant)}
+                                                className={`px-4 py-2 rounded-lg font-bold text-sm transition-all border-2 ${
+                                                    selectedVariant === variant 
+                                                    ? 'border-secondary bg-secondary/10 text-secondary shadow-sm' 
+                                                    : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white hover:bg-gray-50'
+                                                }`}
+                                            >
+                                                {variant.unit}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Price */}
                             <div className="mb-6 p-4 bg-secondary/10/50 border border-orange-100 rounded-xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-full -z-10"></div>
                                 <div className="flex items-end gap-3 mb-1">
                                     <span className="text-4xl md:text-5xl font-black text-secondary tracking-tight">
-                                        ৳{product.price.toLocaleString()}
+                                        ৳{currentPrice.toLocaleString()}
                                     </span>
-                                    {product.originalPrice && (
+                                    {currentOriginalPrice && (
                                         <span className="text-gray-400 line-through text-xl font-medium mb-1">
-                                            ৳{product.originalPrice.toLocaleString()}
+                                            ৳{currentOriginalPrice.toLocaleString()}
                                         </span>
                                     )}
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    {product.unit && (
+                                    {currentUnit && (
                                         <span className="text-sm font-medium text-gray-500 bg-white px-2 py-0.5 rounded border border-gray-200">
-                                            Per {product.unit}
+                                            Per {currentUnit}
                                         </span>
                                     )}
-                                    {product.originalPrice && product.price && (
-                                        <span className="text-primary text-sm font-bold bg-primary/20 px-3 py-1 rounded-full animate-pulse shadow-sm border border-primary/20">
-                                            Save ৳{(product.originalPrice - product.price).toLocaleString()}
+                                    {currentOriginalPrice && currentPrice && currentOriginalPrice > currentPrice && (
+                                        <span className="text-primary text-sm font-bold bg-primary/20 px-3 py-1 rounded-full shadow-sm border border-primary/20">
+                                            Save ৳{(currentOriginalPrice - currentPrice).toLocaleString()}
                                         </span>
                                     )}
                                 </div>

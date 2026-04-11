@@ -8,19 +8,17 @@ import toast from 'react-hot-toast';
 export default function AddProductPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [variants, setVariants] = useState([{ unit: '1kg', price: '', originalPrice: '' }]);
     const [formData, setFormData] = useState({
         name: '',
         nameBn: '',
         category: 'honey',
         subCategory: '',
-        price: '',
-        originalPrice: '',
         image: '',
         description: '',
         inStock: true,
         isOrganic: false,
         badge: '',
-        unit: '1kg'
     });
 
     const categories = ['honey', 'dates', 'oil-ghee', 'spices', 'nuts-seeds', 'sugar-jaggery', 'beverage-dairy', 'snacks', 'pink-salt', 'honey-nut'];
@@ -33,8 +31,33 @@ export default function AddProductPage() {
         }));
     };
 
+    const handleVariantChange = (index, field, value) => {
+        const newVariants = [...variants];
+        newVariants[index][field] = value;
+        setVariants(newVariants);
+    };
+
+    const addVariant = () => {
+        setVariants([...variants, { unit: '', price: '', originalPrice: '' }]);
+    };
+
+    const removeVariant = (index) => {
+        if (variants.length > 1) {
+            const newVariants = [...variants];
+            newVariants.splice(index, 1);
+            setVariants(newVariants);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Validate variants
+        if (variants.length === 0 || !variants[0].price || !variants[0].unit) {
+            toast.error('At least one valid variant with price and unit is required');
+            return;
+        }
+        
         setLoading(true);
 
         try {
@@ -43,8 +66,16 @@ export default function AddProductPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     ...formData,
-                    price: Number(formData.price),
-                    originalPrice: formData.originalPrice ? Number(formData.originalPrice) : undefined
+                    // Top level fallbacks using the first variant
+                    price: Number(variants[0].price),
+                    originalPrice: variants[0].originalPrice ? Number(variants[0].originalPrice) : undefined,
+                    unit: variants[0].unit,
+                    // Map variants perfectly
+                    variants: variants.map(v => ({
+                        unit: v.unit,
+                        price: Number(v.price),
+                        originalPrice: v.originalPrice ? Number(v.originalPrice) : undefined
+                    }))
                 })
             });
 
@@ -111,23 +142,37 @@ export default function AddProductPage() {
                     </div>
                 </div>
 
-                {/* Pricing & Inventory */}
+                {/* Pricing & Logistics (Variants) */}
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-                    <h3 className="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">Pricing & Logistics</h3>
+                    <div className="flex items-center justify-between mb-6 border-b border-gray-100 pb-2">
+                        <h3 className="text-lg font-bold text-gray-800">Pricing & Logistics (Variants)</h3>
+                        <button type="button" onClick={addVariant} className="text-sm font-bold text-primary hover:text-green-700 bg-primary/10 px-3 py-1.5 rounded-lg flex items-center gap-1">
+                            <Plus size={16} /> Add Variant
+                        </button>
+                    </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-gray-700">Price (৳) *</label>
-                            <input required type="number" name="price" value={formData.price} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white font-mono" placeholder="400" />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-gray-700">Original Price (৳)</label>
-                            <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400 transition-all text-sm bg-gray-50 focus:bg-white font-mono" placeholder="500 (Crossed out)" />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-gray-700">Unit Label</label>
-                            <input type="text" name="unit" value={formData.unit} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white font-mono" placeholder="1kg / 500g" />
-                        </div>
+                    <div className="space-y-4">
+                        {variants.map((variant, index) => (
+                            <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-gray-50 border border-gray-200 p-4 rounded-xl relative group">
+                                {variants.length > 1 && (
+                                    <button type="button" onClick={() => removeVariant(index)} className="absolute -top-2 -right-2 bg-red-100 text-red-600 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity drop-shadow">
+                                        <Minus size={14} />
+                                    </button>
+                                )}
+                                <div className="md:col-span-4 space-y-2">
+                                    <label className="text-sm font-bold text-gray-700">Unit Label *</label>
+                                    <input required type="text" value={variant.unit} onChange={(e) => handleVariantChange(index, 'unit', e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-white font-medium" placeholder="e.g. 500gm or 1kg" />
+                                </div>
+                                <div className="md:col-span-4 space-y-2">
+                                    <label className="text-sm font-bold text-gray-700">Price (৳) *</label>
+                                    <input required type="number" value={variant.price} onChange={(e) => handleVariantChange(index, 'price', e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-white font-mono" placeholder="400" />
+                                </div>
+                                <div className="md:col-span-4 space-y-2">
+                                    <label className="text-sm font-bold text-gray-700">Original Price (৳)</label>
+                                    <input type="number" value={variant.originalPrice} onChange={(e) => handleVariantChange(index, 'originalPrice', e.target.value)} className="w-full border border-gray-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-400 transition-all text-sm bg-white font-mono" placeholder="500 (Crossed out)" />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 

@@ -33,17 +33,32 @@ export const CartProvider = ({ children }) => {
         }
     }, [cartItems, isLoaded]);
 
-    const addToCart = (product, quantity = 1, openDrawer = true) => {
+    const addToCart = (product, quantity = 1, openDrawer = true, variant = null) => {
         setCartItems((prevItems) => {
-            const existingItem = prevItems.find(item => item.id === product.id);
+            const baseId = product.id;
+            const unitSuffix = variant ? variant.unit : product.unit;
+            // Generate a unique cartItemId for this variant
+            const cartItemId = `${baseId}-${unitSuffix}`;
+
+            const existingItem = prevItems.find(item => (item.cartItemId || item.id) === cartItemId);
             if (existingItem) {
                 return prevItems.map(item =>
-                    item.id === product.id 
+                    (item.cartItemId || item.id) === cartItemId 
                     ? { ...item, quantity: item.quantity + quantity } 
                     : item
                 );
             }
-            return [...prevItems, { ...product, quantity }];
+            
+            // Add new item with variant price integration
+            return [...prevItems, { 
+                ...product, 
+                cartItemId,
+                quantity,
+                // Overwrite root properties with variant properties if they exist
+                price: variant ? variant.price : product.price,
+                originalPrice: variant ? variant.originalPrice : product.originalPrice,
+                unit: variant ? variant.unit : product.unit
+            }];
         });
         
         // Auto-open the cart drawer when something is added, unless prevented
@@ -52,15 +67,15 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    const removeFromCart = (productId) => {
-        setCartItems((prevItems) => prevItems.filter(item => item.id !== productId));
+    const removeFromCart = (cartItemIdOrId) => {
+        setCartItems((prevItems) => prevItems.filter(item => (item.cartItemId || item.id) !== cartItemIdOrId));
     };
 
-    const updateQuantity = (productId, newQuantity) => {
+    const updateQuantity = (cartItemIdOrId, newQuantity) => {
         if (newQuantity < 1) return;
         setCartItems((prevItems) => 
             prevItems.map(item => 
-                item.id === productId ? { ...item, quantity: newQuantity } : item
+                (item.cartItemId || item.id) === cartItemIdOrId ? { ...item, quantity: newQuantity } : item
             )
         );
     };
