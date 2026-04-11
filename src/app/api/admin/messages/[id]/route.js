@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic';
 export async function PATCH(req, { params }) {
     try {
         await connectMongo();
-        const { id } = params;
+        const resolvedParams = await params;
+        const { id } = resolvedParams;
 
         const updatedMsg = await ContactMessage.findByIdAndUpdate(
             id,
@@ -28,7 +29,8 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
     try {
         await connectMongo();
-        const { id } = params;
+        const resolvedParams = await params;
+        const { id } = resolvedParams;
 
         const deletedMsg = await ContactMessage.findByIdAndDelete(id);
 
