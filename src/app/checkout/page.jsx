@@ -20,6 +20,7 @@ const CheckoutPage = () => {
     });
     const [deliveryZone, setDeliveryZone] = useState('');
     const [deliveryZonesConfig, setDeliveryZonesConfig] = useState([]);
+    const [shopSettings, setShopSettings] = useState(null);
     const [isLoadingSettings, setIsLoadingSettings] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [orderSuccess, setOrderSuccess] = useState(null); // stores orderId instead of boolean
@@ -30,6 +31,10 @@ const CheckoutPage = () => {
                 const res = await fetch('/api/public-settings');
                 if (res.ok) {
                     const data = await res.json();
+                    setShopSettings({
+                        isFreeDeliveryActive: data.isFreeDeliveryActive !== false, // default true
+                        freeDeliveryAbove: data.freeDeliveryAbove || 3000
+                    });
                     if (data.deliveryZones && data.deliveryZones.length > 0) {
                         setDeliveryZonesConfig(data.deliveryZones);
                         setDeliveryZone(data.deliveryZones[0].id); // Auto-select first zone
@@ -46,7 +51,12 @@ const CheckoutPage = () => {
 
     // Active delivery cost calculation
     const activeZone = deliveryZonesConfig.find(z => z.id === deliveryZone);
-    const deliveryCost = activeZone ? activeZone.cost : 0;
+    const rawDeliveryCost = activeZone ? activeZone.cost : 0;
+    
+    // Evaluate Free Delivery
+    const isFreeDeliveryQualified = shopSettings?.isFreeDeliveryActive && cartTotal >= shopSettings?.freeDeliveryAbove;
+    const deliveryCost = isFreeDeliveryQualified ? 0 : rawDeliveryCost;
+    
     const finalTotal = cartTotal + deliveryCost;
 
     const handleInputChange = (e) => {
@@ -334,8 +344,29 @@ const CheckoutPage = () => {
                             </div>
                             <div className="flex justify-between text-gray-600 font-medium">
                                 <span>Delivery Charge</span>
-                                <span>৳ {deliveryCost}</span>
+                                <span>
+                                    {isFreeDeliveryQualified ? (
+                                        <span className="text-green-600 font-black tracking-wider uppercase text-xs bg-green-50 px-2 py-0.5 rounded">Free</span>
+                                    ) : (
+                                        `৳ ${deliveryCost}`
+                                    )}
+                                </span>
                             </div>
+                            
+                            {/* Free Delivery Promo Message */}
+                            {shopSettings?.isFreeDeliveryActive && (
+                                <div className="pt-1">
+                                    {isFreeDeliveryQualified ? (
+                                        <div className="text-xs font-bold text-green-600 flex items-center justify-end gap-1">
+                                            <span>🎉 You qualified for Free Delivery!</span>
+                                        </div>
+                                    ) : (
+                                        <div className="text-xs font-bold text-orange-500 flex items-center justify-end gap-1">
+                                            <span>Add ৳{(shopSettings.freeDeliveryAbove - cartTotal).toLocaleString()} more for Free Delivery!</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                             
                             <div className="border-t border-gray-200 my-3"></div>
                             

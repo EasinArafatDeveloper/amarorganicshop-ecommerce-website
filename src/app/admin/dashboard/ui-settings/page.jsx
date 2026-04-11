@@ -38,7 +38,9 @@ export default function UISettingsPage() {
         footerCopyright: '',
         sectionOrder: [
             'showHero', 'showCategories', 'showTopSelling', 'showHoney', 'showPromo', 'showAllProducts', 'showTestimonials'
-        ]
+        ],
+        isFreeDeliveryActive: true,
+        freeDeliveryAbove: 3000
     });
     const [activeTab, setActiveTab] = useState('branding');
     const [loading, setLoading] = useState(true);
@@ -65,7 +67,9 @@ export default function UISettingsPage() {
                         ...(data.sectionTitles || {})
                     },
                     sectionOrder: data.sectionOrder?.length ? data.sectionOrder : prev.sectionOrder,
-                    deliveryZones: data.deliveryZones || []
+                    deliveryZones: data.deliveryZones || [],
+                    isFreeDeliveryActive: data.isFreeDeliveryActive !== undefined ? data.isFreeDeliveryActive : true,
+                    freeDeliveryAbove: data.freeDeliveryAbove || 3000
                 }));
             }
         } catch (error) {
@@ -460,6 +464,36 @@ export default function UISettingsPage() {
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Free Delivery Settings */}
+                        <div className="bg-white rounded-2xl shadow-sm border border-green-100 p-6 md:p-8 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-full blur-3xl opacity-50 pointer-events-none" />
+                            <div className="flex justify-between items-center mb-6 relative z-10">
+                                <h3 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                                    <span className="bg-green-100 text-green-600 p-1.5 rounded-lg">🎉</span>
+                                    Free Delivery Promotion
+                                </h3>
+                                <button type="button" onClick={() => setSettings(prev => ({ ...prev, isFreeDeliveryActive: !prev.isFreeDeliveryActive }))} className={`transition-colors p-1 rounded-full ${settings.isFreeDeliveryActive ? 'text-green-500' : 'text-gray-300'}`}>
+                                    {settings.isFreeDeliveryActive ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                                </button>
+                            </div>
+                            <p className="text-sm text-gray-500 mb-6 relative z-10">Offer free shipping when a customer's subtotal reaches a specific amount. Turn off the toggle to disable this feature completely.</p>
+                            
+                            <div className={`transition-opacity duration-300 relative z-10 ${settings.isFreeDeliveryActive ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Free Delivery Valid Above (৳)</label>
+                                <div className="relative max-w-sm">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500 font-bold text-lg">৳</span>
+                                    <input 
+                                        type="number" 
+                                        name="freeDeliveryAbove"
+                                        value={settings.freeDeliveryAbove} 
+                                        onChange={handleChange}
+                                        className="w-full pl-9 pr-4 py-3 bg-white border border-green-200 focus:border-green-500 focus:ring-4 focus:ring-green-500/10 rounded-xl text-lg font-black text-green-700 transition-all outline-none"
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-400 mt-2">Orders strictly <b>greater than or equal to</b> this amount will be charged ৳0 for shipping.</p>
                             </div>
                         </div>
                     </div>

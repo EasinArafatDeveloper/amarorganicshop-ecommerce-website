@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectMongo from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
+import StoreSettings from '@/lib/models/StoreSettings';
 
 export async function POST(req) {
     try {
@@ -9,6 +10,23 @@ export async function POST(req) {
 
         // Generate a human-readable order ID
         const orderId = 'ORD-' + Math.floor(1000 + Math.random() * 9000).toString() + '-' + Date.now().toString().slice(-4);
+
+        // Fetch delivery settings for backend verification
+        const settings = await StoreSettings.findOne({ singletonId: 'global' }).lean();
+        
+        // Find the matching delivery zone cost
+        let serverDeliveryCost = 0;
+        if (settings?.deliveryZones) {
+            const zone = settings.deliveryZones.find(z => z.id === data.deliveryZone);
+            if (zone) serverDeliveryCost = zone.cost;
+        }
+
+        // Apply free delivery threshold if active
+        if (settings?.isFreeDeliveryActive && data.subTotal >= settings.freeDeliveryAbove) {
+            serverDeliveryCost = 0;
+        }
+
+        const calculatedFinalTotal = data.subTotal + serverDeliveryCost;
 
         const newOrder = new Order({
             orderId,
@@ -19,8 +37,8 @@ export async function POST(req) {
             note: data.note,
             items: data.items,
             subTotal: data.subTotal,
-            deliveryCost: data.deliveryCost,
-            finalTotal: data.finalTotal,
+            deliveryCost: serverDeliveryCost,
+            finalTotal: calculatedFinalTotal,
             status: 'Pending'
         });
 
