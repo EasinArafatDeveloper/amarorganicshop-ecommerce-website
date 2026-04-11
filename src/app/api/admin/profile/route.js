@@ -18,8 +18,10 @@ export async function GET(req) {
         }
 
         const payload = await decrypt(sessionStore.value);
-        if (!payload || !payload.id) {
-            return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+        if (!payload || !payload.id || typeof payload.id !== 'string') {
+            // Delete cookie since it's corrupt/legacy
+            cookieStore.delete('admin_session');
+            return NextResponse.json({ error: 'Session expired or invalid format, please login again' }, { status: 401 });
         }
 
         const adminUser = await Admin.findById(payload.id).select('-password');
@@ -47,8 +49,9 @@ export async function PUT(req) {
         }
 
         const payload = await decrypt(sessionStore.value);
-        if (!payload || !payload.id) {
-            return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+        if (!payload || !payload.id || typeof payload.id !== 'string') {
+            cookieStore.delete('admin_session');
+            return NextResponse.json({ error: 'Session expired or invalid format, please login again' }, { status: 401 });
         }
 
         const adminUser = await Admin.findById(payload.id);

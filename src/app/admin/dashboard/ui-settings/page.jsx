@@ -457,8 +457,9 @@ export default function UISettingsPage() {
                                     </label>
                                     <textarea 
                                         rows="3"
+                                        name="footerDescription"
                                         value={settings.footerDescription} 
-                                        onChange={(e) => handleChange(e, 'footerDescription')}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
                                 </div>
@@ -468,8 +469,9 @@ export default function UISettingsPage() {
                                         <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Phone Number</label>
                                         <input 
                                             type="text" 
+                                            name="footerPhone"
                                             value={settings.footerPhone} 
-                                            onChange={(e) => handleChange(e, 'footerPhone')}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                         />
                                     </div>
@@ -477,8 +479,9 @@ export default function UISettingsPage() {
                                         <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Email</label>
                                         <input 
                                             type="email" 
+                                            name="footerEmail"
                                             value={settings.footerEmail} 
-                                            onChange={(e) => handleChange(e, 'footerEmail')}
+                                            onChange={handleChange}
                                             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                         />
                                     </div>
@@ -488,8 +491,9 @@ export default function UISettingsPage() {
                                     <label className="block text-sm font-bold text-gray-700 mb-1.5">Footer Physical Address</label>
                                     <input 
                                         type="text" 
+                                        name="footerAddress"
                                         value={settings.footerAddress} 
-                                        onChange={(e) => handleChange(e, 'footerAddress')}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
                                 </div>
@@ -498,8 +502,9 @@ export default function UISettingsPage() {
                                     <label className="block text-sm font-bold text-gray-700 mb-1.5">Copyright Text</label>
                                     <input 
                                         type="text" 
+                                        name="footerCopyright"
                                         value={settings.footerCopyright} 
-                                        onChange={(e) => handleChange(e, 'footerCopyright')}
+                                        onChange={handleChange}
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
                                 </div>
