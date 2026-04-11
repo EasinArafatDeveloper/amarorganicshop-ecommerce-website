@@ -8,8 +8,7 @@ import Link from 'next/link';
 const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
     const scrollRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
-    const { addToCart } = useCart();
-    const router = useRouter();
+    const { addToCart, buyNow } = useCart();
 
     // Dragging state variables
     const [isDragging, setIsDragging] = useState(false);
@@ -17,14 +16,14 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
     const [scrollLeft, setScrollLeft] = useState(0);
 
     const handleBuyNow = (product) => {
-        addToCart({
+        buyNow({
             id: product.id,
             name: product.name,
             price: product.price,
             image: product.image,
-            unit: product.unit || '1kg'
-        }, 1, false);
-        router.push('/checkout');
+            unit: product.unit || '1kg',
+            variants: product.variants
+        }, 1);
     };
 
     const [products, setProducts] = useState([]);
@@ -202,7 +201,14 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            addToCart(product, 1);
+                                            addToCart({
+                                                id: product.id,
+                                                name: product.name,
+                                                price: product.price,
+                                                image: product.image,
+                                                unit: product.unit || '1kg',
+                                                variants: product.variants
+                                            }, 1);
                                         }}
                                         className="flex-1 border-2 border-secondary text-secondary py-2.5 rounded-lg flex items-center justify-center gap-1.5 font-bold transition-all duration-300 hover:bg-secondary hover:text-white pointer-events-auto"
                                     >

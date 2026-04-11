@@ -6,8 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const AllProducts = ({ customTitle = 'All Products' }) => {
-    const { addToCart } = useCart();
-    const router = useRouter();
+    const { addToCart, buyNow } = useCart();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -27,8 +26,7 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
     }, []);
 
     const handleBuyNow = (product) => {
-        addToCart(product, 1, false);
-        router.push('/checkout');
+        buyNow(product, 1);
     };
 
     return (

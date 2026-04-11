@@ -8,7 +8,7 @@ import { useCart } from '@/lib/contexts/CartContext';
 
 const ShopPage = () => {
     const router = useRouter();
-    const { addToCart } = useCart();
+    const { addToCart, buyNow } = useCart();
     const [allProducts, setAllProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -78,8 +78,7 @@ const ShopPage = () => {
 
     const handleBuyNow = (e, product) => {
         e.preventDefault();
-        addToCart(product, 1, false);
-        router.push('/checkout');
+        buyNow(product, 1);
     };
 
     return (

@@ -8,8 +8,7 @@ import { useRouter } from 'next/navigation';
 const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { addToCart } = useCart();
-    const router = useRouter();
+    const { addToCart, buyNow } = useCart();
 
     useEffect(() => {
         const fetchTopSelling = async () => {
@@ -36,8 +35,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
     };
 
     const handleBuyNow = (product) => {
-        addToCart(product, 1, false);
-        router.push('/checkout');
+        buyNow(product, 1);
     };
 
     if (loading) {

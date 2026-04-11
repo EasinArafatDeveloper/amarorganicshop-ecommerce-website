@@ -11,8 +11,7 @@ const CategoryPage = () => {
     const searchParams = useSearchParams();
     const slug = params.slug;
     const initialSubSlug = searchParams.get('sub');
-    const { addToCart } = useCart();
-    const router = useRouter();
+    const { addToCart, buyNow } = useCart();
 
     const [allCatProducts, setAllCatProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -49,8 +48,7 @@ const CategoryPage = () => {
 
     const handleBuyNow = (e, product) => {
         e.preventDefault();
-        addToCart(product, 1, false);
-        router.push('/checkout');
+        buyNow(product, 1);
     };
 
     // Extract unique Sub-Categories from the current category's products
