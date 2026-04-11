@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Save, Image as ImageIcon, Phone, Mail, Globe, LayoutTemplate, ToggleLeft, ToggleRight, LayoutDashboard, Loader2, Truck, Plus, Trash2 } from 'lucide-react';
+import { Save, Image as ImageIcon, Phone, Mail, Globe, LayoutTemplate, ToggleLeft, ToggleRight, LayoutDashboard, Loader2, Truck, Plus, Trash2, Tags, MessageSquareQuote } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function UISettingsPage() {
     const [settings, setSettings] = useState({
@@ -156,6 +157,16 @@ export default function UISettingsPage() {
                 <div>
                     <h2 className="text-2xl font-black text-gray-800 tracking-tight">System Settings</h2>
                     <p className="text-gray-500 text-sm mt-1">Manage global storefront visual assets, configurations, and shipping.</p>
+                </div>
+                <div className="flex gap-3">
+                    <Link href="/admin/dashboard/categories" className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-bold transition-all shadow-sm">
+                        <Tags size={18} className="text-primary"/> 
+                        Manage Categories
+                    </Link>
+                    <Link href="/admin/dashboard/testimonials" className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-bold transition-all shadow-sm">
+                        <MessageSquareQuote size={18} className="text-primary"/> 
+                        Manage Testimonials
+                    </Link>
                 </div>
             </div>
 
