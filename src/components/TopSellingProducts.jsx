@@ -156,26 +156,26 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                 <div className="mt-auto"></div>
 
                                 {/* Action Buttons - Restrained width like original */}
-                                <div className="flex items-center gap-3 w-full max-w-[320px] mt-4">
+                                <div className="flex items-center gap-1.5 sm:gap-3 w-full mt-4">
                                     <button
                                         onClick={() => handleAddToCart(product)}
                                         disabled={product.inStock === false}
-                                        className={`flex-1 flex items-center justify-center gap-2 border border-secondary text-secondary py-2 rounded font-semibold text-sm transition-all hover:bg-secondary/5 ${product.inStock === false
+                                        className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 border border-secondary text-secondary py-1.5 sm:py-2 px-1 sm:px-2 rounded text-[11px] sm:text-sm font-bold transition-all hover:bg-secondary/5 whitespace-nowrap ${product.inStock === false
                                                 ? 'opacity-50 cursor-not-allowed border-gray-300 text-gray-400'
                                                 : ''
                                             }`}
                                     >
-                                        <ShoppingCart size={16} strokeWidth={2.5} />
-                                        Add To Cart
+                                        <ShoppingCart size={14} className="sm:w-4 sm:h-4 shrink-0" strokeWidth={2.5} />
+                                        <span>Add To Cart</span>
                                     </button>
 
                                     <button
                                         onClick={() => handleBuyNow(product)}
                                         disabled={product.inStock === false}
-                                        className={`flex-1 flex items-center justify-center gap-2 bg-secondary text-white border border-secondary py-2 rounded font-semibold text-sm transition-all hover:brightness-95 shadow-sm ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                        className={`flex-1 flex items-center justify-center gap-1 sm:gap-2 bg-secondary text-white border border-secondary py-1.5 sm:py-2 px-1 sm:px-2 rounded text-[11px] sm:text-sm font-bold transition-all hover:brightness-95 shadow-sm whitespace-nowrap ${product.inStock === false ? 'opacity-50 cursor-not-allowed' : ''}`}
                                     >
-                                        <ShoppingCart size={16} strokeWidth={2.5} />
-                                        Buy now
+                                        <ShoppingCart size={14} className="sm:w-4 sm:h-4 shrink-0" strokeWidth={2.5} />
+                                        <span>Buy now</span>
                                     </button>
                                 </div>
                                 
