@@ -54,8 +54,9 @@ const ProductCard = ({ product, onAddToCart }) => {
                     </div>
                 )}
                 {discountPercentage > 0 && (
-                    <div className="bg-red-500 text-white text-[10px] font-black px-2.5 py-1 rounded-md shadow-sm ring-2 ring-white">
-                        -{discountPercentage}%
+                    <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg shadow-md ring-2 ring-white/50 flex items-center gap-1 animate-pulse">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                        {discountPercentage}% OFF
                     </div>
                 )}
             </div>

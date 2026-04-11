@@ -19,19 +19,30 @@ export async function PATCH(request) {
 
         await connectMongo();
 
-        // Update the product cleanly
-        const updatedProduct = await Product.findByIdAndUpdate(
-            _id,
-            { 
-                price: Number(price), 
-                originalPrice: originalPrice ? Number(originalPrice) : null 
-            },
-            { new: true }
-        );
-
-        if (!updatedProduct) {
+        // Retrieve existing product to manage variants
+        const product = await Product.findById(_id);
+        if (!product) {
             return NextResponse.json({ error: 'Product not found' }, { status: 404 });
         }
+
+        // Prepare the updates
+        const updateData = { 
+            price: Number(price), 
+            originalPrice: originalPrice ? Number(originalPrice) : null 
+        };
+
+        // If product has variants, mirror the discount on the first variant
+        if (product.variants && product.variants.length > 0) {
+            updateData['variants.0.price'] = Number(price);
+            updateData['variants.0.originalPrice'] = originalPrice ? Number(originalPrice) : null;
+        }
+
+        // Update the product
+        const updatedProduct = await Product.findByIdAndUpdate(
+            _id,
+            { $set: updateData },
+            { new: true }
+        );
 
         return NextResponse.json({ success: true, product: updatedProduct }, { status: 200 });
 

@@ -78,14 +78,29 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
 
                 {/* Product Horizontal Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {products.map((product) => (
+                    {products.map((product) => {
+                        const discountPercentage = product.originalPrice && product.price
+                            ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+                            : 0;
+
+                        return (
                         <div
                             key={product.id}
                             className="bg-white rounded-xl p-4 sm:p-5 flex gap-4 sm:gap-6 relative shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-gray-100 group"
                         >
+                            {/* Badges Column */}
+                            <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
+                                {discountPercentage > 0 && (
+                                    <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg shadow-md ring-2 ring-white/50 flex items-center gap-1 animate-pulse">
+                                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                                        {discountPercentage}% OFF
+                                    </div>
+                                )}
+                            </div>
+
                             {/* Top Right Red Badge */}
-                            <div className="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-[10px] rounded-tr-xl flex items-center gap-1 z-10">
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                            <div className="absolute top-0 right-0 bg-secondary text-white text-[10px] font-bold px-3 py-1.5 rounded-bl-[10px] rounded-tr-xl flex items-center gap-1 z-10">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                                 {product.badge || 'Best Selling'}
                             </div>
 
@@ -164,7 +179,8 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                 )}
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
         </section>

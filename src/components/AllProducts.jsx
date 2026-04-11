@@ -60,17 +60,17 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                                 className="group bg-white border border-gray-100 rounded-xl p-3 md:p-4 flex flex-col transition-all duration-300 hover:shadow-lg hover:border-orange-100 relative"
                             >
                                 {/* Tag/Discount Badge */}
-                                <div className="flex justify-between items-start mb-2 pointer-events-none">
-                                    {product.badge ? (
-                                        <span className="bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start pointer-events-none z-10">
+                                    {product.badge && (
+                                        <div className="bg-secondary text-white text-[10px] font-black px-2.5 py-1 rounded-md shadow-sm uppercase tracking-wider">
                                             {product.badge}
-                                        </span>
-                                    ) : <div />}
-                                    
+                                        </div>
+                                    )}
                                     {product.originalPrice && product.originalPrice > product.price && (
-                                        <span className="bg-[#4caf50] text-white text-[10px] font-bold px-2 py-0.5 rounded">
-                                            OFF
-                                        </span>
+                                        <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg shadow-md ring-2 ring-white/50 flex items-center gap-1 animate-pulse">
+                                            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                                            {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+                                        </div>
                                     )}
                                 </div>
 
