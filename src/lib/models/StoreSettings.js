@@ -38,6 +38,19 @@ const StoreSettingsSchema = new mongoose.Schema({
         showTestimonials: { type: Boolean, default: true }
     },
 
+    sectionOrder: {
+        type: [String],
+        default: [
+            'showHero', 
+            'showCategories', 
+            'showTopSelling', 
+            'showHoney', 
+            'showPromo', 
+            'showAllProducts', 
+            'showTestimonials'
+        ]
+    },
+
     sectionTitles: {
         topSelling: { type: String, default: 'Top Selling Products' },
         honey: { type: String, default: 'All Natural Honey' },

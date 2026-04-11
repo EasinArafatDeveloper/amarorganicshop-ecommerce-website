@@ -34,15 +34,36 @@ export default async function Home() {
         allProducts: 'All Products'
     };
 
+    const sectionOrder = settings?.sectionOrder || [
+        'showHero', 'showCategories', 'showTopSelling', 'showHoney', 'showPromo', 'showAllProducts', 'showTestimonials'
+    ];
+
+    const renderSection = (id) => {
+        if (!toggles[id]) return null;
+        
+        switch (id) {
+            case 'showHero': 
+                return <HeroSection key={id} />;
+            case 'showCategories': 
+                return <FeaturedCategories key={id} />;
+            case 'showTopSelling': 
+                return <TopSellingProducts key={id} customTitle={titles.topSelling} />;
+            case 'showHoney': 
+                return <AllNaturalHoney key={id} customTitle={titles.honey} />;
+            case 'showPromo': 
+                return <DualPosters key={id} settings={settings} />;
+            case 'showAllProducts': 
+                return <AllProducts key={id} customTitle={titles.allProducts} />;
+            case 'showTestimonials': 
+                return <Testimonials key={id} />;
+            default: 
+                return null;
+        }
+    };
+
     return (
         <div>
-            {toggles.showHero && <HeroSection />}
-            {toggles.showCategories && <FeaturedCategories />}
-            {toggles.showTopSelling && <TopSellingProducts customTitle={titles.topSelling} />}
-            {toggles.showHoney && <AllNaturalHoney customTitle={titles.honey} />}
-            {toggles.showPromo && <DualPosters settings={settings} />}
-            {toggles.showAllProducts && <AllProducts customTitle={titles.allProducts} />}
-            {toggles.showTestimonials && <Testimonials />}
+            {sectionOrder.map(id => renderSection(id))}
         </div>
     );
 }

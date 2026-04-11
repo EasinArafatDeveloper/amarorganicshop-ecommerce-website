@@ -35,7 +35,10 @@ export default function UISettingsPage() {
         footerAddress: '',
         footerPhone: '',
         footerEmail: '',
-        footerCopyright: ''
+        footerCopyright: '',
+        sectionOrder: [
+            'showHero', 'showCategories', 'showTopSelling', 'showHoney', 'showPromo', 'showAllProducts', 'showTestimonials'
+        ]
     });
     const [activeTab, setActiveTab] = useState('branding');
     const [loading, setLoading] = useState(true);
@@ -61,6 +64,7 @@ export default function UISettingsPage() {
                         ...prev.sectionTitles,
                         ...(data.sectionTitles || {})
                     },
+                    sectionOrder: data.sectionOrder?.length ? data.sectionOrder : prev.sectionOrder,
                     deliveryZones: data.deliveryZones || []
                 }));
             }
@@ -146,15 +150,23 @@ export default function UISettingsPage() {
         </div>
     );
 
-    const sections = [
-        { id: 'showHero', label: 'Hero Banner Section' },
-        { id: 'showCategories', label: 'Featured Categories Section' },
-        { id: 'showTopSelling', label: 'Top Selling Products Section' },
-        { id: 'showHoney', label: 'All Natural Honey Section' },
-        { id: 'showPromo', label: 'Dual Promo Posters (Middle)' },
-        { id: 'showAllProducts', label: 'All Products Grid' },
-        { id: 'showTestimonials', label: 'Testimonials / Reviews Section' },
-    ];
+    const sectionLabels = {
+        showHero: 'Hero Banner Section',
+        showCategories: 'Featured Categories Section',
+        showTopSelling: 'Top Selling Products Section',
+        showHoney: 'All Natural Honey Section',
+        showPromo: 'Dual Promo Posters (Middle)',
+        showAllProducts: 'All Products Grid',
+        showTestimonials: 'Testimonials / Reviews Section',
+    };
+
+    const handleMoveSection = (index, direction) => {
+        const newOrder = [...settings.sectionOrder];
+        const temp = newOrder[index];
+        newOrder[index] = newOrder[index + direction];
+        newOrder[index + direction] = temp;
+        setSettings(prev => ({ ...prev, sectionOrder: newOrder }));
+    };
 
     return (
         <div className="max-w-4xl mx-auto space-y-6 pb-20">
@@ -332,12 +344,21 @@ export default function UISettingsPage() {
                                 Section Visibility
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {sections.map((sec) => (
-                                    <div key={sec.id} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
-                                        <span className="font-semibold text-gray-700 text-sm">{sec.label}</span>
-                                        <button type="button" onClick={() => handleToggleChange(sec.id)} className={`transition-colors p-1 rounded-full ${settings.sectionToggles[sec.id] ? 'text-green-500' : 'text-gray-300'}`}>
-                                            {settings.sectionToggles[sec.id] ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
-                                        </button>
+                                {settings.sectionOrder.map((secId, i) => (
+                                    <div key={secId} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+                                        <div className="flex flex-col">
+                                            <span className="font-semibold text-gray-700 text-sm whitespace-nowrap">{sectionLabels[secId] || secId}</span>
+                                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">Position: {i + 1}</span>
+                                        </div>
+                                        <div className="flex gap-3 items-center">
+                                            <div className="flex flex-row md:flex-col items-center justify-center gap-1 bg-white border border-gray-200 rounded-lg p-1 mr-2">
+                                                <button type="button" disabled={i===0} onClick={() => handleMoveSection(i, -1)} className="text-gray-400 hover:text-primary hover:bg-gray-50 rounded-md p-1 disabled:opacity-30 disabled:hover:bg-transparent">▲</button>
+                                                <button type="button" disabled={i===settings.sectionOrder.length-1} onClick={() => handleMoveSection(i, 1)} className="text-gray-400 hover:text-primary hover:bg-gray-50 rounded-md p-1 disabled:opacity-30 disabled:hover:bg-transparent">▼</button>
+                                            </div>
+                                            <button type="button" onClick={() => handleToggleChange(secId)} className={`transition-colors p-1 rounded-full shrink-0 ${settings.sectionToggles[secId] ? 'text-green-500' : 'text-gray-300'}`}>
+                                                {settings.sectionToggles[secId] ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                                            </button>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
