@@ -34,7 +34,9 @@ export default function UISettingsPage() {
             topSelling: 'Top Selling Products',
             honey: 'All Natural Honey',
             allProducts: 'All Products'
-        }
+        },
+        aboutStoryText: '',
+        aboutMissionText: ''
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -442,6 +444,39 @@ export default function UISettingsPage() {
                                 value={settings.sectionTitles.allProducts}
                                 onChange={handleTitleChange}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* About Page Content Manager */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <LayoutTemplate className="w-5 h-5 text-teal-500" />
+                        About Page Content
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-6">Manage the dynamically loaded text on the public "About Us" page.</p>
+                    
+                    <div className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-bold text-gray-700 mb-1.5">Our Story Text</label>
+                            <textarea 
+                                name="aboutStoryText"
+                                value={settings.aboutStoryText}
+                                onChange={handleChange}
+                                rows={5}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all resize-y"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-bold text-gray-700 mb-1.5">The Mission Text</label>
+                            <textarea 
+                                name="aboutMissionText"
+                                value={settings.aboutMissionText}
+                                onChange={handleChange}
+                                rows={4}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all resize-y"
                             />
                         </div>
                     </div>

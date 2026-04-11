@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users, Tag, Mail } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users, Tag, Mail, UserCircle } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
 // Helper for relative time
@@ -69,6 +69,7 @@ export default function DashboardLayout({ children }) {
     { name: 'Customers', href: '/admin/dashboard/customers', icon: Users },
     { name: 'Messages', href: '/admin/dashboard/messages', icon: Mail },
     { name: 'UI Settings', href: '/admin/dashboard/ui-settings', icon: Settings },
+    { name: 'Profile', href: '/admin/dashboard/profile', icon: UserCircle },
   ];
 
   const handleLogout = async () => {
@@ -233,7 +234,7 @@ export default function DashboardLayout({ children }) {
                )}
              </div>
 
-             <Link href="/admin/dashboard/ui-settings" className="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-gray-200 shadow-sm rounded-full cursor-pointer hover:border-green-300 hover:bg-primary/10 transition-all group">
+             <Link href="/admin/dashboard/profile" className="flex items-center gap-3 py-1.5 pl-1.5 pr-5 bg-white border border-gray-200 shadow-sm rounded-full cursor-pointer hover:border-green-300 hover:bg-primary/10 transition-all group">
                <div className="w-9 h-9 bg-gradient-to-tr from-green-500 to-green-400 rounded-full flex items-center justify-center text-white font-bold shadow-inner group-hover:shadow-[0_0_15px_rgba(34,197,94,0.4)] transition-all">
                  A
                </div>
