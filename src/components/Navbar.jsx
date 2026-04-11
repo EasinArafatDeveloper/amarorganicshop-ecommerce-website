@@ -54,6 +54,7 @@ const Navbar = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [dbCategories, setDbCategories] = useState([]);
     const [siteLogo, setSiteLogo] = useState('');
+    const [isNavLoading, setIsNavLoading] = useState(true);
     
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -80,6 +81,8 @@ const Navbar = () => {
                 }
             } catch (err) {
                 console.error("Navbar failed to fetch data", err);
+            } finally {
+                setIsNavLoading(false);
             }
         };
         fetchInitialData();
@@ -146,14 +149,16 @@ const Navbar = () => {
                     <div className="bg-[#04211c] p-6 flex flex-col gap-4">
                         <div className="flex justify-between items-center">
                             <Link href="/" className="flex items-center gap-2" onClick={() => setIsDrawerOpen(false)}>
-                                {siteLogo ? (
+                                {isNavLoading ? (
+                                    <div className="h-[40px] w-[150px] bg-white/20 animate-pulse rounded-md" />
+                                ) : siteLogo ? (
                                     <img src={siteLogo} alt="Amar Organic" className="h-[40px] w-auto max-w-[120px] object-contain rounded-md bg-white p-1" />
                                 ) : (
                                     <>
                                         <div className="w-10 h-10 border-2 border-secondary rounded-lg flex items-center justify-center p-1 bg-white">
                                             <ShoppingBag size={20} className="text-secondary" />
                                         </div>
-                                        <span className="text-white font-black text-lg tracking-tight">Amar Organic Shop</span>
+                                        <span className="text-white font-black text-lg tracking-tight">Amar Organic</span>
                                     </>
                                 )}
                             </Link>
@@ -174,7 +179,11 @@ const Navbar = () => {
                         <div className="p-4">
                             <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Shop Categories</h3>
                             <div className="space-y-1">
-                                {dbCategories.map((cat, index) => (
+                                {isNavLoading ? (
+                                    Array(6).fill(0).map((_, i) => (
+                                        <div key={i} className="h-[46px] w-full bg-gray-200 animate-pulse rounded-lg border border-gray-100" />
+                                    ))
+                                ) : dbCategories.map((cat, index) => (
                                     <div key={index} className="bg-white rounded-lg border border-gray-100 overflow-hidden">
                                         {cat.hasSub ? (
                                             <>
@@ -311,8 +320,10 @@ const Navbar = () => {
                                 <Menu className="w-6 h-6 text-[#1a2b3c]" />
                             </button>
                             <Link href="/" className="flex items-center gap-2">
-                                {siteLogo ? (
-                                    <img src={siteLogo} alt="Amar Organic" className="h-[50px] w-auto max-w-[180px] object-contain" />
+                                {isNavLoading ? (
+                                    <div className="h-[40px] md:h-[50px] w-[140px] md:w-[180px] bg-gray-200 animate-pulse rounded-md" />
+                                ) : siteLogo ? (
+                                    <img src={siteLogo} alt="Amar Organic" className="h-[44px] md:h-[50px] w-auto max-w-[180px] object-contain" />
                                 ) : (
                                     <>
                                         <div className="w-9 h-9 md:w-11 md:h-11 border-2 border-secondary rounded-xl flex items-center justify-center p-1.5 shrink-0 bg-white shadow-sm">
@@ -419,8 +430,14 @@ const Navbar = () => {
             <StickyNavWrapper>
                 <nav className="hidden md:block bg-[#04211c] w-full text-white relative z-50">
                     <div className="max-w-[1400px] mx-auto px-8">
-                        <ul className="flex items-center justify-center lg:justify-start gap-1 lg:gap-8 text-[13px] font-bold h-12">
-                            {dbCategories.map((cat, i) => (
+                        <ul className="flex items-center justify-center lg:justify-start gap-3 lg:gap-8 text-[13px] font-bold h-12">
+                            {isNavLoading ? (
+                                Array(7).fill(0).map((_, i) => (
+                                    <li key={i} className="relative group h-full flex items-center">
+                                        <div className="h-4 w-16 md:w-20 bg-white/10 animate-pulse rounded" />
+                                    </li>
+                                ))
+                            ) : dbCategories.map((cat, i) => (
                                 <li
                                     key={i}
                                     className="relative group h-full flex items-center"

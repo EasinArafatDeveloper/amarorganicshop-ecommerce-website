@@ -203,9 +203,18 @@ const ShopPage = () => {
                         </div>
 
                         {loading ? (
-                            <div className="flex flex-col items-center justify-center py-32 w-full text-secondary">
-                                <Loader2 className="w-12 h-12 animate-spin mb-4" />
-                                <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading products from database...</p>
+                            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
+                                {Array(8).fill(0).map((_, i) => (
+                                    <div key={i} className="bg-white border border-gray-100 rounded-xl p-3 md:p-4 flex flex-col animate-pulse min-h-[280px] md:min-h-[340px]">
+                                        <div className="w-full h-32 md:h-44 bg-gray-100 rounded-lg mb-4" />
+                                        <div className="h-4 bg-gray-100 rounded w-3/4 mb-2" />
+                                        <div className="h-4 bg-gray-100 rounded w-1/2 mb-6" />
+                                        <div className="mt-auto flex items-center gap-2">
+                                            <div className="h-8 md:h-10 bg-gray-100 rounded flex-1" />
+                                            <div className="h-8 md:h-10 bg-gray-100 rounded flex-1" />
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         ) : displayedProducts.length > 0 ? (
                             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">

@@ -97,10 +97,38 @@ const CategoryPage = () => {
 
     if (loading) {
         return (
-            <div className="min-h-[60vh] flex flex-col items-center justify-center text-secondary">
-                <Loader2 className="w-12 h-12 animate-spin mb-4" />
-                <p className="text-[#1a2b3c] font-semibold animate-pulse">Loading category products...</p>
-            </div>
+            <section className="w-full bg-[#fdfbf7]/30 py-8 px-4 md:px-8 min-h-[70vh]">
+                <div className="max-w-[1400px] mx-auto animate-pulse">
+                    {/* Breadcrumb Skeleton */}
+                    <div className="h-12 bg-gray-200 rounded-lg w-full md:w-1/3 mb-6" />
+                    
+                    <div className="flex flex-col lg:flex-row gap-8">
+                        {/* Sidebar Skeleton */}
+                        <div className="hidden lg:block w-1/4 h-[400px] bg-gray-100 rounded-2xl" />
+                        
+                        {/* Main Content Skeleton */}
+                        <div className="w-full lg:w-3/4">
+                            {/* Header Skeleton */}
+                            <div className="h-14 bg-gray-100 rounded-xl mb-6" />
+                            
+                            {/* Grid Skeleton */}
+                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+                                {Array(6).fill(0).map((_, i) => (
+                                    <div key={i} className="bg-white border border-gray-100 rounded-xl p-3 md:p-4 min-h-[280px] md:min-h-[340px] flex flex-col">
+                                        <div className="h-32 md:h-44 bg-gray-100 rounded-lg mb-4 w-full" />
+                                        <div className="h-4 bg-gray-100 rounded w-3/4 mb-2" />
+                                        <div className="h-4 bg-gray-100 rounded w-1/2 mb-6" />
+                                        <div className="mt-auto flex gap-2">
+                                            <div className="h-8 md:h-10 bg-gray-100 rounded flex-1" />
+                                            <div className="h-8 md:h-10 bg-gray-100 rounded flex-1" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         );
     }
 
