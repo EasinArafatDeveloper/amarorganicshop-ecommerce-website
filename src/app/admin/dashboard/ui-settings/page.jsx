@@ -324,9 +324,18 @@ export default function UISettingsPage() {
 
                         {/* Dual Poster Configurations */}
                         <div className="border-t border-gray-100 pt-6">
-                            <label className="block text-sm font-bold text-gray-700 mb-4">
-                                Dual Promotional Posters (Middle Section)
-                            </label>
+                            <div className="flex items-center justify-between mb-4">
+                                <label className="block text-sm font-bold text-gray-700">
+                                    Dual Promotional Posters (Middle Section)
+                                </label>
+                                <button
+                                    type="button"
+                                    onClick={() => handleToggleChange('showPromo')}
+                                    className={`transition-colors p-1 rounded-full ${settings.sectionToggles?.showPromo ? 'text-green-500' : 'text-gray-300'}`}
+                                >
+                                    {settings.sectionToggles?.showPromo ? <ToggleRight size={36} /> : <ToggleLeft size={36} />}
+                                </button>
+                            </div>
                             
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Poster One */}
