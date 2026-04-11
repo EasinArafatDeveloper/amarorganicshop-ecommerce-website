@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { KeyRound, UserRound, ArrowRight } from 'lucide-react';
+import { KeyRound, UserRound, ArrowRight, Loader2 } from 'lucide-react';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
@@ -98,8 +98,17 @@ export default function AdminLogin() {
             disabled={isLoading}
             className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary hover:brightness-110 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-[0_0_20px_rgba(22,163,74,0.3)] hover:shadow-[0_0_30px_rgba(22,163,74,0.5)] disabled:opacity-70 mt-4"
           >
-            {isLoading ? 'Authenticating...' : 'Sign In'}
-            {!isLoading && <ArrowRight className="w-5 h-5" />}
+            {isLoading ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Authenticating...
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                Sign In
+                <ArrowRight className="w-5 h-5" />
+              </span>
+            )}
           </button>
         </form>
       </div>

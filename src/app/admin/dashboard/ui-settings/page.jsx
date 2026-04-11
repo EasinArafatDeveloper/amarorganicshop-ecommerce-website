@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Save, Image as ImageIcon, Phone, Mail, Globe, LayoutTemplate, ToggleLeft, ToggleRight, LayoutDashboard } from 'lucide-react';
+import { Save, Image as ImageIcon, Phone, Mail, Globe, LayoutTemplate, ToggleLeft, ToggleRight, LayoutDashboard, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function UISettingsPage() {
@@ -117,7 +117,12 @@ export default function UISettingsPage() {
         }
     };
 
-    if (loading) return <div className="text-center p-10 text-gray-500 font-bold">Loading Settings...</div>;
+    if (loading) return (
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-500">
+            <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+            <p className="font-bold">Loading Settings...</p>
+        </div>
+    );
 
     const sections = [
         { id: 'showHero', label: 'Hero Banner Section' },
@@ -175,6 +180,11 @@ export default function UISettingsPage() {
                                     className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                 />
                             </div>
+                            {settings.logoUrl && settings.logoUrl.startsWith('http') && (
+                                <div className="mt-3 relative h-16 w-16 md:w-32 rounded-lg border border-gray-100 bg-white p-1">
+                                    <img src={settings.logoUrl} alt="Preview" className="w-full h-full object-contain" />
+                                </div>
+                            )}
                         </div>
 
                         <div className="border-t border-gray-100 pt-6">
@@ -194,6 +204,11 @@ export default function UISettingsPage() {
                                     className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                 />
                             </div>
+                            {settings.heroBannerUrl && settings.heroBannerUrl.startsWith('http') && (
+                                <div className="mt-3 relative h-24 md:h-32 w-full rounded-lg border border-gray-100 bg-white overflow-hidden p-1 shadow-inner">
+                                    <img src={settings.heroBannerUrl} alt="Hero Preview" className="w-full h-full object-cover rounded-md" />
+                                </div>
+                            )}
                         </div>
 
                         {/* Theme Colors Configuration */}
@@ -284,6 +299,11 @@ export default function UISettingsPage() {
                                         className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition-all"
                                     />
                                 </div>
+                                {settings.promoPopupImage && settings.promoPopupImage.startsWith('http') && (
+                                    <div className="relative h-32 w-32 rounded-lg border border-gray-100 bg-white p-1">
+                                        <img src={settings.promoPopupImage} alt="Popup Preview" className="w-full h-full object-contain" />
+                                    </div>
+                                )}
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                                         <Globe size={18} />
@@ -323,6 +343,11 @@ export default function UISettingsPage() {
                                             className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                         />
                                     </div>
+                                    {settings.dualPosterOneImage && settings.dualPosterOneImage.startsWith('http') && (
+                                        <div className="relative h-24 w-full rounded-lg border border-gray-100 bg-white overflow-hidden p-1 shadow-inner">
+                                            <img src={settings.dualPosterOneImage} alt="Poster One Preview" className="w-full h-full object-cover rounded-md" />
+                                        </div>
+                                    )}
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                                             <Globe size={16} />
@@ -354,6 +379,11 @@ export default function UISettingsPage() {
                                             className="w-full pl-10 pr-4 py-2 text-sm bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                         />
                                     </div>
+                                    {settings.dualPosterTwoImage && settings.dualPosterTwoImage.startsWith('http') && (
+                                        <div className="relative h-24 w-full rounded-lg border border-gray-100 bg-white overflow-hidden p-1 shadow-inner">
+                                            <img src={settings.dualPosterTwoImage} alt="Poster Two Preview" className="w-full h-full object-cover rounded-md" />
+                                        </div>
+                                    )}
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
                                             <Globe size={16} />

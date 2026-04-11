@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectMongo from '@/lib/mongodb';
 import StoreSettings from '@/lib/models/StoreSettings';
 
@@ -30,6 +31,8 @@ export async function PUT(req) {
             { $set: data },
             { new: true, upsert: true }
         );
+
+        revalidatePath('/', 'layout');
 
         return NextResponse.json({ success: true, settings: updated }, { status: 200 });
 
