@@ -156,12 +156,10 @@ const ProductDetailPage = () => {
         ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
         : 0;
 
-    // Product images array (you can add multiple images)
-    const productImages = [
-        product.image,
-        product.image, // Add more images as needed
-        product.image,
-    ];
+    // Product images array (use actual images if available)
+    const productImages = product.images && product.images.length > 0 
+        ? product.images 
+        : [product.image];
 
     return (
         <div className="min-h-screen bg-[#fcfcfc] py-6 md:py-10 px-4">
@@ -332,11 +330,12 @@ const ProductDetailPage = () => {
                                 )}
                             </div>
 
-                            {/* Description Short */}
+                            {/* Description Short / Full depending on length, just rendering it */}
                             {product.description && (
-                                <p className="text-gray-600 text-base mb-8 leading-relaxed border-l-4 border-secondary pl-4 bg-gray-50 py-2 rounded-r-lg">
-                                    {product.description}
-                                </p>
+                                <div 
+                                    className="text-gray-600 text-base mb-8 leading-relaxed border-l-4 border-secondary pl-4 bg-gray-50 py-2 rounded-r-lg"
+                                    dangerouslySetInnerHTML={{ __html: product.description }}
+                                />
                             )}
 
                             {/* Quantity & Actions Wrapper */}
@@ -398,22 +397,14 @@ const ProductDetailPage = () => {
                                     </button>
                                 </div>
 
-                                {/* Call & WhatsApp Contact */}
-                                <div className="grid grid-cols-2 gap-3 pt-2">
-                                    <button
-                                        onClick={handleCall}
-                                        className="flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold transition-all bg-primary text-white hover:bg-primary hover:brightness-90 shadow-sm active:scale-95"
-                                    >
-                                        <Phone size={16} />
-                                        <span>কল করুন</span>
-                                    </button>
-
+                                {/* WhatsApp Contact */}
+                                <div className="grid grid-cols-1 gap-3 pt-2">
                                     <button
                                         onClick={handleWhatsApp}
                                         className="flex items-center justify-center gap-2 py-2.5 rounded-lg font-bold transition-all bg-[#25D366] text-white hover:bg-[#20b859] shadow-sm active:scale-95"
                                     >
                                         <MessageCircle size={16} />
-                                        <span>WhatsApp</span>
+                                        <span>Order via WhatsApp</span>
                                     </button>
                                 </div>
                             </div>
@@ -491,9 +482,10 @@ const ProductDetailPage = () => {
                     <div className="p-6 md:p-8">
                         {activeTab === 'description' && (
                             <div className="prose prose-lg max-w-none text-gray-600">
-                                <p className="leading-relaxed mb-6">
-                                    {product.description || "কোন বিবরণ পাওয়া যায়নি।"}
-                                </p>
+                                <div 
+                                    className="leading-relaxed mb-6 space-y-4"
+                                    dangerouslySetInnerHTML={{ __html: product.description || "কোন বিবরণ পাওয়া যায়নি।" }}
+                                />
                                 
                                 <div className="bg-secondary/10/50 p-6 rounded-xl border border-orange-100">
                                     <h3 className="text-xl font-bold text-[#1a2b3c] mb-4 flex items-center gap-2">
@@ -540,13 +532,34 @@ const ProductDetailPage = () => {
 
                         <div id="reviews" className="scroll-mt-24">
                             {activeTab === 'reviews' && (
-                                <div className="text-center py-12 px-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50">
-                                    <div className="text-6xl mb-4 opacity-80">💬</div>
-                                    <h3 className="text-2xl font-bold text-[#1a2b3c] mb-2">কোন রিভিউ নেই</h3>
-                                    <p className="text-gray-500 mb-6 text-lg">এই পণ্যটির প্রথম রিভিউ দিন এবং অন্যদের সাহায্য করুন।</p>
-                                    <button className="px-8 py-3 bg-secondary text-white font-bold rounded-xl shadow-md hover:bg-secondary hover:brightness-95 active:scale-95 transition-all">
-                                        রিভিউ লিখুন
-                                    </button>
+                                <div>
+                                    {product.reviews && product.reviews.length > 0 ? (
+                                        <div className="space-y-6">
+                                            {product.reviews.map((rev, idx) => (
+                                                <div key={idx} className="bg-gray-50 p-6 rounded-2xl border border-gray-100 flex flex-col gap-2">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="font-bold text-[#1a2b3c]">{rev.user}</div>
+                                                        <div className="text-secondary opacity-90 text-sm">
+                                                            {new Date(rev.date).toLocaleDateString()}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex gap-1">
+                                                        {renderRating(rev.rating)}
+                                                    </div>
+                                                    <p className="text-gray-600 mt-2">{rev.comment}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="text-center py-12 px-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50">
+                                            <div className="text-6xl mb-4 opacity-80">💬</div>
+                                            <h3 className="text-2xl font-bold text-[#1a2b3c] mb-2">কোন রিভিউ নেই</h3>
+                                            <p className="text-gray-500 mb-6 text-lg">এই পণ্যটির প্রথম রিভিউ দিন এবং অন্যদের সাহায্য করুন।</p>
+                                            <button className="px-8 py-3 bg-secondary text-white font-bold rounded-xl shadow-md hover:bg-secondary hover:brightness-95 active:scale-95 transition-all">
+                                                রিভিউ লিখুন
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
