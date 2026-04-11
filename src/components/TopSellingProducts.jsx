@@ -91,8 +91,8 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                             {/* Badges Column */}
                             <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
                                 {discountPercentage > 0 && (
-                                    <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[11px] font-black px-3 py-1.5 rounded-lg shadow-md ring-2 ring-white/50 flex items-center gap-1 animate-pulse">
-                                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
+                                    <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[9px] md:text-[10px] font-black px-1.5 py-0.5 md:px-2 md:py-1 rounded-md shadow-sm ring-1 ring-white/50 flex items-center gap-0.5 animate-pulse">
+                                        <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
                                         {discountPercentage}% OFF
                                     </div>
                                 )}
