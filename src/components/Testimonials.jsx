@@ -34,6 +34,14 @@ const Testimonials = () => {
         loadTestimonials();
     }, []);
 
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (el) {
+            el.addEventListener('scroll', handleScroll);
+            return () => el.removeEventListener('scroll', handleScroll);
+        }
+    }, [loading, reviews.length]); // Re-bind when element finally mounts
+
     if (loading) return null;
     if (reviews.length === 0) return null;
 
@@ -68,13 +76,7 @@ const Testimonials = () => {
         }
     };
 
-    useEffect(() => {
-        const el = scrollRef.current;
-        if (el) {
-            el.addEventListener('scroll', handleScroll);
-            return () => el.removeEventListener('scroll', handleScroll);
-        }
-    }, []);
+
 
     return (
         <section className="w-full bg-white py-12 md:py-20 px-4 select-none">
