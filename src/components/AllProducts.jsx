@@ -67,12 +67,7 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                                             {product.badge}
                                         </div>
                                     )}
-                                    {product.originalPrice && product.originalPrice > product.price && (
-                                        <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[9px] md:text-[10px] font-black px-1.5 py-0.5 md:px-2 md:py-1 rounded-md shadow-sm ring-1 ring-white/50 flex items-center gap-0.5 animate-pulse">
-                                            <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
-                                            {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                                        </div>
-                                    )}
+
                                 </div>
 
                                 {/* Product Image */}
@@ -94,9 +89,16 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
 
                                     {/* Pricing */}
                                     <div className="flex items-center gap-2 mb-4">
-                                        <span className="text-secondary text-lg md:text-xl font-black">৳{product.price}</span>
+                                        <div className="flex items-baseline gap-1">
+                                            <span className="text-secondary text-lg md:text-xl font-black">৳{product.price}</span>
+                                        </div>
                                         {product.originalPrice && (
-                                            <span className="text-gray-400 line-through text-xs md:text-sm font-medium">৳{product.originalPrice}</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-gray-400 line-through text-xs md:text-sm font-medium">৳{product.originalPrice}</span>
+                                                <div className="bg-red-50 text-red-600 text-[10px] font-black px-1.5 py-0.5 rounded flex items-center shadow-sm border border-red-100">
+                                                    -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                                                </div>
+                                            </div>
                                         )}
                                     </div>
 

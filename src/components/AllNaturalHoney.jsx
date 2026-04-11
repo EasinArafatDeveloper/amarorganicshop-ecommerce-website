@@ -156,11 +156,6 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                         {product.badge}
                                     </span>
                                 ) : <div />}
-                                {product.originalPrice && (
-                                    <span className="bg-[#4caf50] text-white text-[11px] font-bold px-2.5 py-1 rounded shadow-sm">
-                                        Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
-                                    </span>
-                                )}
                             </div>
 
                             {/* Product Image */}
@@ -189,10 +184,15 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                                 </Link>
 
                                 {/* Pricing */}
-                                <div className="flex items-center gap-3 mb-6">
+                                <div className="flex items-center gap-2 mb-6">
                                     <span className="text-secondary text-xl font-black">৳{product.price.toLocaleString()}</span>
                                     {product.originalPrice && (
-                                        <span className="text-gray-400 line-through text-sm font-medium">৳{product.originalPrice.toLocaleString()}</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-400 line-through text-sm font-medium">৳{product.originalPrice.toLocaleString()}</span>
+                                            <div className="bg-red-50 text-red-600 text-[10px] font-black px-1.5 py-0.5 rounded flex items-center shadow-sm border border-red-100">
+                                                -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
 

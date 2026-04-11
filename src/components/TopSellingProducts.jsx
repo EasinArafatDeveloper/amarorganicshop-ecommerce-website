@@ -90,12 +90,7 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                         >
                             {/* Badges Column */}
                             <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5 items-start">
-                                {discountPercentage > 0 && (
-                                    <div className="bg-gradient-to-r from-red-600 to-pink-500 text-white text-[9px] md:text-[10px] font-black px-1.5 py-0.5 md:px-2 md:py-1 rounded-md shadow-sm ring-1 ring-white/50 flex items-center gap-0.5 animate-pulse">
-                                        <svg className="w-2.5 h-2.5 md:w-3 md:h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
-                                        {discountPercentage}% OFF
-                                    </div>
-                                )}
+
                             </div>
 
                             {/* Top Right Red Badge */}
@@ -125,16 +120,29 @@ const TopSellingProducts = ({ customTitle = 'Top Selling Products' }) => {
                                     </h3>
                                 </Link>
 
-                                {/* Price Row */}
-                                <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span className="text-secondary text-lg sm:text-[20px] font-bold">
-                                        ৳{product.price.toLocaleString()}
-                                    </span>
-                                    {product.originalPrice && (
-                                        <span className="text-gray-400 font-medium line-through text-sm">
-                                            ৳{product.originalPrice.toLocaleString()}
-                                        </span>
+                                <div className="flex flex-col gap-0.5 mb-2">
+                                    {product.originalPrice && product.originalPrice > product.price && (
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-400 text-xs sm:text-sm line-through font-medium">
+                                                ৳{product.originalPrice.toLocaleString()}
+                                            </span>
+                                            {discountPercentage > 0 && (
+                                                <div className="bg-red-50 text-red-600 text-[10px] font-black px-1.5 py-0.5 rounded flex items-center shadow-sm border border-red-100">
+                                                    -{discountPercentage}%
+                                                </div>
+                                            )}
+                                        </div>
                                     )}
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-secondary font-black text-xl sm:text-2xl tracking-tight leading-none">
+                                            ৳{product.price.toLocaleString()}
+                                        </span>
+                                        {product.unit && (
+                                            <span className="text-xs text-gray-500 font-medium lowercase">
+                                                / {product.unit}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Save Savings Pill */}
