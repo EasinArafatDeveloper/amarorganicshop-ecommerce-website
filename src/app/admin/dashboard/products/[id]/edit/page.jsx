@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Save, Loader2, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, Image as ImageIcon, Plus, Minus, X } from 'lucide-react';
+import Editor from 'react-simple-wysiwyg';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
@@ -19,11 +20,18 @@ export default function EditProductPage() {
         category: 'honey',
         subCategory: '',
         image: '',
+        images: [],
+        shortDescription: '',
         description: '',
         inStock: true,
         isOrganic: false,
         badge: '',
+        reviews: []
     });
+
+    const [imageUrlInput, setImageUrlInput] = useState('');
+    const [reviewInput, setReviewInput] = useState({ user: '', rating: 5, comment: '' });
+    const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
     const categories = ['honey', 'dates', 'oil-ghee', 'spices', 'nuts-seeds', 'sugar-jaggery', 'beverage-dairy', 'snacks', 'pink-salt', 'honey-nut'];
 
@@ -42,10 +50,13 @@ export default function EditProductPage() {
                         category: product.category || 'honey',
                         subCategory: product.subCategory || '',
                         image: product.image || '',
+                        images: product.images || [],
+                        shortDescription: product.shortDescription || '',
                         description: product.description || '',
                         inStock: product.inStock !== undefined ? product.inStock : true,
                         isOrganic: product.isOrganic || false,
                         badge: product.badge || '',
+                        reviews: product.reviews || []
                     });
                     
                     if (product.variants && product.variants.length > 0) {
@@ -76,6 +87,72 @@ export default function EditProductPage() {
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const handleDescriptionChange = (e) => {
+        setFormData(prev => ({ ...prev, description: e.target.value }));
+    };
+
+    const handleGenerateDescription = async () => {
+        if (!formData.description) {
+            toast.error('Please enter some text in the description field to beautify.');
+            return;
+        }
+        
+        setIsGeneratingAI(true);
+        try {
+            const res = await fetch('/api/admin/generate-description', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: formData.description })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setFormData(prev => ({ ...prev, description: data.result }));
+                toast.success('Description beautified!');
+            } else {
+                toast.error('Failed to generate. Please check API Key.');
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error('An error occurred.');
+        } finally {
+            setIsGeneratingAI(false);
+        }
+    };
+
+    const addImage = () => {
+        if (!imageUrlInput) return;
+        setFormData(prev => ({
+            ...prev,
+            images: [...prev.images, imageUrlInput],
+            image: prev.image ? prev.image : imageUrlInput
+        }));
+        setImageUrlInput('');
+    };
+
+    const removeImage = (indexToRemove) => {
+        setFormData(prev => ({
+            ...prev,
+            images: prev.images.filter((_, index) => index !== indexToRemove)
+        }));
+    };
+
+    const addReview = () => {
+        if (!reviewInput.user || !reviewInput.comment) return;
+        setFormData(prev => ({
+            ...prev,
+            reviews: [...prev.reviews, { ...reviewInput, date: new Date() }]
+        }));
+        setReviewInput({ user: '', rating: 5, comment: '' });
+    };
+
+    const removeReview = (indexToRemove) => {
+        setFormData(prev => ({
+            ...prev,
+            reviews: prev.reviews.filter((_, index) => index !== indexToRemove)
         }));
     };
 
@@ -189,9 +266,26 @@ export default function EditProductPage() {
                         </div>
                     </div>
 
+                    <div className="mt-8 space-y-2">
+                        <label className="text-sm font-bold text-gray-700">Short Description</label>
+                        <textarea rows={2} name="shortDescription" value={formData.shortDescription} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white resize-none" placeholder="A brief summary of the product (bullets or short paragraph)"></textarea>
+                    </div>
+
                     <div className="mt-6 space-y-2">
                         <label className="text-sm font-bold text-gray-700">Description</label>
-                        <textarea rows={4} name="description" value={formData.description} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white resize-none" placeholder="Enter full product description..."></textarea>
+                        <div className="prose max-w-none relative border border-gray-200 rounded-xl overflow-hidden">
+                            <Editor 
+                                value={formData.description} 
+                                onChange={handleDescriptionChange} 
+                                containerProps={{ style: { minHeight: '300px', border: 'none' } }}
+                            />
+                            <div className="bg-gray-50 border-t border-gray-200 p-3 flex justify-end">
+                                <button type="button" onClick={handleGenerateDescription} disabled={isGeneratingAI} className="bg-gradient-to-r from-blue-500 to-purple-600 hover:opacity-90 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2 shadow-sm disabled:opacity-50">
+                                    {isGeneratingAI ? <Loader2 className="w-4 h-4 animate-spin" /> : '✨'} 
+                                    {isGeneratingAI ? 'Beautifying...' : 'Beautify with AI'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -235,19 +329,42 @@ export default function EditProductPage() {
                     <h3 className="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">Media & Badges</h3>
                     
                     <div className="space-y-4 mb-6">
-                        <label className="text-sm font-bold text-gray-700">Image URL *</label>
-                        <div className="flex items-center gap-4">
-                            {formData.image ? (
-                                <div className="w-16 h-16 rounded-xl border border-gray-200 overflow-hidden bg-gray-50 shrink-0">
-                                    <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-                                </div>
-                            ) : (
-                                <div className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center text-gray-400 shrink-0 bg-gray-50">
-                                    <ImageIcon strokeWidth={1.5} />
-                                </div>
-                            )}
-                            <input required type="text" name="image" value={formData.image} onChange={handleChange} className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white" placeholder="https://example.com/image.jpg" />
+                        <label className="text-sm font-bold text-gray-700">Product Images</label>
+                        <div className="flex gap-2">
+                            <input type="text" value={imageUrlInput} onChange={(e) => setImageUrlInput(e.target.value)} className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white" placeholder="https://example.com/image.jpg" />
+                            <button type="button" onClick={addImage} className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 font-bold rounded-xl transition-colors">Add</button>
                         </div>
+                        
+                        {formData.images && formData.images.length > 0 && (
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-4">
+                                {formData.images.map((img, idx) => (
+                                    <div key={idx} className={`relative group w-full aspect-square rounded-xl border-2 overflow-hidden ${img === formData.image ? 'border-primary' : 'border-gray-200'}`}>
+                                        <img src={img} alt="Preview" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                            <button type="button" onClick={() => removeImage(idx)} className="bg-red-500 text-white p-1.5 rounded-lg hover:bg-red-600">
+                                                <X size={16} />
+                                            </button>
+                                            {img !== formData.image && (
+                                                <button type="button" onClick={() => setFormData(prev => ({...prev, image: img}))} className="bg-primary text-white p-1.5 rounded-lg hover:bg-green-600 text-xs font-bold">
+                                                    Main
+                                                </button>
+                                            )}
+                                        </div>
+                                        {img === formData.image && (
+                                            <div className="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">
+                                                Main Cover
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        {(!formData.images || formData.images.length === 0) && (
+                            <div className="w-full h-32 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 bg-gray-50">
+                                <ImageIcon strokeWidth={1.5} className="mb-2" />
+                                <span className="text-sm">No images added yet</span>
+                            </div>
+                        )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -267,6 +384,38 @@ export default function EditProductPage() {
                             </label>
                         </div>
                     </div>
+                </div>
+
+                {/* Reviews */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <h3 className="text-lg font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">Manage Reviews</h3>
+                    <div className="space-y-4 mb-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" value={reviewInput.user} onChange={(e) => setReviewInput(prev => ({ ...prev, user: e.target.value }))} className="border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-500/20 text-sm" placeholder="Reviewer Name" />
+                            <select value={reviewInput.rating} onChange={(e) => setReviewInput(prev => ({ ...prev, rating: Number(e.target.value) }))} className="border border-gray-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-500/20 text-sm">
+                                {[5,4,3,2,1].map(num => <option key={num} value={num}>{num} Stars</option>)}
+                            </select>
+                        </div>
+                        <div className="flex gap-2">
+                            <input type="text" value={reviewInput.comment} onChange={(e) => setReviewInput(prev => ({ ...prev, comment: e.target.value }))} className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-500/20 text-sm" placeholder="Review comment..." />
+                            <button type="button" onClick={addReview} className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 font-bold rounded-xl transition-colors">Add Review</button>
+                        </div>
+                    </div>
+                    {formData.reviews && formData.reviews.length > 0 && (
+                        <div className="space-y-3">
+                            {formData.reviews.map((rev, idx) => (
+                                <div key={idx} className="flex justify-between items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                    <div>
+                                        <div className="font-bold text-sm text-gray-800">{rev.user} <span className="text-orange-500 ml-2">{'★'.repeat(rev.rating)}</span></div>
+                                        <div className="text-sm text-gray-600 mt-1">{rev.comment}</div>
+                                    </div>
+                                    <button type="button" onClick={() => removeReview(idx)} className="text-red-500 hover:text-red-700 bg-red-50 p-1.5 rounded-lg">
+                                        <X size={16} />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="mt-8 pt-4 border-t border-gray-200 flex justify-end gap-4">

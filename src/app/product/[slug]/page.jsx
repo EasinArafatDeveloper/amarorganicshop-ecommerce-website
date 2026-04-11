@@ -168,6 +168,16 @@ const ProductDetailPage = () => {
         ? Math.round(((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100)
         : 0;
 
+    // Calculate dynamic rating
+    let calculatedRating = product.rating || 0;
+    let calculatedReviewCount = product.reviewCount || 0;
+
+    if (product.reviews && product.reviews.length > 0) {
+        calculatedReviewCount = product.reviews.length;
+        const sum = product.reviews.reduce((acc, rev) => acc + (rev.rating || 5), 0);
+        calculatedRating = (sum / calculatedReviewCount).toFixed(1);
+    }
+
     // Product images array (use actual images if available)
     const productImages = product.images && product.images.length > 0 
         ? product.images 
@@ -261,16 +271,14 @@ const ProductDetailPage = () => {
                             )}
 
                             {/* Rating */}
-                            {product.rating > 0 && (
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="flex items-center gap-0.5">
-                                        {renderRating(product.rating)}
-                                    </div>
-                                    <Link href="#reviews" onClick={() => setActiveTab('reviews')} className="text-sm text-gray-500 hover:text-secondary underline-offset-2 hover:underline">
-                                        ({product.reviewCount || 0} customer review{product.reviewCount !== 1 ? 's' : ''})
-                                    </Link>
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="flex items-center gap-0.5">
+                                    {renderRating(Math.round(calculatedRating))}
                                 </div>
-                            )}
+                                <Link href="#reviews" onClick={() => setActiveTab('reviews')} className="text-sm text-gray-500 hover:text-secondary underline-offset-2 hover:underline">
+                                    ({calculatedReviewCount} customer review{calculatedReviewCount !== 1 ? 's' : ''})
+                                </Link>
+                            </div>
 
                             {/* Price Range */}
                             <div className="mb-4">
@@ -285,8 +293,8 @@ const ProductDetailPage = () => {
 
                             {/* Short Description */}
                             {product.shortDescription && (
-                                <div className="text-gray-600 text-sm md:text-base mb-6 leading-relaxed">
-                                    <p>{product.shortDescription}</p>
+                                <div className="text-gray-600 text-sm md:text-base mb-6 leading-relaxed whitespace-pre-line">
+                                    {product.shortDescription}
                                 </div>
                             )}
 
