@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, MessageSquare, User, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, MessageSquare, User, Image as ImageIcon, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 
