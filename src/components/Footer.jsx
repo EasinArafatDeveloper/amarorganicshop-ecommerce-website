@@ -88,11 +88,15 @@ const Footer = () => {
                             </div>
                             <div className="flex items-center gap-3">
                                 <Phone size={18} className="text-gray-400 shrink-0" />
-                                <span>{settings?.footerPhone || "+880 1XXX-XXXXXX"}</span>
+                                <a href={`https://wa.me/${(settings?.contactPhone || "+8801331005210").replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="hover:text-secondary hover:underline transition-colors">
+                                    {settings?.contactPhone || "+8801331005210"}
+                                </a>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Mail size={18} className="text-gray-400 shrink-0" />
-                                <span>{settings?.footerEmail || "support@amar-organic-shop.com"}</span>
+                                <a href={`mailto:${settings?.contactEmail || "amarorganicshop@gmail.com"}`} className="hover:text-secondary hover:underline transition-colors">
+                                    {settings?.contactEmail || "amarorganicshop@gmail.com"}
+                                </a>
                             </div>
                         </div>
 

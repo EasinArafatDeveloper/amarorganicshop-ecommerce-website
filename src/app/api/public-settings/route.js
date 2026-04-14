@@ -10,7 +10,7 @@ export async function GET() {
         let settings = await StoreSettings.findOne({ singletonId: 'global' }).lean();
         
         return NextResponse.json({
-            topAnnouncementText: settings?.topAnnouncementText || 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801765890646 | বা কল করুন: 09613-821489',
+            topAnnouncementText: settings?.topAnnouncementText || 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801331005210 | বা কল করুন: +8801331005210',
             topAnnouncementIsActive: settings?.topAnnouncementIsActive ?? true,
             promoPopupImage: settings?.promoPopupImage || '',
             promoPopupLink: settings?.promoPopupLink || '',

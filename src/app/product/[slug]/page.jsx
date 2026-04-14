@@ -25,8 +25,8 @@ const ProductDetailPage = () => {
     const [shopSettings, setShopSettings] = useState(null);
 
     // Company contact number
-    const phoneNumber = "+8801645368899"; // Replace with real
-    const whatsappNumber = "8801645368899"; // Without + for WhatsApp API
+    const phoneNumber = "+8801331005210"; // Replace with real
+    const whatsappNumber = "8801331005210"; // Without + for WhatsApp API
 
     useEffect(() => {
         const fetchProductData = async () => {

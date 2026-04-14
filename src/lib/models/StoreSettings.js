@@ -17,11 +17,11 @@ const StoreSettingsSchema = new mongoose.Schema({
         default: []
     },
     heroSliderAutoplay: { type: Number, default: 5000 },
-    contactPhone: { type: String, default: '+880 1234-567890' },
-    contactEmail: { type: String, default: 'support@amarorganic.shop' },
+    contactPhone: { type: String, default: '+8801331005210' },
+    contactEmail: { type: String, default: 'amarorganicshop@gmail.com' },
     facebookUrl: { type: String, default: 'https://facebook.com' },
 
-    topAnnouncementText: { type: String, default: 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801765890646 | বা কল করুন: 09613-821489' },
+    topAnnouncementText: { type: String, default: 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801331005210 | বা কল করুন: +8801331005210' },
     topAnnouncementIsActive: { type: Boolean, default: true },
     
     promoPopupImage: { type: String, default: '' },
