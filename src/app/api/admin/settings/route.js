@@ -26,13 +26,23 @@ export async function PUT(req) {
         await connectMongo();
         const data = await req.json();
 
+        // Ensure we are using the latest schema even if Mongoose cached a version
+        // We use $set to only update provided fields
         const updated = await StoreSettings.findOneAndUpdate(
             { singletonId: 'global' },
-            { $set: data },
+            { 
+                $set: {
+                    ...data,
+                    // Explicitly ensuring heroBanners is included in case of schema caching
+                    heroBanners: data.heroBanners || []
+                } 
+            },
             { new: true, upsert: true }
         );
 
+        // Revalidate multiple paths to ensure the UI updates
         revalidatePath('/', 'layout');
+        revalidatePath('/(store)/Home', 'page');
 
         return NextResponse.json({ success: true, settings: updated }, { status: 200 });
 
