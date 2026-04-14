@@ -94,8 +94,12 @@ const StoreSettingsSchema = new mongoose.Schema({
     footerAddress: { type: String, default: "123 Organic City, Dhaka, Bangladesh" },
     footerPhone: { type: String, default: "+880 1234-567890" },
     footerEmail: { type: String, default: "support@amarorganic.shop" },
-    footerCopyright: { type: String, default: "© 2026 Amar Organic Shop. All rights reserved." }
+    footerCopyright: { type: String, default: "© {year} Amar Organic Shop. All rights reserved." },
     
+    // Invoice Settings
+    invoiceCompanyName: { type: String, default: 'AMAR ORGANIC' },
+    invoiceSubtitle: { type: String, default: 'Pure Nature & Quality' },
+    invoiceFooterText: { type: String, default: 'Thank you for shopping with Amar Organic!' }
 }, { timestamps: true });
 
 export default mongoose.models.StoreSettings || mongoose.model('StoreSettings', StoreSettingsSchema);

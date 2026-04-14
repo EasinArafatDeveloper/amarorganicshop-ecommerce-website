@@ -47,7 +47,10 @@ export default function UISettingsPage() {
             returnsText: '7 Days return policy',
             paymentText: '100% Secure checkout',
             qualityText: '100% Authentic products'
-        }
+        },
+        invoiceCompanyName: 'AMAR ORGANIC',
+        invoiceSubtitle: 'Pure Nature & Quality',
+        invoiceFooterText: 'Thank you for shopping with Amar Organic!'
     });
     const [activeTab, setActiveTab] = useState('branding');
     const [loading, setLoading] = useState(true);
@@ -261,6 +264,9 @@ export default function UISettingsPage() {
                 </button>
                 <button type="button" onClick={() => setActiveTab('footer')} className={`px-4 py-2.5 rounded-t-xl text-sm font-bold whitespace-nowrap transition-colors ${activeTab === 'footer' ? 'bg-rose-500 text-white shadow-md' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
                     Footer Options
+                </button>
+                <button type="button" onClick={() => setActiveTab('invoice')} className={`px-4 py-2.5 rounded-t-xl text-sm font-bold whitespace-nowrap transition-colors ${activeTab === 'invoice' ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-50 text-gray-500 hover:bg-gray-100'}`}>
+                    Invoice Format
                 </button>
             </div>
 
@@ -729,6 +735,55 @@ export default function UISettingsPage() {
                                         onChange={handleChange}
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'invoice' && (
+                    <div className="bg-white p-6 md:p-8 rounded-b-xl rounded-tr-xl shadow-sm border border-gray-100 space-y-8 animate-in fade-in duration-300">
+                        <div>
+                            <h3 className="text-lg font-black text-gray-800 flex items-center gap-2 mb-6">
+                                <LayoutTemplate className="text-blue-500" /> Invoice Printer Format
+                            </h3>
+                            
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Company Name (Invoice Header)</label>
+                                    <input 
+                                        type="text" 
+                                        name="invoiceCompanyName"
+                                        value={settings.invoiceCompanyName || ''} 
+                                        onChange={handleInputChange}
+                                        placeholder="e.g. AMAR ORGANIC"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    />
+                                    <p className="text-xs text-gray-400 mt-1">This appears as the large header text on printed invoices.</p>
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Invoice Subtitle</label>
+                                    <input 
+                                        type="text" 
+                                        name="invoiceSubtitle"
+                                        value={settings.invoiceSubtitle || ''} 
+                                        onChange={handleInputChange}
+                                        placeholder="e.g. Pure Nature & Quality"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                                    />
+                                </div>
+                                
+                                <div className="pt-2">
+                                    <label className="block text-sm font-bold text-gray-700 mb-2">Footer Note / Terms</label>
+                                    <textarea 
+                                        name="invoiceFooterText"
+                                        value={settings.invoiceFooterText || ''} 
+                                        onChange={handleInputChange}
+                                        rows="2"
+                                        placeholder="e.g. Thank you for shopping with Amar Organic!"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
+                                    ></textarea>
                                 </div>
                             </div>
                         </div>

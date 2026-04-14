@@ -9,17 +9,22 @@ export default function OrderInvoicePage({ params }) {
     const orderId = resolvedParams.id;
     
     const [order, setOrder] = useState(null);
+    const [settings, setSettings] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch all orders and find the matching one (easy for now instead of a single GET API)
-        fetch('/api/admin/orders')
-            .then(res => res.json())
-            .then(data => {
-                const foundOrder = data.find(o => o.orderId === orderId);
-                setOrder(foundOrder);
-                setLoading(false);
-            });
+        Promise.all([
+            fetch('/api/admin/orders').then(res => res.json()),
+            fetch('/api/admin/settings').then(res => res.json())
+        ]).then(([ordersData, settingsData]) => {
+            const foundOrder = ordersData.find(o => o.orderId === orderId);
+            setOrder(foundOrder);
+            setSettings(settingsData);
+            setLoading(false);
+        }).catch(err => {
+            console.error("Failed to load invoice dependencies", err);
+            setLoading(false);
+        });
     }, [orderId]);
 
     const handlePrint = () => {
@@ -46,18 +51,45 @@ export default function OrderInvoicePage({ params }) {
                 </div>
             </div>
 
+            <style dangerouslySetInnerHTML={{__html: `
+                @media print {
+                    @page { margin: 0; size: A4 portrait; }
+                    body {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                        margin: 0;
+                        padding: 0;
+                        background: white;
+                    }
+                    .a4-container {
+                        width: 210mm;
+                        min-height: 296mm;
+                        padding: 15mm;
+                        box-sizing: border-box;
+                        margin: 0 auto;
+                        box-shadow: none;
+                        border: none;
+                    }
+                    .print\\:hidden { display: none !important; }
+                }
+            `}} />
+
             {/* A4 Sized Invoice Container */}
-            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 md:p-12 print:shadow-none print:border-none print:p-0 w-full">
+            <div className="bg-white rounded-xl shadow-md border border-gray-100 p-8 md:p-12 print:shadow-none print:border-none print:p-0 w-full a4-container">
                 
                 {/* Invoice Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start border-b-2 border-gray-100 pb-8 mb-8">
                     <div>
-                        <h1 className="text-4xl font-black text-primary tracking-tight leading-none mb-1">AMAR ORGANIC</h1>
-                        <p className="text-gray-500 font-medium tracking-widest text-sm uppercase">Pure Nature & Quality</p>
+                        <h1 className="text-4xl font-black text-primary tracking-tight leading-none mb-1 uppercase">
+                            {settings?.invoiceCompanyName || 'AMAR ORGANIC'}
+                        </h1>
+                        <p className="text-gray-500 font-medium tracking-widest text-sm uppercase">
+                            {settings?.invoiceSubtitle || 'Pure Nature & Quality'}
+                        </p>
                         
                         <div className="mt-6 space-y-1 text-sm text-gray-600">
-                            <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-gray-400" /> Dhaka, Bangladesh</p>
-                            <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-gray-400" /> +880 1234-567890</p>
+                            <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-gray-400" /> {settings?.footerAddress || 'Dhaka, Bangladesh'}</p>
+                            <p className="flex items-center gap-2"><Phone className="w-4 h-4 text-gray-400" /> {settings?.contactPhone || '+8801331005210'}</p>
                         </div>
                     </div>
                     
@@ -146,8 +178,8 @@ export default function OrderInvoicePage({ params }) {
                     </div>
                 </div>
 
-                <div className="mt-12 text-center text-gray-400 text-xs tracking-wider uppercase font-bold print:fixed print:bottom-8 print:left-0 print:right-0">
-                    Thank you for shopping with Amar Organic!
+                <div className="mt-12 text-center text-gray-400 text-xs tracking-wider uppercase font-bold print:fixed print:bottom-8 print:left-0 print:right-0 pb-4">
+                    {settings?.invoiceFooterText || 'Thank you for shopping with Amar Organic!'}
                 </div>
             </div>
         </div>
