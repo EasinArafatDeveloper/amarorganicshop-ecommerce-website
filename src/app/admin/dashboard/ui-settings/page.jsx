@@ -755,7 +755,7 @@ export default function UISettingsPage() {
                                         type="text" 
                                         name="invoiceCompanyName"
                                         value={settings.invoiceCompanyName || ''} 
-                                        onChange={handleInputChange}
+                                        onChange={handleChange}
                                         placeholder="e.g. AMAR ORGANIC"
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
@@ -768,7 +768,7 @@ export default function UISettingsPage() {
                                         type="text" 
                                         name="invoiceSubtitle"
                                         value={settings.invoiceSubtitle || ''} 
-                                        onChange={handleInputChange}
+                                        onChange={handleChange}
                                         placeholder="e.g. Pure Nature & Quality"
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
                                     />
@@ -779,7 +779,7 @@ export default function UISettingsPage() {
                                     <textarea 
                                         name="invoiceFooterText"
                                         value={settings.invoiceFooterText || ''} 
-                                        onChange={handleInputChange}
+                                        onChange={handleChange}
                                         rows="2"
                                         placeholder="e.g. Thank you for shopping with Amar Organic!"
                                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none"
