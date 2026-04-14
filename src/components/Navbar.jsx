@@ -19,6 +19,7 @@ import {
     Plus
 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useWishlist } from '@/lib/contexts/WishlistContext';
 
 const StickyNavWrapper = ({ children }) => {
     const [isSticky, setIsSticky] = useState(false);
@@ -114,6 +115,8 @@ const Navbar = () => {
         isCartOpen,
         setIsCartOpen 
     } = useCart();
+
+    const { wishlistCount } = useWishlist();
 
     const toggleMobileSub = (index) => {
         setExpandedMobileCat(expandedMobileCat === index ? null : index);
@@ -409,6 +412,17 @@ const Navbar = () => {
                             <Link href="/account" className="hidden sm:flex flex-col items-center cursor-pointer group text-center px-2">
                                 <User className="w-5 h-5 text-[#1a2b3c] group-hover:text-secondary transition-colors" />
                                 <span className="text-[10px] font-bold text-[#1a2b3c] mt-1">Sign In</span>
+                            </Link>
+                            <Link href="/wishlist" className="hidden sm:flex flex-col items-center cursor-pointer group relative text-center px-2">
+                                <div className="relative">
+                                    <Heart className="w-6 h-6 text-[#1a2b3c] group-hover:text-secondary transition-colors" />
+                                    {wishlistCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                                            {wishlistCount}
+                                        </span>
+                                    )}
+                                </div>
+                                <span className="hidden sm:block text-[10px] font-bold text-[#1a2b3c] mt-1">Wishlist</span>
                             </Link>
                             <div className="flex flex-col items-center cursor-pointer group relative text-center px-2" onClick={() => setIsCartOpen(true)}>
                                 <div className="relative">
