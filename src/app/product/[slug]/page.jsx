@@ -6,12 +6,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ShoppingCart, Heart, Share2, Check, Truck, RefreshCw, Shield, Minus, Plus, Star, Phone, MessageCircle, Loader2 } from 'lucide-react';
 import { useCart } from '@/lib/contexts/CartContext';
+import { useWishlist } from '@/lib/contexts/WishlistContext';
 
 const ProductDetailPage = () => {
     const params = useParams();
     const router = useRouter();
     const slug = params.slug;
     const { addToCart } = useCart();
+    const { toggleWishlist, isInWishlist } = useWishlist();
 
     const [product, setProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState([]);
@@ -188,10 +190,11 @@ const ProductDetailPage = () => {
         calculatedRating = (sum / calculatedReviewCount).toFixed(1);
     }
 
-    // Product images array (use actual images if available)
     const productImages = product.images && product.images.length > 0 
         ? product.images 
         : [product.image];
+
+    const isFavorite = isInWishlist(product.id);
 
     return (
         <div className="min-h-screen bg-[#fcfcfc] py-6 md:py-10 px-4">
@@ -409,8 +412,25 @@ const ProductDetailPage = () => {
                                     </div>
                                     
                                     {/* Wishlist Button */}
-                                    <button className="w-12 h-[52px] border-2 border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:border-red-400 hover:text-red-500 hover:bg-red-50 transition-all active:scale-95 shrink-0">
-                                        <Heart size={22} className="fill-transparent" />
+                                    <button 
+                                        onClick={() => toggleWishlist({
+                                            id: product.id,
+                                            name: product.name,
+                                            nameBn: product.nameBn,
+                                            price: product.price,
+                                            originalPrice: product.originalPrice,
+                                            image: product.images?.[0] || product.image,
+                                            slug: product.slug,
+                                            category: product.category,
+                                            unit: product.unit
+                                        })}
+                                        className={`w-12 h-[52px] border-2 rounded-xl flex items-center justify-center transition-all active:scale-95 shrink-0 ${
+                                            isFavorite 
+                                            ? 'border-red-400 text-red-500 bg-red-50' 
+                                            : 'border-gray-200 text-gray-400 hover:border-red-400 hover:text-red-500 hover:bg-red-50'
+                                        }`}
+                                    >
+                                        <Heart size={22} className={isFavorite ? "fill-red-500 text-red-500" : "fill-transparent"} />
                                     </button>
                                 </div>
 

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/lib/contexts/CartContext";
+import { WishlistProvider } from "@/lib/contexts/WishlistContext";
 import ConditionalHeaderFooter from "@/components/ConditionalHeaderFooter";
 import FloatingCart from "@/components/FloatingCart";
 import GlobalOverlays from "@/components/GlobalOverlays";
@@ -55,15 +56,17 @@ export default function RootLayout({ children }) {
         <NextTopLoader color="#16a34a" showSpinner={false} />
         <ClientThemeProvider />
         <CartProvider>
-          <ConditionalHeaderFooter>
-            <GlobalOverlays />
-            <Navbar />
-            <FloatingCart />
-          </ConditionalHeaderFooter>
-          {children}
-          <ConditionalHeaderFooter>
-            <Footer />
-          </ConditionalHeaderFooter>
+          <WishlistProvider>
+            <ConditionalHeaderFooter>
+              <GlobalOverlays />
+              <Navbar />
+              <FloatingCart />
+            </ConditionalHeaderFooter>
+            {children}
+            <ConditionalHeaderFooter>
+              <Footer />
+            </ConditionalHeaderFooter>
+          </WishlistProvider>
         </CartProvider>
         <Analytics />
         <SpeedInsights />
