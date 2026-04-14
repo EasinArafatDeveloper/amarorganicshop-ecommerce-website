@@ -20,6 +20,7 @@ const ProductDetailPage = () => {
     const [selectedImage, setSelectedImage] = useState(0);
     const [activeTab, setActiveTab] = useState('description');
     const [selectedVariant, setSelectedVariant] = useState(null);
+    const [shopSettings, setShopSettings] = useState(null);
 
     // Company contact number
     const phoneNumber = "+8801645368899"; // Replace with real
@@ -28,8 +29,17 @@ const ProductDetailPage = () => {
     useEffect(() => {
         const fetchProductData = async () => {
             try {
-                const res = await fetch('/api/products');
-                const allProducts = await res.json();
+                const [productsRes, settingsRes] = await Promise.all([
+                    fetch('/api/products'),
+                    fetch('/api/public-settings')
+                ]);
+                
+                const allProducts = await productsRes.json();
+                
+                if (settingsRes.ok) {
+                    const settingsData = await settingsRes.json();
+                    setShopSettings(settingsData);
+                }
                 
                 // Get product by slug
                 const productData = allProducts.find(p => p.slug === slug);
@@ -420,13 +430,23 @@ const ProductDetailPage = () => {
 
                     {/* Features Banner */}
                     <div className="grid grid-cols-2 lg:grid-cols-4 border-t border-gray-100 bg-gray-50/50 divide-x divide-y lg:divide-y-0 divide-gray-100">
-                        <div className="flex items-center justify-center gap-3 p-4">
-                            <Truck size={24} className="text-secondary" />
-                            <div>
-                                <h4 className="text-sm font-bold text-gray-800">Free Delivery</h4>
-                                <p className="text-xs text-gray-500">For orders over ৳1000</p>
+                        {(!shopSettings || shopSettings.isFreeDeliveryActive !== false) ? (
+                            <div className="flex items-center justify-center gap-3 p-4">
+                                <Truck size={24} className="text-secondary" />
+                                <div>
+                                    <h4 className="text-sm font-bold text-gray-800">Free Delivery</h4>
+                                    <p className="text-xs text-gray-500">For orders over ৳{shopSettings?.freeDeliveryAbove || 3000}</p>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="flex items-center justify-center gap-3 p-4">
+                                <Truck size={24} className="text-secondary" />
+                                <div>
+                                    <h4 className="text-sm font-bold text-gray-800">Fast Delivery</h4>
+                                    <p className="text-xs text-gray-500">Nationwide Shipping</p>
+                                </div>
+                            </div>
+                        )}
                         <div className="flex items-center justify-center gap-3 p-4">
                             <RefreshCw size={24} className="text-secondary" />
                             <div>

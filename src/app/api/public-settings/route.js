@@ -25,7 +25,9 @@ export async function GET() {
                 { id: 'dhaka', label: 'Inside Dhaka', cost: 60 },
                 { id: 'sub_dhaka', label: 'Sub-side Dhaka', cost: 70 },
                 { id: 'outside', label: 'Outside Dhaka', cost: 100 }
-            ]
+            ],
+            isFreeDeliveryActive: settings?.isFreeDeliveryActive ?? true,
+            freeDeliveryAbove: settings?.freeDeliveryAbove || 3000
         }, { status: 200 });
 
     } catch (error) {
