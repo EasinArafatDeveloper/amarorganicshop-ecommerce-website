@@ -123,9 +123,9 @@ const AllNaturalHoney = ({ customTitle = 'All Natural Honey' }) => {
                         </h2>
                         <div className="absolute bottom-[-10px] left-0 w-full h-[3px] bg-secondary"></div>
                     </div>
-                    <button className="flex items-center gap-1 text-secondary font-bold text-xs md:text-sm underline uppercase tracking-wider transition-all">
+                    <Link href="/shop" className="flex items-center gap-1 text-secondary font-bold text-xs md:text-sm underline uppercase tracking-wider transition-all">
                         View All Items <ArrowRight size={16} />
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Swiper Container */}

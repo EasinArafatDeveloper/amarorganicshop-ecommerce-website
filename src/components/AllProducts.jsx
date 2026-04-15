@@ -40,9 +40,9 @@ const AllProducts = ({ customTitle = 'All Products' }) => {
                         <div className="absolute bottom-[-18px] left-0 w-full h-[3px] bg-secondary"></div>
                     </div>
 
-                    <button className="flex items-center gap-1 text-secondary font-bold text-sm underline uppercase tracking-wider">
+                    <Link href="/shop" className="flex items-center gap-1 text-secondary font-bold text-sm underline uppercase tracking-wider">
                         View All Items <ArrowRight size={18} />
-                    </button>
+                    </Link>
                 </div>
 
                 {loading ? (
