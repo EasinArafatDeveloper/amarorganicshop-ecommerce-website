@@ -19,7 +19,11 @@ const StoreSettingsSchema = new mongoose.Schema({
     heroSliderAutoplay: { type: Number, default: 5000 },
     contactPhone: { type: String, default: '+8801331005210' },
     contactEmail: { type: String, default: 'amarorganicshop@gmail.com' },
+    contactAddress: { type: String, default: 'Dhaka, Bangladesh. Delivery available nationwide.' },
+    contactPhoneHours: { type: String, default: 'Saturday to Thursday, 9AM - 8PM' },
     facebookUrl: { type: String, default: 'https://facebook.com' },
+    instagramUrl: { type: String, default: 'https://instagram.com' },
+    linkedinUrl: { type: String, default: 'https://linkedin.com' },
 
     topAnnouncementText: { type: String, default: 'আমাদের যেকোনো পণ্য অর্ডার করতে WhatsApp করুন: +8801331005210 | বা কল করুন: +8801331005210' },
     topAnnouncementIsActive: { type: Boolean, default: true },

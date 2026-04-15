@@ -12,6 +12,25 @@ export default function ContactPage() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [settings, setSettings] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const res = await fetch('/api/settings/public');
+                if (res.ok) {
+                    const data = await res.json();
+                    setSettings(data);
+                }
+            } catch (err) {
+                console.error("Failed to load contact settings", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchSettings();
+    }, []);
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -90,7 +109,9 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg mb-1">Our Location</h4>
-                                        <p className="text-gray-400 text-sm leading-relaxed">Dhaka, Bangladesh.<br/>Delivery available nationwide.</p>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            {settings?.contactAddress || "Dhaka, Bangladesh. Delivery available nationwide."}
+                                        </p>
                                     </div>
                                 </div>
                                 
@@ -100,7 +121,13 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg mb-1">Phone Number</h4>
-                                        <p className="text-gray-400 text-sm leading-relaxed">+880 1645-368899<br/><span className="text-xs opacity-70">(Saturday to Thursday, 9AM - 8PM)</span></p>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            {settings?.contactPhone || "+880 1645-368899"}
+                                            <br/>
+                                            <span className="text-xs opacity-70">
+                                                ({settings?.contactPhoneHours || "Saturday to Thursday, 9AM - 8PM"})
+                                            </span>
+                                        </p>
                                     </div>
                                 </div>
                                 
@@ -110,20 +137,33 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-lg mb-1">Email Address</h4>
-                                        <p className="text-gray-400 text-sm leading-relaxed">support@amar-organic-shop.com</p>
+                                        <p className="text-gray-400 text-sm leading-relaxed">
+                                            {settings?.contactEmail || "support@amar-organic-shop.com"}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Social Links (Mock) */}
+                        {/* Social Links */}
                         <div className="mt-16 space-t-8 relative z-10">
                             <h4 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Follow Us</h4>
                             <div className="flex gap-3">
-                                {/* Placeholders for social icons */}
-                                <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">f</div>
-                                <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">in</div>
-                                <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">ig</div>
+                                {settings?.facebookUrl && (
+                                    <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">
+                                        <svg size={18} fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.248h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                    </a>
+                                )}
+                                {settings?.instagramUrl && (
+                                    <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">
+                                        <svg size={18} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                    </a>
+                                )}
+                                {settings?.linkedinUrl && (
+                                    <a href={settings.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary cursor-pointer transition-colors">
+                                        <svg size={18} fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                                    </a>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,11 @@ export default function UISettingsPage() {
         heroSliderAutoplay: 5000,
         contactPhone: '',
         contactEmail: '',
+        contactAddress: '',
+        contactPhoneHours: '',
         facebookUrl: '',
+        instagramUrl: '',
+        linkedinUrl: '',
         topAnnouncementText: '',
         topAnnouncementIsActive: true,
         promoPopupImage: '',
@@ -530,7 +534,12 @@ export default function UISettingsPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div><label className="block text-sm font-bold text-gray-700 mb-1.5">Support Phone</label><input type="text" name="contactPhone" value={settings.contactPhone} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
                                 <div><label className="block text-sm font-bold text-gray-700 mb-1.5">Support Email</label><input type="email" name="contactEmail" value={settings.contactEmail} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
-                                <div className="md:col-span-2"><label className="block text-sm font-bold text-gray-700 mb-1.5">Facebook Page URL</label><input type="url" name="facebookUrl" value={settings.facebookUrl} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
+                                <div className="md:col-span-2"><label className="block text-sm font-bold text-gray-700 mb-1.5">Contact Page Address/Location Description</label><textarea name="contactAddress" value={settings.contactAddress} onChange={handleChange} rows={2} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" placeholder="e.g. Dhaka, Bangladesh. Delivery available nationwide." /></div>
+                                <div className="md:col-span-2"><label className="block text-sm font-bold text-gray-700 mb-1.5">Contact Page Phone Hours</label><input type="text" name="contactPhoneHours" value={settings.contactPhoneHours} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" placeholder="e.g. Saturday to Thursday, 9AM - 8PM" /></div>
+                                
+                                <div className="md:col-span-1"><label className="block text-sm font-bold text-gray-700 mb-1.5">Facebook Page URL</label><input type="url" name="facebookUrl" value={settings.facebookUrl} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
+                                <div className="md:col-span-1"><label className="block text-sm font-bold text-gray-700 mb-1.5">Instagram URL</label><input type="url" name="instagramUrl" value={settings.instagramUrl} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
+                                <div className="md:col-span-2"><label className="block text-sm font-bold text-gray-700 mb-1.5">LinkedIn URL</label><input type="url" name="linkedinUrl" value={settings.linkedinUrl} onChange={handleChange} className="w-full px-4 py-3 bg-gray-50 border rounded-xl" /></div>
                             </div>
                         </div>
 
