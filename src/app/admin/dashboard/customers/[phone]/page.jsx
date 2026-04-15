@@ -1,7 +1,7 @@
 import connectMongo from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
 import { notFound } from 'next/navigation';
-import { ChevronLeft, User, PhoneCall, MapPin, Calendar, ShoppingBag, Package, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { ChevronLeft, User, PhoneCall, MapPin, Calendar, ShoppingBag, Package, CheckCircle2, XCircle, Clock, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -83,6 +83,13 @@ export default async function CustomerProfilePage({ params }) {
                                     <div>
                                         <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Current Address</p>
                                         <p className="font-semibold text-gray-800 text-sm leading-snug">{currentAddress}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-3 bg-gray-50/80 p-3 rounded-xl border border-gray-100">
+                                    <ShieldAlert className="text-secondary w-5 h-5 shrink-0" />
+                                    <div>
+                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Device/Source IP</p>
+                                        <p className="font-bold text-gray-800">{latestOrder.customerIP || "Not tracked"}</p>
                                     </div>
                                 </div>
                             </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users, Tag, Mail, UserCircle } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Package, Settings, LogOut, Menu, X, Bell, Clock, Users, Tag, Mail, UserCircle, ShieldAlert } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
 // Helper for relative time
@@ -70,6 +70,7 @@ export default function DashboardLayout({ children }) {
     { name: 'Messages', href: '/admin/dashboard/messages', icon: Mail },
     { name: 'UI Settings', href: '/admin/dashboard/ui-settings', icon: Settings },
     { name: 'Profile', href: '/admin/dashboard/profile', icon: UserCircle },
+    { name: 'IP Blocklist', href: '/admin/dashboard/ip-blocklist', icon: ShieldAlert },
   ];
 
   const handleLogout = async () => {

@@ -2,10 +2,24 @@ import { NextResponse } from 'next/server';
 import connectMongo from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
 import StoreSettings from '@/lib/models/StoreSettings';
+import BlockedIP from '@/lib/models/BlockedIP';
 
 export async function POST(req) {
     try {
         await connectMongo();
+        
+        // Get client IP
+        const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1';
+
+        // Check if IP is blocked
+        const isBlocked = await BlockedIP.findOne({ ip: clientIP });
+        if (isBlocked) {
+            return NextResponse.json({ 
+                error: 'Suspicious activity detected. Your order cannot be processed at this time.',
+                details: 'BANNED_IP' 
+            }, { status: 403 });
+        }
+
         const data = await req.json();
 
         // Generate a human-readable order ID
@@ -39,6 +53,7 @@ export async function POST(req) {
             subTotal: data.subTotal,
             deliveryCost: serverDeliveryCost,
             finalTotal: calculatedFinalTotal,
+            customerIP: clientIP,
             status: 'Pending'
         });
 

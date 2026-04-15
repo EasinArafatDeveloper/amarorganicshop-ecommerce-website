@@ -16,6 +16,7 @@ const OrderSchema = new mongoose.Schema({
     address: { type: String, required: true },
     deliveryZone: { type: String, required: true },
     note: { type: String },
+    customerIP: { type: String },
     
     items: [OrderItemSchema], // Array of sub-documents
     
