@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Loader2, Image as ImageIcon, Plus, Minus, X } from 'lucide-react';
 import Link from 'next/link';
@@ -29,7 +29,22 @@ export default function AddProductPage() {
     const [reviewInput, setReviewInput] = useState({ user: '', rating: 5, comment: '' });
     const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
-    const categories = ['honey', 'dates', 'oil-ghee', 'spices', 'nuts-seeds', 'sugar-jaggery', 'beverage-dairy', 'snacks', 'pink-salt', 'honey-nut'];
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCats = async () => {
+            try {
+                const res = await fetch('/api/categories');
+                const data = await res.json();
+                setCategories(data);
+                // If current category is not in fetched ones, maybe set to first one?
+                // But keeping it 'honey' default for now as it's the most common.
+            } catch (err) {
+                console.error("Failed to load categories", err);
+            }
+        };
+        fetchCats();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -200,7 +215,7 @@ export default function AddProductPage() {
                             <label className="text-sm font-bold text-gray-700">Category *</label>
                             <select required name="category" value={formData.category} onChange={handleChange} className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all text-sm bg-gray-50 focus:bg-white">
                                 {categories.map(cat => (
-                                    <option key={cat} value={cat}>{cat}</option>
+                                    <option key={cat._id} value={cat.slug}>{cat.label || cat.name}</option>
                                 ))}
                             </select>
                         </div>
