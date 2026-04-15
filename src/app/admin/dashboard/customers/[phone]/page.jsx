@@ -1,8 +1,10 @@
 import connectMongo from '@/lib/mongodb';
 import Order from '@/lib/models/Order';
+import BlockedIP from '@/lib/models/BlockedIP';
 import { notFound } from 'next/navigation';
-import { ChevronLeft, User, PhoneCall, MapPin, Calendar, ShoppingBag, Package, CheckCircle2, XCircle, Clock, ShieldAlert } from 'lucide-react';
+import { ChevronLeft, User, PhoneCall, MapPin, Calendar, ShoppingBag, Package, CheckCircle2, XCircle, Clock, ShieldAlert, ShieldOff, Truck, Info, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
+import IPAction from './IPAction';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,15 +21,30 @@ export default async function CustomerProfilePage({ params }) {
         notFound();
     }
 
-    // Extract latest customer info from the most recent order
     const latestOrder = orders[0];
     const customerName = latestOrder.customerName;
     const currentAddress = latestOrder.address;
+    const customerIP = latestOrder.customerIP;
+
+    // Check IP block status
+    const blockedData = customerIP ? await BlockedIP.findOne({ ip: customerIP }).lean() : null;
+    const isIPBlocked = !!blockedData;
 
     // Aggregate stats
     const totalSpent = orders.reduce((acc, order) => acc + (order.finalTotal || 0), 0);
     const totalOrders = orders.length;
     const successfulOrders = orders.filter(o => o.status === 'Delivered').length;
+    const cancelledOrders = orders.filter(o => o.status === 'Cancelled').length;
+
+    // Reputation logic
+    let reputation = { label: 'Trusted Customer', color: 'bg-green-100 text-green-700', icon: CheckCircle2 };
+    if (cancelledOrders >= 2) {
+        reputation = { label: 'Risky (High Cancel Rate)', color: 'bg-red-100 text-red-700', icon: AlertTriangle };
+    } else if (totalSpent > 10000) {
+        reputation = { label: 'High Value Customer', color: 'bg-purple-100 text-purple-700', icon: ShoppingBag };
+    } else if (totalOrders === 1) {
+        reputation = { label: 'New Customer', color: 'bg-blue-100 text-blue-700', icon: Clock };
+    }
 
     const StatusBadge = ({ status }) => {
         switch (status) {
@@ -68,7 +85,10 @@ export default async function CustomerProfilePage({ params }) {
                             </div>
                             
                             <h2 className="text-xl font-bold text-gray-900 text-center">{customerName}</h2>
-                            <span className="bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full mt-2 inline-block">VIP Customer</span>
+                            <div className={`mt-2 px-3 py-1 rounded-full flex items-center gap-1.5 text-xs font-bold ${reputation.color}`}>
+                                <reputation.icon size={14} />
+                                {reputation.label}
+                            </div>
 
                             <div className="w-full mt-8 space-y-4">
                                 <div className="flex items-start gap-3 bg-gray-50/80 p-3 rounded-xl border border-gray-100">
@@ -85,12 +105,15 @@ export default async function CustomerProfilePage({ params }) {
                                         <p className="font-semibold text-gray-800 text-sm leading-snug">{currentAddress}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-start gap-3 bg-gray-50/80 p-3 rounded-xl border border-gray-100">
-                                    <ShieldAlert className="text-secondary w-5 h-5 shrink-0" />
-                                    <div>
-                                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Device/Source IP</p>
-                                        <p className="font-bold text-gray-800">{latestOrder.customerIP || "Not tracked"}</p>
+                                <div className="bg-gray-50/80 p-3 rounded-xl border border-gray-100">
+                                    <div className="flex items-start gap-3">
+                                        <ShieldAlert className="text-secondary w-5 h-5 shrink-0" />
+                                        <div>
+                                            <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Device/Source IP</p>
+                                            <p className="font-bold text-gray-800">{latestOrder.customerIP || "Not tracked"}</p>
+                                        </div>
                                     </div>
+                                    <IPAction ip={latestOrder.customerIP} isBlocked={isIPBlocked} />
                                 </div>
                             </div>
                         </div>
@@ -184,9 +207,18 @@ export default async function CustomerProfilePage({ params }) {
                                                 </div>
                                             ))}
                                             
-                                            <div className="flex items-center justify-end gap-6 pt-3 text-xs">
-                                                <span className="text-gray-500 whitespace-nowrap">Subtotal: <b>৳{order.subTotal}</b></span>
-                                                <span className="text-gray-500 whitespace-nowrap">Delivery: <b className="text-[#1a2b3c]">৳{order.deliveryCost}</b></span>
+                                            <div className="flex flex-wrap items-center justify-between gap-6 pt-3 text-xs">
+                                                <div className="flex gap-4">
+                                                    <span className="text-gray-500 whitespace-nowrap flex items-center gap-1"><Truck size={12} className="text-blue-500" /> Zone: <b className="text-gray-700">{order.deliveryZone}</b></span>
+                                                    <span className="text-gray-500 whitespace-nowrap">Subtotal: <b>৳{order.subTotal}</b></span>
+                                                    <span className="text-gray-500 whitespace-nowrap">Delivery: <b className="text-[#1a2b3c]">৳{order.deliveryCost}</b></span>
+                                                </div>
+                                                {order.note && (
+                                                    <div className="w-full mt-2 p-2 bg-amber-50 rounded-lg border border-amber-100/50 flex items-start gap-2 italic text-amber-700">
+                                                        <Info size={12} className="shrink-0 mt-0.5" />
+                                                        <span>Note: {order.note}</span>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
