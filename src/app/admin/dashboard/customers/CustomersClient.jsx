@@ -96,7 +96,7 @@ export default function CustomersClient({ initialCustomers }) {
                                         </td>
                                         <td className="p-4 text-right">
                                             <Link 
-                                                href={`/admin/dashboard/customers/${customer.mobile}`}
+                                                href={`/admin/dashboard/customers/${encodeURIComponent(customer.mobile)}`}
                                                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:border-primary hover:text-primary transition-colors shadow-sm group-hover:shadow"
                                             >
                                                 View Profile

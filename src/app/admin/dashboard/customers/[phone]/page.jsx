@@ -7,7 +7,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 export default async function CustomerProfilePage({ params }) {
-    const { phone } = params;
+    const { phone } = await params;
     const decodedPhone = decodeURIComponent(phone);
 
     await connectMongo();
