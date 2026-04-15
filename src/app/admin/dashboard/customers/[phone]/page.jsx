@@ -46,6 +46,8 @@ export default async function CustomerProfilePage({ params }) {
         reputation = { label: 'New Customer', color: 'bg-blue-100 text-blue-700', icon: Clock };
     }
 
+    const RepIcon = reputation.icon;
+
     const StatusBadge = ({ status }) => {
         switch (status) {
             case 'Delivered':
@@ -80,13 +82,13 @@ export default async function CustomerProfilePage({ params }) {
                         <div className="px-6 py-8 relative z-10 flex flex-col items-center mt-6">
                             <div className="w-24 h-24 rounded-full bg-white border-4 border-white shadow-lg flex items-center justify-center relative bg-gradient-to-t from-gray-100 to-white overflow-hidden mb-4">
                                 <span className="text-4xl font-black text-primary drop-shadow-sm uppercase">
-                                    {customerName.charAt(0)}
+                                    {(customerName || "?").charAt(0)}
                                 </span>
                             </div>
                             
                             <h2 className="text-xl font-bold text-gray-900 text-center">{customerName}</h2>
                             <div className={`mt-2 px-3 py-1 rounded-full flex items-center gap-1.5 text-xs font-bold ${reputation.color}`}>
-                                <reputation.icon size={14} />
+                                <RepIcon size={14} />
                                 {reputation.label}
                             </div>
 
@@ -126,7 +128,7 @@ export default async function CustomerProfilePage({ params }) {
                         <div className="space-y-4">
                             <div className="flex items-center justify-between pb-4 border-b border-gray-50">
                                 <span className="text-gray-500 text-sm font-medium">Total Spent</span>
-                                <span className="font-black text-xl text-primary">৳{totalSpent.toLocaleString()}</span>
+                                <span className="font-black text-xl text-primary">৳{(totalSpent || 0).toLocaleString()}</span>
                             </div>
                             <div className="flex items-center justify-between pb-4 border-b border-gray-50">
                                 <span className="text-gray-500 text-sm font-medium">Total Orders</span>
@@ -179,7 +181,7 @@ export default async function CustomerProfilePage({ params }) {
                                             
                                             <div className="text-right">
                                                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-0.5">Order Value</p>
-                                                <p className="text-lg font-black text-gray-900">৳{order.finalTotal.toLocaleString()}</p>
+                                                <p className="text-lg font-black text-gray-900">৳{(order.finalTotal || 0).toLocaleString()}</p>
                                             </div>
                                         </div>
 
@@ -202,7 +204,7 @@ export default async function CustomerProfilePage({ params }) {
                                                         </div>
                                                     </div>
                                                     <div className="text-sm font-bold text-gray-900">
-                                                        ৳{(item.price * item.quantity).toLocaleString()}
+                                                        ৳{( (item.price || 0) * (item.quantity || 0) ).toLocaleString()}
                                                     </div>
                                                 </div>
                                             ))}
