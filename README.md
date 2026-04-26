@@ -48,8 +48,8 @@ If you want to run this application on your local machine:
 
 **1. Clone the repository:**
 ```bash
-git clone https://github.com/Easin-Dev/amar-organic.shop.com.git
-cd amar-organic.shop.com
+git clone https://github.com/EasinArafatDeveloper/amarorganicshop-ecommerce-website.git
+cd amarorganicshop-ecommerce-website
 ```
 
 **2. Install dependencies:**
